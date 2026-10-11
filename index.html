@@ -181,6 +181,11 @@
   #nextBtn { position: sticky; bottom: 10px; z-index: 6; box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 10px 20px rgba(204,255,0,.25); }
   .login-err { display: none; margin: 0 0 8px; padding: 14px 16px; border-radius: 16px; background: rgba(255,51,102,.14); border: 1px solid rgba(255,51,102,.35); color: #ff8fa8; font: 600 13px/1.6 var(--sans); white-space: pre-line; word-break: break-word; }
   .login-err.on { display: block; }
+  #userIn, #tokIn { text-align: left; }
+  .pw-item { position: relative; }
+  .pw-item .login-input { padding-right: 52px; }
+  .eye { position: absolute; right: 12px; bottom: 14px; width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 12px; background: rgba(255,255,255,.08); color: #cfcfd4; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .eye.on { background: var(--lime); color: #000; }
   .login-hint { text-align: center; font-size: 11px; color: var(--txt-mut); padding: 8px 0 6px; }
   .btn:disabled { opacity: .5; cursor: default; }
   .foot { position: relative; z-index: 2; text-align: center; padding: 22px 0 0; font: 500 10.5px var(--mono); letter-spacing: .2em; color: #8b8a84; }
@@ -204,18 +209,26 @@
       <div class="hero">
         <div class="hero-top"><span class="badge">SYSTEM SECURE</span></div>
         <h1>Staff Portal</h1>
-        <div class="en">請輸入主辦單位提供的個人碼登入 · Sign in with your personal code</div>
+        <div class="en">請輸入主辦單位提供的帳號與密碼 · Sign in with your staff account</div>
       </div>
       <div class="bento-grid">
         <div class="bento-item full">
-          <div class="bento-label">Personal Code · 個人碼</div>
-          <input class="login-input" id="tokIn" type="text" maxlength="32" placeholder="········" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false">
+          <div class="bento-label">Account · 帳號（工作人員姓名）</div>
+          <input class="login-input" id="userIn" type="text" maxlength="40" placeholder="例：王小明" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" style="letter-spacing:0;font-size:22px;">
+        </div>
+        <div class="bento-item full pw-item">
+          <div class="bento-label">Password · 密碼</div>
+          <input class="login-input" id="tokIn" type="password" maxlength="32" placeholder="········" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false">
+          <button class="eye" id="eyeBtn" type="button" aria-label="顯示或隱藏密碼" aria-pressed="false">
+            <svg id="eyeOn" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg id="eyeOff" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.9 17.9A10.9 10.9 0 0 1 12 19C5 19 1 12 1 12a18.5 18.5 0 0 1 5.1-5.9M9.9 5.1A10.4 10.4 0 0 1 12 5c7 0 11 7 11 7a18.6 18.6 0 0 1-2.2 3.2M14.1 14.1a3 3 0 1 1-4.2-4.2"/><path d="M1 1l22 22"/></svg>
+          </button>
         </div>
       </div>
       <div class="login-err" id="loginErr"></div>
       <input id="apiIn" type="url" class="hidden" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
       <button class="btn primary" id="saveBtn" type="button">AUTHENTICATE · 登入</button>
-      <div class="login-hint">登入一次後，這支手機會自動記住 · 個人碼不分大小寫</div>
+      <div class="login-hint">登入一次後，這支手機會自動記住 · 密碼不分大小寫</div>
     </div>
   </div>
 
@@ -255,7 +268,8 @@
   // ---------- 連線設定 ----------
   // 後端網址已內建（本來就公開在與會者信件中）；頁面內沒有任何通行碼，工作人員用自己的「個人碼」登入一次，手機會記住。
   const DEFAULT_API = 'https://script.google.com/macros/s/AKfycbwEyBeCLPKLklx78UJxxrtGXJsho0NpVYZ8hx0zo6SCaaloHW7PoFg0zI_Mi1eJ4fBJdw/exec';
-  const LS = { api: 'ck_api', tok: 'ck_tok' };
+  const LS = { api: 'ck_api', tok: 'ck_tok', user: 'ck_user' };
+  const getUser = () => lsGet(LS.user);
   const getApi = () => lsGet(LS.api) || DEFAULT_API;
   const getTok = () => lsGet(LS.tok);
   function lsGet(k) { try { return localStorage.getItem(k) || ''; } catch (_) { return ''; } }
@@ -340,10 +354,10 @@
 
   // ---------- 呼叫 Apps Script API ----------
   async function api(payload, timeoutMs) {
-    const url = getApi(), token = getTok();
+    const url = getApi(), token = getTok(), user = getUser();
     const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), timeoutMs || 25000);
     try {
-      const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ token: token }, payload)), signal: ctl.signal, redirect: 'follow' });
+      const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ token: token, user: user }, payload)), signal: ctl.signal, redirect: 'follow' });
       return await r.json();
     } finally { clearTimeout(t); }
   }
@@ -392,9 +406,13 @@
     try {
       const j = await api({ action: 'checkin', id: text, key: daySelect.value });
       if (!j.ok) {
-        if (j.error === 'unauthorized') { lsDel(LS.tok); showError('UNAUTHORIZED', '個人碼不正確或已被停用，請重新整理頁面後重新登入。'); }
+        if (j.error === 'unauthorized') { lsDel(LS.tok); showError('UNAUTHORIZED', '帳號或密碼不正確，或此帳號已停用，請重新整理頁面後重新登入。'); }
         else showError('SERVER ERROR', j.message || j.error || '伺服器回應異常');
-      } else renderResult(j.result);
+      } else {
+        renderResult(j.result);
+        // 通知信改在畫面顯示後才在背景寄出，不拖慢掃描結果
+        if (j.result && j.result.success && !j.result.already) api({ action: 'notify', id: text, key: daySelect.value }, 60000).catch(() => {});
+      }
     } catch (e) {
       showError('CONNECTION ERROR', '無法連線至伺服器，請檢查網路後重新掃描。');
       lastText = '';   // 連線失敗時允許立刻重掃同一張
@@ -413,7 +431,7 @@
   async function startLive_(auto) {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { showError('CAMERA UNAVAILABLE', '此瀏覽器不支援相機，或網址不是 https。'); return; }
     scBox.classList.remove('off');
-    const cfg = { fps: 15, qrbox: (w, h) => { const m = Math.floor(Math.min(w, h) * 0.8); return { width: m, height: m }; } };
+    const cfg = { fps: 20, videoConstraints: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }, qrbox: (w, h) => { const m = Math.floor(Math.min(w, h) * 0.8); return { width: m, height: m }; } };
     let lastErr = null;
     const attempts = [
       async () => { scanner = newScanner(); await scanner.start({ facingMode: 'environment' }, cfg, handleDecoded, () => {}); },
@@ -441,16 +459,16 @@
   function loginMsg(msg) { const e = $('loginErr'); e.textContent = msg || ''; e.classList.toggle('on', !!msg); }
   function showSetup(msg) {
     view('login'); loginMsg(msg);
-    $('apiIn').value = getApi(); $('tokIn').value = '';
+    $('apiIn').value = getApi(); $('tokIn').value = ''; $('userIn').value = getUser(); setEye(false);
     $('apiIn').classList.toggle('hidden', !!DEFAULT_API);
     $('saveBtn').disabled = false;
   }
   async function boot() {
-    if (!getApi() || !getTok()) { showSetup(''); return; }
+    if (!getApi() || !getTok() || !getUser()) { showSetup(''); return; }
     $('saveBtn').disabled = true;
     try {
       const j = await api({ action: 'config' }, 20000);
-      if (!j.ok) { if (j.error === 'unauthorized') { lsDel(LS.tok); showSetup('個人碼不正確，或此帳號已停用。'); } else showSetup(j.message || j.error || '伺服器回應異常'); return; }
+      if (!j.ok) { if (j.error === 'unauthorized') { lsDel(LS.tok); showSetup('帳號或密碼不正確，或此帳號已停用。'); } else showSetup(j.message || j.error || '伺服器回應異常'); return; }
       CFG = j.config; SKEW = CFG.nowMs - Date.now();
       $('evt').textContent = CFG.eventEn || CFG.eventZh || '';
       $('staffName').textContent = j.staff || '';
@@ -462,13 +480,19 @@
     }
   }
   function doLogin() {
-    const a = DEFAULT_API || $('apiIn').value.trim(), t = $('tokIn').value.trim();
+    const a = DEFAULT_API || $('apiIn').value.trim(), t = $('tokIn').value.trim(), u = $('userIn').value.trim();
     if (!/^https:\/\/script\.google\.com\/.+\/exec/.test(a)) { showSetup('Web App 網址格式不正確（需以 https://script.google.com/ 開頭、/exec 結尾）。'); $('apiIn').value = a; return; }
-    if (!t) { showSetup('請輸入個人碼。'); $('apiIn').value = a; return; }
-    lsSet(LS.api, a); lsSet(LS.tok, t); boot();
+    if (!u) { showSetup('請輸入帳號（工作人員姓名）。'); $('apiIn').value = a; return; }
+    if (!t) { showSetup('請輸入密碼。'); $('apiIn').value = a; $('userIn').value = u; return; }
+    lsSet(LS.api, a); lsSet(LS.tok, t); lsSet(LS.user, u); boot();
   }
   $('saveBtn').addEventListener('click', doLogin);
   $('tokIn').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  $('userIn').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('tokIn').focus(); } });
+  function setEye(show) { $('tokIn').type = show ? 'text' : 'password'; $('eyeOn').style.display = show ? 'none' : ''; $('eyeOff').style.display = show ? '' : 'none'; $('eyeBtn').classList.toggle('on', show); $('eyeBtn').setAttribute('aria-pressed', show ? 'true' : 'false'); }
+  $('eyeBtn').addEventListener('click', () => setEye($('tokIn').type === 'password'));
+  // 定時喚醒後端（Apps Script 閒置一段時間後第一次呼叫會很慢），保持掃描時反應迅速
+  setInterval(() => { if ($('v-scan').classList.contains('on') && !document.hidden) api({ action: 'config' }, 15000).catch(() => {}); }, 240000);
   $('resetBtn').addEventListener('click', async () => { await stopLive(); lsDel(LS.tok); if (!DEFAULT_API) lsDel(LS.api); showSetup(''); });
   window.addEventListener('hashchange', () => { readHash(); boot(); });
   boot();
