@@ -10362,7 +10362,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
 
       <div id="resultPane" class="hidden"></div>
       <div id="manualWrap" style="margin:8px 0;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);">
-        <div style="font:600 11px/1.3 'Space Mono',monospace;letter-spacing:.06em;color:rgba(255,255,255,.5);margin-bottom:8px;">手動輸入編號 · MANUAL ENTRY</div>
+        <div style="font:600 11px/1.3 'Space Mono',monospace;letter-spacing:.06em;color:rgba(255,255,255,.5);margin-bottom:8px;">手動輸入報名編號 · MANUAL ENTRY</div>
         <div style="display:flex;gap:8px;align-items:stretch;">
           <input id="manualIn" type="text" inputmode="numeric" maxlength="20" placeholder="000123" autocomplete="off" style="flex:1;min-width:0;font:600 16px 'Space Mono',monospace;letter-spacing:.06em;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
           <button id="manualBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#CCFF00;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">查詢</button>
@@ -10590,7 +10590,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   }
   async function keepAwake() { try { if (navigator.wakeLock) wake = await navigator.wakeLock.request('screen'); } catch (_) {} }   // 掃描時不讓螢幕自動關閉
   camBtn.addEventListener('click', () => liveOn ? stopLive() : startLive(false));
-  function submitManual() { const v = $('manualIn').value.trim(); if (!v) return; $('manualIn').value = ''; lastText = ''; handleDecoded(v, true); }
+  function submitManual() { const v = $('manualIn').value.trim(); if (!v) return; if (v.length < 6) { showError('ID INCOMPLETE', '請輸入完整的 6 碼報名編號（例如 000123），以免誤查到他人。'); return; } $('manualIn').value = ''; lastText = ''; handleDecoded(v, true); }
   $('manualBtn').addEventListener('click', submitManual);
   $('manualIn').addEventListener('keydown', e => { if (e.key === 'Enter') submitManual(); });
   if (/Line\/|FBAN|FBAV|Instagram|MicroMessenger|FB_IAB/i.test(navigator.userAgent)) $('inappWarn').classList.add('on');
