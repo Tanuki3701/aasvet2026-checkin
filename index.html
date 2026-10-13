@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Noto+Sans+TC:wght@500;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-<script>(function webpackUniversalModuleDefinition(root, factory) {
+<script type="text/plain" id="jsqrSrc">(function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
@@ -10534,32 +10534,39 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   // ---------- 第二組辨識引擎 jsQR ----------
   // html5-qrcode 內建的解碼器對 iPad／iPhone 的畫面不一定穩（尤其 QR 留白少、畫面有摩爾紋時）。
   // 這裡額外每 ~120ms 從同一個 <video> 抓一張影格，用 jsQR 再辨識一次；任一個先讀到就送出。
+  // jsQR 放在 Web Worker 裡解碼，不佔用主畫面執行緒，掃描線動畫與畫面才不會停頓
   const cvs = document.createElement('canvas'), cctx = cvs.getContext('2d', { willReadFrequently: true });
-  function jsqrFrame(src, sw, sh, maxW) {
-    if (typeof jsQR !== 'function' || !sw || !sh) return null;
-    const k = Math.min(1, maxW / sw); const w = Math.max(1, Math.round(sw * k)), h = Math.max(1, Math.round(sh * k));
-    cvs.width = w; cvs.height = h; cctx.drawImage(src, 0, 0, w, h);
-    let img; try { img = cctx.getImageData(0, 0, w, h); } catch (_) { return null; }
-    const r = jsQR(img.data, w, h, { inversionAttempts: 'attemptBoth' });
-    return r && r.data ? String(r.data).trim() : null;
+  let jsqrWorker = null, jsqrBusy = false, jsqrTick = 0, frameInfo = '', jsqrTimer = null;
+  function getWorker() {
+    if (jsqrWorker !== null) return jsqrWorker;
+    try {
+      const src = $('jsqrSrc').textContent + ';' + ';self.onmessage=function(e){var d=e.data,r=null;try{r=jsQR(new Uint8ClampedArray(d.buf),d.w,d.h,{inversionAttempts:"attemptBoth"});}catch(_){}self.postMessage(r&&r.data?String(r.data).trim():null);};';
+      jsqrWorker = new Worker(URL.createObjectURL(new Blob([src], { type: 'application/javascript' })));
+      jsqrWorker.onmessage = e => { jsqrBusy = false; if (e.data) handleDecoded(e.data); };
+      jsqrWorker.onerror = () => { jsqrBusy = false; };
+    } catch (_) { jsqrWorker = false; }
+    return jsqrWorker;
   }
-  let jsqrTimer = null, frameInfo = '', jsqrTick = 0;
   function startJsqrLoop() {
     stopJsqrLoop();
     const step = () => {
       if (!jsqrTimer) return;
-      if (liveOn && !paused && !busy) {
-        const v = document.querySelector('#live-reader video');
-        if (v && v.readyState >= 2 && v.videoWidth) {
+      if (liveOn && !paused && !busy && !jsqrBusy) {
+        const v = document.querySelector('#live-reader video'), wk = getWorker();
+        if (wk && v && v.readyState >= 2 && v.videoWidth) {
           frameInfo = v.videoWidth + 'x' + v.videoHeight;
           const W = [640, 420, 960, 300]; jsqrTick = (jsqrTick + 1) % W.length;   // 輪流用不同縮放：縮小可以濾掉螢幕摩爾紋
-          const t = jsqrFrame(v, v.videoWidth, v.videoHeight, W[jsqrTick]);
-          if (t) handleDecoded(t);
+          const k = Math.min(1, W[jsqrTick] / v.videoWidth), w = Math.max(1, Math.round(v.videoWidth * k)), h = Math.max(1, Math.round(v.videoHeight * k));
+          try {
+            cvs.width = w; cvs.height = h; cctx.drawImage(v, 0, 0, w, h);
+            const img = cctx.getImageData(0, 0, w, h);
+            jsqrBusy = true; wk.postMessage({ buf: img.data.buffer, w: w, h: h }, [img.data.buffer]);
+          } catch (_) { jsqrBusy = false; }
         }
       }
-      jsqrTimer = setTimeout(step, 220);   // 上一輪做完才排下一輪，且留空檔給動畫與畫面更新
+      jsqrTimer = setTimeout(step, 180);
     };
-    jsqrTimer = setTimeout(step, 220);
+    jsqrTimer = setTimeout(step, 180);
   }
   function stopJsqrLoop() { if (jsqrTimer) { clearTimeout(jsqrTimer); jsqrTimer = null; } }
 
