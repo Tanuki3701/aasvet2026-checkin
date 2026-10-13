@@ -10275,7 +10275,8 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   .crosshair i:nth-child(2) { right: 0; top: 0; border-left: 0; border-bottom: 0; border-radius: 0 8px 0 0; }
   .crosshair i:nth-child(3) { left: 0; bottom: 0; border-right: 0; border-top: 0; border-radius: 0 0 0 8px; }
   .crosshair i:nth-child(4) { right: 0; bottom: 0; border-left: 0; border-top: 0; border-radius: 0 0 8px 0; }
-  .laser { z-index: 3; }
+  .laser { z-index: 3; top: 0; height: 50%; will-change: transform, opacity; animation: scanMove 2.5s ease-in-out infinite alternate; }
+  @keyframes scanMove { 0% { transform: translate3d(0,0,0); opacity: 0; } 10%, 90% { opacity: 1; } 100% { transform: translate3d(0,100%,0); opacity: 0; } }
   .scanner-box .cap { z-index: 4; }
   .scanner-box .offmsg { z-index: 4; }
   .scanner-box.off #live-reader { display: none; }
@@ -10545,17 +10546,22 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   let jsqrTimer = null, frameInfo = '', jsqrTick = 0;
   function startJsqrLoop() {
     stopJsqrLoop();
-    jsqrTimer = setInterval(() => {
-      if (!liveOn || paused || busy) return;
-      const v = document.querySelector('#live-reader video');
-      if (!v || v.readyState < 2 || !v.videoWidth) return;
-      frameInfo = v.videoWidth + 'x' + v.videoHeight;
-      const W = [960, 640, 420, 300]; jsqrTick = (jsqrTick + 1) % W.length;   // 輪流用不同縮放：縮小可以濾掉螢幕摩爾紋
-      const t = jsqrFrame(v, v.videoWidth, v.videoHeight, W[jsqrTick]);
-      if (t) handleDecoded(t);
-    }, 130);
+    const step = () => {
+      if (!jsqrTimer) return;
+      if (liveOn && !paused && !busy) {
+        const v = document.querySelector('#live-reader video');
+        if (v && v.readyState >= 2 && v.videoWidth) {
+          frameInfo = v.videoWidth + 'x' + v.videoHeight;
+          const W = [640, 420, 960, 300]; jsqrTick = (jsqrTick + 1) % W.length;   // 輪流用不同縮放：縮小可以濾掉螢幕摩爾紋
+          const t = jsqrFrame(v, v.videoWidth, v.videoHeight, W[jsqrTick]);
+          if (t) handleDecoded(t);
+        }
+      }
+      jsqrTimer = setTimeout(step, 220);   // 上一輪做完才排下一輪，且留空檔給動畫與畫面更新
+    };
+    jsqrTimer = setTimeout(step, 220);
   }
-  function stopJsqrLoop() { if (jsqrTimer) { clearInterval(jsqrTimer); jsqrTimer = null; } }
+  function stopJsqrLoop() { if (jsqrTimer) { clearTimeout(jsqrTimer); jsqrTimer = null; } }
 
   function newScanner() {
     return new Html5Qrcode('live-reader', { formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE], experimentalFeatures: { useBarCodeDetectorIfSupported: true }, verbose: false });
