@@ -254,9 +254,15 @@
           <div class="cap">LIVE SCAN · 對準 QR Code 即自動辨識</div>
           <div class="offmsg" id="offMsg">CAMERA OFF</div>
         </div>
+        <div class="login-err" id="inappWarn" style="margin-bottom:8px;">偵測到您是在 LINE／Facebook／Instagram 內建瀏覽器開啟，這類瀏覽器常常無法使用相機。請點右上角「⋯」→「用 Safari 開啟」（或 Chrome）。</div>
         <button class="btn start" id="camBtn" type="button" style="margin-bottom:8px;"><svg id="camIc" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg><span id="camTxt">START CAMERA</span></button>
       </div>
 
+      <div id="photoWrap" style="margin-bottom:8px;">
+        <label class="btn" for="photoIn" id="photoBtn" style="background:rgba(255,255,255,.08);color:#fff;box-shadow:none;cursor:pointer;">📷 拍照掃描 · PHOTO SCAN（即時掃描失敗時使用）</label>
+        <input id="photoIn" type="file" accept="image/*" capture="environment" class="hidden">
+        <div id="photo-tmp" class="hidden"></div>
+      </div>
       <div id="resultPane" class="hidden"></div>
       <button class="logout" id="resetBtn" type="button">登出 / 換人 · LOGOUT</button>
     </div>
@@ -431,7 +437,8 @@
   async function startLive_(auto) {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { showError('CAMERA UNAVAILABLE', '此瀏覽器不支援相機，或網址不是 https。'); return; }
     scBox.classList.remove('off');
-    const cfg = { fps: 20, videoConstraints: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }, qrbox: (w, h) => { const m = Math.floor(Math.min(w, h) * 0.8); return { width: m, height: m }; } };
+    // 不設 qrbox：整個畫面都參與辨識。（自訂 qrbox 會用影片「原始尺寸」去裁切，直立的 iPhone 畫面被 object-fit 裁過之後裁切區會歪掉，導致掃不到）
+    const cfg = { fps: 12, disableFlip: true, videoConstraints: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } } };
     let lastErr = null;
     const attempts = [
       async () => { scanner = newScanner(); await scanner.start({ facingMode: 'environment' }, cfg, handleDecoded, () => {}); },
@@ -452,6 +459,18 @@
   }
   async function keepAwake() { try { if (navigator.wakeLock) wake = await navigator.wakeLock.request('screen'); } catch (_) {} }   // 掃描時不讓螢幕自動關閉
   camBtn.addEventListener('click', () => liveOn ? stopLive() : startLive(false));
+  // 備援：用系統相機拍一張照再辨識（iPhone 即時掃描不順時也能用）
+  $('photoIn').addEventListener('change', async e => {
+    const f = e.target.files && e.target.files[0]; e.target.value = '';
+    if (!f) return;
+    try {
+      const h = new Html5Qrcode('photo-tmp', { formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE], verbose: false });
+      const text = await h.scanFile(f, false);
+      try { h.clear(); } catch (_) {}
+      lastText = ''; handleDecoded(text);
+    } catch (_) { showError('PHOTO SCAN FAILED', '照片裡沒有辨識到 QR Code，請靠近一點、讓 QR Code 填滿畫面並避免反光後再拍一次。'); }
+  });
+  if (/Line\/|FBAN|FBAV|Instagram|MicroMessenger|FB_IAB/i.test(navigator.userAgent)) $('inappWarn').classList.add('on');
   document.addEventListener('visibilitychange', () => { if (document.hidden) { if (liveOn) stopLive(); } else if (!scanPane.classList.contains('hidden') && $('v-scan').classList.contains('on') && !liveOn) startLive(true); });
 
   // ---------- 畫面切換 / 啟動流程 ----------
