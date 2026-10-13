@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Noto+Sans+TC:wght@500;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
 <style>
   :root {
     --bg-color: #E6E4DD;     
@@ -426,6 +427,32 @@
     busy = false;
   }
 
+  // ---------- 第二組辨識引擎 jsQR ----------
+  // html5-qrcode 內建的解碼器對 iPad／iPhone 的畫面不一定穩（尤其 QR 留白少、畫面有摩爾紋時）。
+  // 這裡額外每 ~120ms 從同一個 <video> 抓一張影格，用 jsQR 再辨識一次；任一個先讀到就送出。
+  const cvs = document.createElement('canvas'), cctx = cvs.getContext('2d', { willReadFrequently: true });
+  function jsqrFrame(src, sw, sh, maxW) {
+    if (typeof jsQR !== 'function' || !sw || !sh) return null;
+    const k = Math.min(1, maxW / sw); const w = Math.max(1, Math.round(sw * k)), h = Math.max(1, Math.round(sh * k));
+    cvs.width = w; cvs.height = h; cctx.drawImage(src, 0, 0, w, h);
+    let img; try { img = cctx.getImageData(0, 0, w, h); } catch (_) { return null; }
+    const r = jsQR(img.data, w, h, { inversionAttempts: 'attemptBoth' });
+    return r && r.data ? String(r.data).trim() : null;
+  }
+  let jsqrTimer = null, frameInfo = '';
+  function startJsqrLoop() {
+    stopJsqrLoop();
+    jsqrTimer = setInterval(() => {
+      if (!liveOn || paused || busy) return;
+      const v = document.querySelector('#live-reader video');
+      if (!v || v.readyState < 2 || !v.videoWidth) return;
+      frameInfo = v.videoWidth + 'x' + v.videoHeight;
+      const t = jsqrFrame(v, v.videoWidth, v.videoHeight, 960);
+      if (t) handleDecoded(t);
+    }, 130);
+  }
+  function stopJsqrLoop() { if (jsqrTimer) { clearInterval(jsqrTimer); jsqrTimer = null; } }
+
   function newScanner() {
     return new Html5Qrcode('live-reader', { formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE], experimentalFeatures: { useBarCodeDetectorIfSupported: true }, verbose: false });
   }
@@ -445,14 +472,14 @@
       async () => { const cams = await Html5Qrcode.getCameras(); if (!cams.length) throw new Error('找不到相機'); let p = cams[cams.length - 1]; for (const c of cams) if (/back|rear|environment|後/i.test(c.label)) { p = c; break; } scanner = newScanner(); await scanner.start(p.id, cfg, handleDecoded, () => {}); }
     ];
     for (const f of attempts) {
-      try { await f(); liveOn = true; paused = false; setCamUi(true); keepAwake(); return; }
+      try { await f(); liveOn = true; paused = false; setCamUi(true); keepAwake(); startJsqrLoop(); return; }
       catch (e) { lastErr = e; try { if (scanner) await scanner.stop(); } catch (_) {} try { if (scanner) scanner.clear(); } catch (_) {} scanner = null; }
     }
     setCamUi(false);
     if (!auto || (lastErr && lastErr.name !== 'NotAllowedError')) showError('CAMERA UNAVAILABLE', '無法開啟相機：' + ((lastErr && (lastErr.name || '')) || '') + ' ' + ((lastErr && (lastErr.message || lastErr)) || '') + '\n請確認已允許瀏覽器使用相機（網址列左側的鎖頭／設定），再按「掃下一位」重試。');
   }
   async function stopLive() {
-    liveOn = false; paused = false; setCamUi(false);
+    liveOn = false; paused = false; stopJsqrLoop(); setCamUi(false);
     const sc = scanner; scanner = null;
     if (sc) { try { await sc.stop(); } catch (_) {} try { sc.clear(); } catch (_) {} }
     try { if (wake) { await wake.release(); wake = null; } } catch (_) {}
@@ -464,9 +491,18 @@
     const f = e.target.files && e.target.files[0]; e.target.value = '';
     if (!f) return;
     try {
-      const h = new Html5Qrcode('photo-tmp', { formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE], verbose: false });
-      const text = await h.scanFile(f, false);
-      try { h.clear(); } catch (_) {}
+      let text = null;
+      // 先用 jsQR（多種縮放大小各試一次），不行再交給 html5-qrcode
+      try {
+        const bmp = await (window.createImageBitmap ? createImageBitmap(f) : new Promise((ok, no) => { const im = new Image(); im.onload = () => ok(im); im.onerror = no; im.src = URL.createObjectURL(f); }));
+        const sw = bmp.width || bmp.naturalWidth, sh = bmp.height || bmp.naturalHeight;
+        for (const mw of [1600, 1000, 700, 450, 2400]) { text = jsqrFrame(bmp, sw, sh, mw); if (text) break; }
+      } catch (_) {}
+      if (!text) {
+        const h = new Html5Qrcode('photo-tmp', { formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE], verbose: false });
+        text = await h.scanFile(f, false);
+        try { h.clear(); } catch (_) {}
+      }
       lastText = ''; handleDecoded(text);
     } catch (_) { showError('PHOTO SCAN FAILED', '照片裡沒有辨識到 QR Code，請靠近一點、讓 QR Code 填滿畫面並避免反光後再拍一次。'); }
   });
