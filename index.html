@@ -10287,6 +10287,12 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   #userIn, #tokIn { text-align: left; text-transform: none; }
   .pw-item { position: relative; }
   .pw-item .login-input { padding-right: 52px; }
+  /* Chrome／Safari 的自動填入會把輸入框染成淺藍底：用很長的背景過渡與內陰影蓋回透明深色 */
+  .login-input:-webkit-autofill, .login-input:-webkit-autofill:hover, .login-input:-webkit-autofill:focus, .login-input:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--lime) !important; caret-color: var(--lime);
+    -webkit-box-shadow: 0 0 0 1000px #1b1c1f inset !important; box-shadow: 0 0 0 1000px #1b1c1f inset !important;
+    transition: background-color 99999s ease-in-out 0s; border-radius: 12px; }
+  .login-input:autofill { box-shadow: 0 0 0 1000px #1b1c1f inset !important; -webkit-text-fill-color: var(--lime) !important; }
   .eye { position: absolute; right: 12px; bottom: 14px; width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 12px; background: rgba(255,255,255,.08); color: #cfcfd4; cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .eye.on { background: var(--lime); color: #000; }
   .login-hint { text-align: center; font-size: 11px; color: var(--txt-mut); padding: 8px 0 6px; }
