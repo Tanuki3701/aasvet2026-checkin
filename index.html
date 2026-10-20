@@ -10165,7 +10165,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
 
   /* ================= Bento Box 網格系統 ================= */
   .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-  .bento-item { background: rgba(255,255,255,0.04); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; justify-content: center; border: 1px solid transparent; transition: all 0.3s var(--spring); }
+  .bento-item { background: rgba(255,255,255,0.10); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; justify-content: center; border: 1px solid transparent; transition: all 0.3s var(--spring); }
   .bento-item.full { grid-column: span 2; }
   .bento-label { font: 600 11px var(--mono); color: var(--txt-mut); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
   .bento-value { font: 700 16px var(--sans); color: var(--txt-main); word-break: break-word; }
@@ -10253,12 +10253,14 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   /* 主次分明：重要欄位用「半透明漸層底 + 漸層外框」（與信件的會場地圖卡片同一套語言），次要欄位維持素色深底、字級較小 */
   .bento-item.glass { border: 1.5px solid transparent;
     background: linear-gradient(160deg, var(--g1), var(--g2)) padding-box, linear-gradient(#111214, #111214) padding-box, linear-gradient(135deg, var(--b1), var(--b2)) border-box; }
-  .bento-item.nm { --g1: rgba(204,255,0,.14); --g2: rgba(169,242,247,.05); --b1: #CCFF00; --b2: #A9F2F7; padding: 20px 18px 18px; }
-  .bento-item.nm .bento-value.zh { font: 900 34px/1.15 var(--sans); letter-spacing: -0.02em; }
-  .bento-item.nm .bento-sub { margin-top: 8px; font: 800 15px var(--mono); letter-spacing: .02em; color: var(--lime); word-break: break-word; }
+  .bento-item.idc { --g1: rgba(204,255,0,.18); --g2: rgba(79,209,165,.05); --b1: #CCFF00; --b2: #4fd1a5; }
+  .bento-item.idc .bento-label { color: #b6d86a; }
+  .bento-item.nm { padding: 18px; }
+  .bento-item.nm .bento-value.zh { font: 900 26px/1.2 var(--sans); letter-spacing: -0.01em; }
+  .bento-item.nm .bento-sub { margin-top: 6px; font: 800 14px var(--mono); letter-spacing: .02em; color: var(--lime); word-break: break-word; }
   .bento-item.desk { --g1: rgba(169,242,247,.20); --g2: rgba(122,165,255,.06); --b1: #A9F2F7; --b2: #7aa5ff; }
   .bento-item.desk .bento-label { color: #8fd4dc; }
-  .bento-item.desk .bento-value { color: #A9F2F7; font-size: 26px; font-weight: 900; letter-spacing: -0.02em; }
+  .bento-item.desk .bento-value { color: #A9F2F7; font-size: 24px; font-weight: 900; letter-spacing: -0.02em; }
   .bento-item.desk .bento-sub { margin-top: 4px; font: 700 12px var(--mono); color: #8fd4dc; }
   .bento-item.accent-purple { --g1: rgba(224,176,255,.20); --g2: rgba(138,92,240,.06); --b1: #E0B0FF; --b2: #8a5cf0; }
   .bento-item.accent-purple .bento-label { color: #c9a6ee; }
@@ -10266,7 +10268,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   .bento-item.accent-diet { --g1: rgba(255,211,107,.18); --g2: rgba(255,157,108,.05); --b1: #FFD36B; --b2: #ff9d6c; }
   .bento-item.accent-diet .bento-label { color: #d9b36a; }
   .bento-item.accent-diet .bento-value { color: #FFE08A; }
-  .bento-item.t3 { background: rgba(255,255,255,0.025); padding: 14px 16px; }
+  .bento-item.t3 { background: rgba(255,255,255,0.07); padding: 14px 16px; }
   .bento-item.t3 .bento-label { font-size: 10px; margin-bottom: 6px; }
   .bento-item.t3 .bento-value { font-size: 14px; font-weight: 600; color: #cfcfd4; }
   .bento-item.accent-red { background: rgba(255,51,102,0.12); border-color: rgba(255,51,102,0.3); }
@@ -10448,14 +10450,14 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
     // 姓名：有中文姓名時，中文大字 + 英文姓名放第二行（與信件、網頁報到證一致）；舊版後端沒有分開的欄位時退回 a.name
     const zh = a.nameZh || '', en = a.nameEn || '';
     const nameCell = (zh || en)
-      ? { label: '姓名 Name', value: zh || en, value2: zh && en ? en : '', cls: 'glass nm', vcls: zh ? 'big zh' : 'big', full: true }
-      : { label: '姓名 Name', value: a.name, cls: 'glass nm', vcls: 'big', full: true };
+      ? { label: '姓名 Name', value: zh || en, value2: zh && en ? en : '', cls: 'nm', vcls: zh ? 'big zh' : 'big', full: true }
+      : { label: '姓名 Name', value: a.name, cls: 'nm', vcls: 'big', full: true };
     // 報到櫃檯：只有白天場次才有（晚宴不需要）
     const deskCell = (!bq && a.zone) ? { label: '報到櫃檯 Check-in Desk', value: a.zone + ' ' + (a.zoneZh || ''), value2: a.zoneEn ? 'Zone ' + a.zone + ' · ' + a.zoneEn : '', cls: 'glass desk', full: true } : null;
     return '<div class="bento-grid">' + bentoPack([
       nameCell,
       deskCell,
-      { label: '報名編號 ID', value: a.id, vcls: 'mono', vstyle: 'color:var(--lime)' },
+      { label: '報名編號 ID', value: a.id, vcls: 'mono', vstyle: 'color:var(--lime)', cls: 'glass idc' },
       { label: '國家 Country', value: a.country },
       { label: '地區 Region', value: a.region },
       { label: '晚宴 Banquet', value: a.banquet, cls: bqCls },
