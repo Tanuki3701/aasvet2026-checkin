@@ -10173,8 +10173,6 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   .bento-value.mono { font-family: var(--mono); font-weight: 500; font-size: 14px; }
   
   .bento-item.accent-lime .bento-value { color: var(--lime); }
-  .bento-item.accent-purple { background: rgba(138,43,226,0.15); border-color: rgba(138,43,226,0.3); }
-  .bento-item.accent-purple .bento-value { color: #E0B0FF; }
 
   /* ================= 互動下拉選單 (Chevron 箭頭) ================= */
   .sel-wrapper { position: relative; }
@@ -10252,8 +10250,20 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   .scanner-box.off .fake-cam { opacity:.08; }
   .scanner-box .cap { position:absolute; left:0; right:0; bottom:12px; text-align:center; font:700 10px var(--mono); letter-spacing:.18em; color:var(--lime); text-shadow:0 1px 6px #000; }
   .scanner-box.off .cap { display:none; }
-  .bento-item.accent-diet { background: rgba(204,255,0,0.10); border-color: rgba(204,255,0,0.28); }
-  .bento-item.accent-diet .bento-value { color: var(--lime); }
+  /* 與網頁版報到證同色系的特殊欄位（整體仍是黑底） */
+  .bento-item.nm { background: #000; border: 1px solid rgba(255,255,255,0.12); padding: 18px 18px 16px; }
+  .bento-item.nm .bento-value.zh { font: 900 32px/1.15 var(--sans); letter-spacing: -0.02em; }
+  .bento-item.nm .bento-sub { margin-top: 8px; font: 800 15px var(--mono); letter-spacing: .02em; color: var(--lime); word-break: break-word; }
+  .bento-item.desk { background: #CCFF00; border-color: #b6e600; }
+  .bento-item.desk .bento-label { color: #4a5a00; }
+  .bento-item.desk .bento-value { color: #000; font-size: 24px; font-weight: 900; letter-spacing: -0.02em; }
+  .bento-item.desk .bento-sub { margin-top: 4px; font: 700 12px var(--mono); color: #4a5a00; }
+  .bento-item.accent-purple { background: #EFE3FF; border-color: #d3b6f5; }
+  .bento-item.accent-purple .bento-label { color: #7a4cc0; }
+  .bento-item.accent-purple .bento-value { color: #5b1fa8; }
+  .bento-item.accent-diet { background: #DDF8FB; border-color: #A9F2F7; }
+  .bento-item.accent-diet .bento-label { color: #2b7f8c; }
+  .bento-item.accent-diet .bento-value { color: #0e4a54; }
   .bento-item.accent-red { background: rgba(255,51,102,0.12); border-color: rgba(255,51,102,0.3); }
   .bento-item.accent-red .bento-value { color:#ff8fa8; }
   .status-board.bq-deny { background: var(--red); color:#fff; }
@@ -10421,7 +10431,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
     const flush = () => { if (pend.length === 1) pend[0].full = true; out.push.apply(out, pend); pend = []; };
     cells.filter(c => c && c.value).forEach(c => { if (c.full) { flush(); out.push(c); } else { pend.push(c); if (pend.length === 2) flush(); } });
     flush();
-    return out.map(c => '<div class="bento-item ' + (c.cls || '') + ' ' + (c.full ? 'full' : '') + '"><div class="bento-label">' + c.label + '</div><div class="bento-value ' + (c.vcls || '') + '" ' + (c.vstyle ? 'style="' + c.vstyle + '"' : '') + '>' + esc(c.value) + '</div></div>').join('');
+    return out.map(c => '<div class="bento-item ' + (c.cls || '') + ' ' + (c.full ? 'full' : '') + '"><div class="bento-label">' + c.label + '</div><div class="bento-value ' + (c.vcls || '') + '" ' + (c.vstyle ? 'style="' + c.vstyle + '"' : '') + '>' + esc(c.value) + '</div>' + (c.value2 ? '<div class="bento-sub">' + esc(c.value2) + '</div>' : '') + '</div>').join('');
   }
   function board(kind, title, msg, bq) {
     const cls = kind === 'ok' ? (bq ? 'bq' : 'ok') : kind === 'warn' ? 'warn' : 'err';
@@ -10430,8 +10440,16 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   const NEXT_BTN = '<button class="btn primary" id="nextBtn" type="button" style="margin-top:8px;">SCAN NEXT · 掃下一位</button>';
   function attendeeHtml(a, bq) {
     const bqCls = a.banquet === 'Yes' ? 'accent-purple' : (bq ? 'accent-red' : '');
+    // 姓名：有中文姓名時，中文大字 + 英文姓名放第二行（與信件、網頁報到證一致）；舊版後端沒有分開的欄位時退回 a.name
+    const zh = a.nameZh || '', en = a.nameEn || '';
+    const nameCell = (zh || en)
+      ? { label: '姓名 Name', value: zh || en, value2: zh && en ? en : '', cls: 'nm', vcls: zh ? 'big zh' : 'big', full: true }
+      : { label: '姓名 Name', value: a.name, cls: 'nm', vcls: 'big', full: true };
+    // 報到櫃檯：只有白天場次才有（晚宴不需要）
+    const deskCell = (!bq && a.zone) ? { label: '報到櫃檯 Check-in Desk', value: a.zone + ' ' + (a.zoneZh || ''), value2: a.zoneEn ? 'Zone ' + a.zone + ' · ' + a.zoneEn : '', cls: 'desk', full: true } : null;
     return '<div class="bento-grid">' + bentoPack([
-      { label: '姓名 Name', value: a.name, vcls: 'big', full: true },
+      nameCell,
+      deskCell,
       { label: '報名編號 ID', value: a.id, vcls: 'mono', vstyle: 'color:var(--lime)' },
       { label: '國家 Country', value: a.country },
       { label: '地區 Region', value: a.region },
