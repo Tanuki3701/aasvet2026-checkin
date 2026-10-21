@@ -10429,7 +10429,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
           <div id="searchRes"></div>
         </div>
         <div id="mPanePay" class="hidden">
-          <div style="font:700 12px/1.5 sans-serif;color:#ffb86b;margin:0 0 10px;">現場繳費者使用：輸入報名姓名（中、英文皆可，不必打「-」、不分大小寫）或 Email 的一部分，確認本人後收款並簽到</div>
+          <div style="font:700 12px/1.5 sans-serif;color:#ffb86b;margin:0 0 10px;">限「未繳費名單」內的人使用：輸入報名姓名（中、英文皆可，不必打「-」、不分大小寫）或 Email 的一部分，確認本人後收款並簽到</div>
           <div style="display:flex;gap:8px;align-items:stretch;">
             <input id="payIn" type="text" maxlength="60" placeholder="ex. 林怡君 / Mei-Ling Lin" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" style="flex:1;min-width:0;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
             <button id="payBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#ffb86b;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">搜尋</button>
@@ -10437,7 +10437,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
           <div id="payRes"></div>
         </div>
         <div id="mPaneReg" class="hidden">
-          <div style="font:700 12px/1.5 sans-serif;color:#7FF0FF;margin:0 0 10px;">名單上沒有的來賓（例如貴賓、長官）使用：姓名擇一必填、Email 必填，其餘選填。登記後立即簽到並寄出 QR 報到證</div>
+          <div style="font:700 12px/1.5 sans-serif;color:#7FF0FF;margin:0 0 10px;">不在任何名單內的來賓（例如貴賓、長官）使用：姓名擇一必填、Email 必填，其餘選填。登記後立即簽到並寄出 QR 報到證</div>
           <div class="wf">
             <div class="row2"><div><label>中文姓名</label><input id="rgZh" type="text" maxlength="40" placeholder="ex. 林怡君" autocomplete="off"></div><div><label>英文姓名</label><input id="rgEn" type="text" maxlength="80" placeholder="ex. Mei-Ling Lin" autocomplete="off" autocapitalize="words"></div></div>
             <label>Email <i>*</i></label><input id="rgEmail" type="email" inputmode="email" maxlength="80" placeholder="ex. name@example.com" autocomplete="off" autocapitalize="off" spellcheck="false">
