@@ -10209,10 +10209,19 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   .status-board.ok { background: var(--lime); }
   .status-board.err { background: var(--red); color: #fff; }
   .status-board.warn { background: var(--orange); }
-  .status-board.bq { background: var(--purple); color: #fff; }
+  .status-board.bq { background: #E0B0FF; color: #1a0b2e; }
   
   .status-icon { flex: 0 0 40px; width: 40px; height: 40px; background: rgba(0,0,0,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-  .status-board.err .status-icon, .status-board.bq .status-icon { background: rgba(255,255,255,0.2); }
+  .status-board.err .status-icon { background: rgba(255,255,255,0.2); }
+  .status-board.bq .status-icon { background: rgba(0,0,0,0.12); }
+  .wf { display:flex; flex-direction:column; gap:8px; }
+  .wf label { font:700 11px/1.3 var(--sans); color:rgba(255,255,255,.7); margin-bottom:-4px; }
+  .wf label i { color:#ff8a8a; font-style:normal; }
+  .wf input, .wf select { width:100%; box-sizing:border-box; font:600 15px var(--sans); color:#fff; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px; outline:none; }
+  .wf select option { color:#000; }
+  .wf .row2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .wf .row2 > div { display:flex; flex-direction:column; gap:4px; min-width:0; }
+  .wf input::placeholder { font-size:13px; font-weight:500; }
   .status-icon svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
   
   .status-info .t { font: 900 18px var(--sans); letter-spacing: -0.02em; margin-bottom: 4px; }
@@ -10299,7 +10308,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   .scanner-box.off #live-reader { display: none; }
   .hidden { display: none !important; }
   .mtabs { display: flex; gap: 6px; margin-bottom: 12px; }
-  .mtab { flex: 1; font: 700 12px/1 var(--sans); padding: 10px 8px; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); background: transparent; color: #b5b5bb; cursor: pointer; }
+  .mtab { flex: 1; font: 700 12px/1 var(--sans); padding: 10px 2px; white-space: nowrap; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); background: transparent; color: #b5b5bb; cursor: pointer; }
   .mtab.on { background: var(--lime); border-color: var(--lime); color: #000; }
   .sr-msg { margin-top: 10px; font: 600 12.5px/1.6 var(--sans); color: var(--txt-mut); }
   .sr-item { display: block; width: 100%; text-align: left; margin-top: 8px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.07); color: #fff; cursor: pointer; font-family: var(--sans); }
@@ -10403,7 +10412,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
       <div id="resultPane" class="hidden"></div>
       <div id="manualWrap" style="margin:8px 0;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);">
         <div style="font:700 14px/1.4 'Space Mono',monospace;letter-spacing:.05em;color:rgba(255,255,255,.78);margin-bottom:10px;">手動簽到 · MANUAL CHECK-IN</div>
-        <div class="mtabs"><button type="button" class="mtab on" id="tabId" data-t="id">報名編號</button><button type="button" class="mtab" id="tabName" data-t="name">忘記帶 QR</button><button type="button" class="mtab" id="tabPay" data-t="pay">現場繳費</button></div>
+        <div class="mtabs"><button type="button" class="mtab on" id="tabId" data-t="id">報名編號</button><button type="button" class="mtab" id="tabName" data-t="name">忘記帶 QR</button><button type="button" class="mtab" id="tabPay" data-t="pay">現場繳費</button><button type="button" class="mtab" id="tabReg" data-t="reg">現場報名</button></div>
         <div id="mPaneId">
           <div style="font:700 12px/1.5 sans-serif;color:#CCFF00;margin:0 0 10px;">掃描失敗時可使用，請輸入完整 6 碼報名編號</div>
           <div style="display:flex;gap:8px;align-items:stretch;">
@@ -10426,6 +10435,18 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
             <button id="payBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#ffb86b;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">搜尋</button>
           </div>
           <div id="payRes"></div>
+        </div>
+        <div id="mPaneReg" class="hidden">
+          <div style="font:700 12px/1.5 sans-serif;color:#7FF0FF;margin:0 0 10px;">名單上沒有的來賓（例如貴賓、長官）使用：姓名擇一必填、Email 必填，其餘選填。登記後立即簽到並寄出 QR 報到證</div>
+          <div class="wf">
+            <div class="row2"><div><label>中文姓名</label><input id="rgZh" type="text" maxlength="40" placeholder="ex. 林怡君" autocomplete="off"></div><div><label>英文姓名</label><input id="rgEn" type="text" maxlength="80" placeholder="ex. Mei-Ling Lin" autocomplete="off" autocapitalize="words"></div></div>
+            <label>Email <i>*</i></label><input id="rgEmail" type="email" inputmode="email" maxlength="80" placeholder="ex. name@example.com" autocomplete="off" autocapitalize="off" spellcheck="false">
+            <div class="row2"><div><label>國家 Country</label><select id="rgCountry"><option value="Taiwan">Taiwan</option><option value="Other">Other 其他</option></select></div><div><label>晚宴 Banquet</label><select id="rgBq"><option value="No">No</option><option value="Yes">Yes</option></select></div></div>
+            <div id="rgDietBox" class="hidden"><label>飲食偏好 Diet</label><select id="rgDiet"><option value="regular">一般 Regular</option><option value="vegetarian">素食 Vegetarian</option><option value="halal">清真 Halal</option></select></div>
+            <div class="row2"><div><label>Paper ID 1</label><input id="rgP1" type="text" inputmode="numeric" maxlength="6" placeholder="選填" autocomplete="off"></div><div><label>Paper ID 2</label><input id="rgP2" type="text" inputmode="numeric" maxlength="6" placeholder="選填" autocomplete="off"></div></div>
+            <button id="rgBtn" type="button" style="font:700 14px/1 sans-serif;color:#0f1012;background:#7FF0FF;border:0;border-radius:12px;padding:13px 16px;cursor:pointer;margin-top:4px;">登記並簽到 · REGISTER &amp; CHECK IN</button>
+            <div id="rgMsg"></div>
+          </div>
         </div>
       </div>
       <button class="logout" id="resetBtn" type="button">登出 / 換人 · LOGOUT</button>
@@ -10683,7 +10704,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   // ---------- 忘記帶 QR Code：姓名 / Email 搜尋 ----------
   let searchSeq = 0, searchList = [];
   function setTab(t) {
-    $('tabId').classList.toggle('on', t === 'id'); $('tabName').classList.toggle('on', t === 'name'); $('tabPay').classList.toggle('on', t === 'pay');
+    $('tabId').classList.toggle('on', t === 'id'); $('tabName').classList.toggle('on', t === 'name'); $('tabPay').classList.toggle('on', t === 'pay'); $('tabReg').classList.toggle('on', t === 'reg'); $('mPaneReg').classList.toggle('hidden', t !== 'reg');
     $('mPaneId').classList.toggle('hidden', t !== 'id'); $('mPaneName').classList.toggle('hidden', t !== 'name'); $('mPanePay').classList.toggle('hidden', t !== 'pay');
     if (t === 'name') { try { $('searchIn').focus(); } catch (_) {} }
     if (t === 'pay') { try { $('payIn').focus(); } catch (_) {} }
@@ -10691,6 +10712,41 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   $('tabId').addEventListener('click', () => setTab('id'));
   $('tabName').addEventListener('click', () => setTab('name'));
   $('tabPay').addEventListener('click', () => setTab('pay'));
+  $('tabReg').addEventListener('click', () => setTab('reg'));
+  $('rgBq').addEventListener('change', () => $('rgDietBox').classList.toggle('hidden', $('rgBq').value !== 'Yes'));
+  // ---------- 現場報名 ----------
+  let regBusy = false;
+  function regPayload(force) {
+    return { action: 'register', key: daySelect.value, nameZh: $('rgZh').value.trim(), nameEn: $('rgEn').value.trim(), email: $('rgEmail').value.trim(),
+      country: $('rgCountry').value, banquet: $('rgBq').value, diet: $('rgDiet').value, paperId1: $('rgP1').value.trim(), paperId2: $('rgP2').value.trim(), force: force === true };
+  }
+  async function submitReg(force) {
+    if (regBusy) return;
+    const p = regPayload(force), msg = $('rgMsg');
+    if (!p.nameZh && !p.nameEn) { msg.innerHTML = '<div class="sr-msg">請至少填寫一個姓名（中文或英文）。</div>'; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)) { msg.innerHTML = '<div class="sr-msg">請填寫正確的 Email。</div>'; return; }
+    regBusy = true; msg.innerHTML = '<div class="sr-msg">登記中…</div>';
+    try {
+      const j = await api(p, 40000);
+      if (!j.ok) { msg.innerHTML = '<div class="sr-msg">' + esc(j.error === 'unauthorized' ? '帳號或密碼不正確，請重新整理後重新登入。' : (j.message || j.error || '伺服器回應異常')) + '</div>'; }
+      else if (!j.register || !j.register.ok) {
+        const r = j.register || {};
+        if (r.duplicate && r.duplicate.length) {
+          msg.innerHTML = '<div class="sr-msg" style="color:#ffb86b;">此 Email 已有報名資料，請先確認是否同一人（已報名者請改用「忘記帶 QR」或「現場繳費」）：</div>' +
+            r.duplicate.map(x => '<div class="sr-item" style="cursor:default;"><div class="n">' + esc(x.nameZh || x.nameEn) + (x.nameZh && x.nameEn ? '<small>' + esc(x.nameEn) + '</small>' : '') + '</div><div class="chips"><span class="chip id">ID ' + esc(x.id) + '</span>' + (x.unpaid ? '<span class="chip unpaid">未繳費</span>' : '') + '</div></div>').join('') +
+            '<button type="button" class="btn ghost" id="rgForce" style="margin-top:8px;">仍要新增為新來賓 · ADD ANYWAY</button>';
+          $('rgForce').onclick = () => { regBusy = false; submitReg(true); };
+        } else msg.innerHTML = '<div class="sr-msg">' + esc(r.message || '登記失敗') + '</div>';
+      } else {
+        msg.innerHTML = '';
+        ['rgZh', 'rgEn', 'rgEmail', 'rgP1', 'rgP2'].forEach(k => $(k).value = ''); $('rgBq').value = 'No'; $('rgDietBox').classList.add('hidden'); setTab('id');
+        renderResult(j.result);
+        api({ action: 'notify', id: j.register.id, key: daySelect.value }, 60000).catch(() => {});
+      }
+    } catch (e) { msg.innerHTML = '<div class="sr-msg">連線逾時或失敗，請先到「忘記帶 QR」搜尋此人，確認是否已登記成功，再決定是否重送。</div>'; }
+    regBusy = false;
+  }
+  $('rgBtn').addEventListener('click', () => submitReg(false));
   // 兩個搜尋頁籤共用：mode = 'name'（忘記帶 QR，只列已繳費者）／'pay'（現場繳費，只列未繳費者）
   const SM = { name: { inp: 'searchIn', res: 'searchRes', list: [] }, pay: { inp: 'payIn', res: 'payRes', list: [] } };
   function renderSearch(sr, mode) {
