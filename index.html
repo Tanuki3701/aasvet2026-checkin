@@ -10511,7 +10511,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
       ? { label: '姓名 Name', value: zh || en, value2: zh && en ? en : '', cls: 'nm', vcls: zh ? 'big zh' : 'big', full: true }
       : { label: '姓名 Name', value: a.name, cls: 'nm', vcls: 'big', full: true };
     // 報到櫃檯：只有白天場次才有（晚宴不需要）
-    const deskCell = (!bq && a.zone) ? { label: '報到櫃檯 Check-in Desk', value: a.zone + ' ' + (a.zoneZh || ''), value2: a.zoneEn ? 'Zone ' + a.zone + ' · ' + a.zoneEn : '', cls: 'glass desk', full: true } : null;
+    const deskCell = (!bq && a.zone) ? { label: '報到櫃檯 Check-in Desk', value: a.zone + '區：' + (a.zoneZh || ''), value2: a.zoneEn ? 'Zone ' + a.zone + ' · ' + a.zoneEn : '', cls: 'glass desk', full: true } : null;
     return '<div class="bento-grid">' + bentoPack([
       nameCell,
       deskCell,
