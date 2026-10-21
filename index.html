@@ -10306,6 +10306,11 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   .sr-item:active { background: rgba(204,255,0,.14); border-color: var(--lime); }
   .sr-item .n { font: 800 16px/1.35 var(--sans); }
   .sr-item .n small { font: 700 13px var(--mono); color: var(--lime); margin-left: 6px; }
+  .sr-item .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .sr-item .chip { font: 700 11.5px/1 var(--mono); padding: 5px 9px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); color: #d4d4d9; background: rgba(255,255,255,.06); }
+  .sr-item .chip.id { color: var(--lime); border-color: rgba(204,255,0,.5); background: rgba(204,255,0,.08); }
+  .sr-item .chip.bq { color: #d9b8ff; border-color: rgba(185,140,255,.55); background: rgba(185,140,255,.12); }
+  .sr-item .chip.unpaid { color: #ffb86b; border-color: rgba(255,184,107,.6); background: rgba(255,184,107,.14); }
   .sr-item .e { margin-top: 4px; font: 600 12.5px/1.5 var(--mono); color: #cfcfd4; word-break: break-all; }
   .sr-item .m { margin-top: 2px; font: 600 11px/1.5 var(--mono); color: var(--txt-mut); }
   #nextBtn { position: sticky; bottom: 10px; z-index: 6; box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 10px 20px rgba(204,255,0,.25); }
@@ -10697,7 +10702,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
     }
     $(m.res).innerHTML = m.list.map((x, i) =>
       '<button type="button" class="sr-item" data-i="' + i + '"><div class="n">' + esc(x.nameZh || x.nameEn) + (x.nameZh && x.nameEn ? '<small>' + esc(x.nameEn) + '</small>' : '') + '</div>' +
-      '<div class="e">' + esc(x.email) + '</div><div class="m">' + esc(x.country) + ' · ID ' + esc(x.id) + (x.banquet === 'Yes' ? ' · 晚宴 Yes' : '') + '</div></button>').join('') +
+      '<div class="e">' + esc(x.email) + '</div><div class="chips"><span class="chip">' + esc(x.country) + '</span><span class="chip id">ID ' + esc(x.id) + '</span>' + (x.banquet === 'Yes' ? '<span class="chip bq">晚宴 Yes</span>' : '') + (x.unpaid ? '<span class="chip unpaid">未繳費</span>' : '') + '</div></button>').join('') +
       (sr.more ? '<div class="sr-msg">共 ' + esc(sr.total) + ' 筆符合，只顯示前 ' + m.list.length + ' 筆，請輸入更多字縮小範圍。</div>' : '');
   }
   const searchSeqs = { name: 0, pay: 0 };
