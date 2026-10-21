@@ -10298,6 +10298,16 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   .scanner-box .offmsg { z-index: 4; }
   .scanner-box.off #live-reader { display: none; }
   .hidden { display: none !important; }
+  .mtabs { display: flex; gap: 6px; margin-bottom: 12px; }
+  .mtab { flex: 1; font: 700 12px/1 var(--sans); padding: 10px 8px; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); background: transparent; color: #b5b5bb; cursor: pointer; }
+  .mtab.on { background: var(--lime); border-color: var(--lime); color: #000; }
+  .sr-msg { margin-top: 10px; font: 600 12.5px/1.6 var(--sans); color: var(--txt-mut); }
+  .sr-item { display: block; width: 100%; text-align: left; margin-top: 8px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.07); color: #fff; cursor: pointer; font-family: var(--sans); }
+  .sr-item:active { background: rgba(204,255,0,.14); border-color: var(--lime); }
+  .sr-item .n { font: 800 16px/1.35 var(--sans); }
+  .sr-item .n small { font: 700 13px var(--mono); color: var(--lime); margin-left: 6px; }
+  .sr-item .e { margin-top: 4px; font: 600 12.5px/1.5 var(--mono); color: #cfcfd4; word-break: break-all; }
+  .sr-item .m { margin-top: 2px; font: 600 11px/1.5 var(--mono); color: var(--txt-mut); }
   #nextBtn { position: sticky; bottom: 10px; z-index: 6; box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 10px 20px rgba(204,255,0,.25); }
   .login-err { display: none; margin: 0 0 8px; padding: 14px 16px; border-radius: 16px; background: rgba(255,51,102,.14); border: 1px solid rgba(255,51,102,.35); color: #ff8fa8; font: 600 13px/1.6 var(--sans); white-space: pre-line; word-break: break-word; }
   .login-err.on { display: block; }
@@ -10380,17 +10390,28 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
           <div class="cap">LIVE SCAN · 對準 QR Code 即自動辨識</div>
           <div class="offmsg" id="offMsg">CAMERA OFF</div>
         </div>
-        <div class="login-err" id="inappWarn" style="margin-bottom:8px;">偵測到您是在 LINE／Facebook／Instagram 內建瀏覽器開啟，這類瀏覽器常常無法使用相機。請點右下角「⋯」→「用 Safari 開啟」（或 Chrome）。</div>
+        <div class="login-err" id="inappWarn" style="margin-bottom:8px;">偵測到您是在 LINE／Facebook／Instagram 內建瀏覽器開啟，這類瀏覽器常常無法使用相機。請點右下角「⋮」→「用 Safari 開啟」（或 Chrome）。</div>
         <button class="btn start" id="camBtn" type="button" style="margin-bottom:8px;"><svg id="camIc" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg><span id="camTxt">START CAMERA</span></button>
       </div>
 
       <div id="resultPane" class="hidden"></div>
       <div id="manualWrap" style="margin:8px 0;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);">
-        <div style="font:700 14px/1.4 'Space Mono',monospace;letter-spacing:.05em;color:rgba(255,255,255,.78);margin-bottom:6px;">手動輸入報名編號 · MANUAL ENTRY</div>
-        <div style="font:700 12px/1.5 sans-serif;color:#CCFF00;margin:0 0 10px;">掃描失敗時可使用，請輸入完整 6 碼報名編號</div>
-        <div style="display:flex;gap:8px;align-items:stretch;">
-          <input id="manualIn" type="text" inputmode="numeric" maxlength="20" placeholder="ex. 000123" autocomplete="off" style="flex:1;min-width:0;font:600 16px 'Space Mono',monospace;letter-spacing:.06em;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
-          <button id="manualBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#CCFF00;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">查詢</button>
+        <div style="font:700 14px/1.4 'Space Mono',monospace;letter-spacing:.05em;color:rgba(255,255,255,.78);margin-bottom:10px;">手動簽到 · MANUAL CHECK-IN</div>
+        <div class="mtabs"><button type="button" class="mtab on" id="tabId" data-t="id">報名編號</button><button type="button" class="mtab" id="tabName" data-t="name">姓名 / Email 搜尋</button></div>
+        <div id="mPaneId">
+          <div style="font:700 12px/1.5 sans-serif;color:#CCFF00;margin:0 0 10px;">掃描失敗時可使用，請輸入完整 6 碼報名編號</div>
+          <div style="display:flex;gap:8px;align-items:stretch;">
+            <input id="manualIn" type="text" inputmode="numeric" maxlength="20" placeholder="ex. 000123" autocomplete="off" style="flex:1;min-width:0;font:600 16px 'Space Mono',monospace;letter-spacing:.06em;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
+            <button id="manualBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#CCFF00;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">查詢</button>
+          </div>
+        </div>
+        <div id="mPaneName" class="hidden">
+          <div style="font:700 12px/1.5 sans-serif;color:#CCFF00;margin:0 0 10px;">忘記帶 QR Code 時使用：輸入姓名或 Email 的一部分（至少 2 個字）</div>
+          <div style="display:flex;gap:8px;align-items:stretch;">
+            <input id="searchIn" type="text" maxlength="60" placeholder="姓名或 Email，ex. 王小明 / chen" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" style="flex:1;min-width:0;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
+            <button id="searchBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#CCFF00;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">搜尋</button>
+          </div>
+          <div id="searchRes"></div>
         </div>
       </div>
       <button class="logout" id="resetBtn" type="button">登出 / 換人 · LOGOUT</button>
@@ -10637,6 +10658,57 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   camBtn.addEventListener('click', () => liveOn ? stopLive() : startLive(false));
   function submitManual() { const v = $('manualIn').value.trim(); if (!v) return; if (v.length < 6) { showError('ID INCOMPLETE', '請輸入完整的 6 碼報名編號（例如 000123），以免誤查到他人。'); return; } $('manualIn').value = ''; lastText = ''; handleDecoded(v, true); }
   $('manualBtn').addEventListener('click', submitManual);
+
+  // ---------- 忘記帶 QR Code：姓名 / Email 搜尋 ----------
+  let searchSeq = 0, searchList = [];
+  function setTab(t) {
+    $('tabId').classList.toggle('on', t === 'id'); $('tabName').classList.toggle('on', t === 'name');
+    $('mPaneId').classList.toggle('hidden', t !== 'id'); $('mPaneName').classList.toggle('hidden', t !== 'name');
+    if (t === 'name') { try { $('searchIn').focus(); } catch (_) {} }
+  }
+  $('tabId').addEventListener('click', () => setTab('id'));
+  $('tabName').addEventListener('click', () => setTab('name'));
+  function renderSearch(sr) {
+    searchList = (sr && sr.list) || [];
+    if (!searchList.length) { $('searchRes').innerHTML = '<div class="sr-msg">' + esc((sr && sr.message) || '找不到符合的與會者，請換個關鍵字，或改用報名編號。') + '</div>'; return; }
+    $('searchRes').innerHTML = searchList.map((x, i) =>
+      '<button type="button" class="sr-item" data-i="' + i + '"><div class="n">' + esc(x.nameZh || x.nameEn) + (x.nameZh && x.nameEn ? '<small>' + esc(x.nameEn) + '</small>' : '') + '</div>' +
+      '<div class="e">' + esc(x.email) + '</div><div class="m">' + esc(x.country) + ' · ID ' + esc(x.id) + (x.banquet === 'Yes' ? ' · 晚宴 Yes' : '') + '</div></button>').join('') +
+      (sr.more ? '<div class="sr-msg">共 ' + esc(sr.total) + ' 筆符合，只顯示前 ' + searchList.length + ' 筆，請輸入更多字縮小範圍。</div>' : '');
+  }
+  async function doSearch() {
+    const q = $('searchIn').value.trim();
+    if (q.replace(/\s+/g, '').length < 2) { $('searchRes').innerHTML = '<div class="sr-msg">請至少輸入 2 個字。</div>'; return; }
+    const my = ++searchSeq; $('searchRes').innerHTML = '<div class="sr-msg">搜尋中…</div>';
+    try {
+      const j = await api({ action: 'search', q: q }, 20000);
+      if (my !== searchSeq) return;
+      if (!j.ok) {
+        if (j.error === 'unauthorized') { lsDel(LS.tok); $('searchRes').innerHTML = '<div class="sr-msg">帳號或密碼不正確，請重新整理頁面後重新登入。</div>'; }
+        else $('searchRes').innerHTML = '<div class="sr-msg">' + esc(j.message || j.error || '伺服器回應異常') + '</div>';
+        return;
+      }
+      renderSearch(j.search);
+    } catch (e) { if (my === searchSeq) $('searchRes').innerHTML = '<div class="sr-msg">無法連線至伺服器，請檢查網路後重試。</div>'; }
+  }
+  $('searchBtn').addEventListener('click', doSearch);
+  $('searchIn').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+  // 點選結果 → 先顯示完整姓名與 Email，請本人確認後才簽到
+  $('searchRes').addEventListener('click', e => {
+    const b = e.target.closest('.sr-item'); if (!b) return;
+    const x = searchList[+b.dataset.i]; if (!x) return;
+    const zh = x.nameZh || '', en = x.nameEn || '';
+    showPane('<div class="bento-grid">' + bentoPack([
+      { label: '姓名 Name', value: zh || en, value2: zh && en ? en : '', cls: 'nm', vcls: zh ? 'big zh' : 'big', full: true },
+      { label: 'Email', value: x.email, full: true },
+      { label: '報名編號 ID', value: x.id, vcls: 'mono', vstyle: 'color:var(--lime)', cls: 'glass idc' },
+      { label: '國家 Country', value: x.country },
+      { label: '晚宴 Banquet', value: x.banquet }
+    ]) + '</div><div style="margin:4px 4px 12px;font:600 12.5px/1.6 var(--sans);color:var(--txt-mut);">請與本人確認姓名與 Email 相符後，再按「確認簽到」。</div>' +
+      '<button class="btn primary" id="cfBtn" type="button">確認簽到 · CONFIRM</button><button class="btn ghost" id="cxBtn" type="button" style="margin-top:8px;">取消 · BACK</button>');
+    $('cfBtn').onclick = () => { lastText = ''; handleDecoded(x.id, true); };
+    $('cxBtn').onclick = backToScan;
+  });
   $('manualIn').addEventListener('keydown', e => { if (e.key === 'Enter') submitManual(); });
   if (/Line\/|FBAN|FBAV|Instagram|MicroMessenger|FB_IAB/i.test(navigator.userAgent)) $('inappWarn').classList.add('on');
   document.addEventListener('visibilitychange', () => { if (document.hidden) { if (liveOn) stopLive(); } else if (!scanPane.classList.contains('hidden') && $('v-scan').classList.contains('on') && !liveOn) startLive(true); });
