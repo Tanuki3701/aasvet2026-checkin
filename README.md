@@ -88,8 +88,8 @@ Desks are assigned from the 6-digit registration ID:
 | --- | --- |
 | A | 000001 – 000050 |
 | B | 000051 – 000100 |
-| C | 000101 and above (including walk-ins) |
-| D | On-site payment (not yet paid) |
+| C | 000101 and above |
+| D | On-site payment and walk-in registration (walk-in IDs start at 260001) |
 
 ## Sheet conventions
 
@@ -173,8 +173,8 @@ Developed by **Luz** for the AASVET 2026 organizing committee.
 | --- | --- |
 | A 區 | 000001 – 000050 |
 | B 區 | 000051 – 000100 |
-| C 區 | 000101 以後（含現場報名者） |
-| D 區 | 現場繳費（尚未繳費者） |
+| C 區 | 000101 以後 |
+| D 區 | 現場繳費、現場報名（現場報名編號自 260001 起） |
 
 ### 試算表標示規則
 
