@@ -31,7 +31,13 @@ All screenshots use fictitious attendee data.
     <td align="center"><img src="assets/screenshots/payment-required.png" alt="Payment required"><br><sub><b>Payment required</b></sub></td>
     <td align="center"><img src="assets/screenshots/already-checked-in.png" alt="Already checked in"><br><sub><b>Already checked in</b></sub></td>
     <td align="center"><img src="assets/screenshots/manual-search.png" alt="Manual search"><br><sub><b>Forgot-QR search</b></sub></td>
-    <td align="center"><img src="assets/screenshots/walk-in.png" alt="Walk-in registration"><br><sub><b>Walk-in registration</b></sub></td>
+    <td align="center"></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screenshots/self-registration.png" alt="Self-service registration form"><br><sub><b>Walk-in self-registration (guest)</b></sub></td>
+    <td align="center"><img src="assets/screenshots/walk-in.png" alt="Walk-in lookup"><br><sub><b>Walk-in lookup (staff)</b></sub></td>
+    <td align="center"></td>
+    <td align="center"></td>
   </tr>
 </table>
 
@@ -55,10 +61,11 @@ Attendees receive a registration pass by email with their QR code, desk assignme
 | **Session handling** | Three conference days plus the banquet; the session is auto-selected from Taipei time and can be overridden |
 | **Banquet mode** | Separate banquet check-in that only admits registered banquet guests; distinct lilac UI |
 | **Desk assignment** | Shows the check-in desk after each scan, assigned by registration ID range (A / B / C) |
-| **Manual check-in** | Four tabs: *Registration ID*, *Forgot QR* (name or email search), *On-site payment*, *Walk-in registration* |
+| **Manual check-in** | Four tabs: *Registration ID*, *Forgot QR* (name or email search), *On-site payment*, *Registration lookup* (walk-ins) |
 | **On-site payment** | Unpaid registrants are found by search, payment is confirmed by staff, and a QR pass is emailed immediately |
-| **Walk-in registration** | Guests not on any list (e.g. invited officials) are registered, checked in and emailed in one step; only a name and an email are required |
-| **Duplicate protection** | Re-scans never create duplicate records; walk-in registration warns on an existing email |
+| **Walk-in self-registration** | Guests not on any list scan a QR code and fill in a bilingual form (`register.html`), collect a receipt number at the counter, then submit; they are registered, checked in and emailed in one step. Only a name and an email are required |
+| **Walk-in lookup** | Staff can confirm a walk-in went through, review the data, and fix an email or resend the QR pass |
+| **Duplicate protection** | Re-scans never create duplicate records; self-registration rejects an existing email |
 | **Audit trail** | Every scan, including failures, is logged with staff name, session and outcome |
 
 ## Architecture
@@ -75,8 +82,8 @@ Attendees receive a registration pass by email with their QR code, desk assignme
                               └─────────────────────┘
 ```
 
-- **Frontend**: one self-contained `index.html` (no build step) served by GitHub Pages.
-- **Backend**: Apps Script web app exposing a single `doPost` JSON endpoint with these actions: `config`, `search`, `checkin`, `notify`, `register`.
+- **Frontend**: a self-contained `index.html` staff app and a public `register.html` walk-in form (no build step), served by GitHub Pages.
+- **Backend**: Apps Script web app exposing a single `doPost` JSON endpoint with these actions: `config`, `search`, `checkin`, `notify`, `walkin_list`, `walkin_resend`, plus the public (no sign-in) `pub_config` and `selfreg` used by the self-registration form.
 - **Storage**: Google Sheets. Paid and unpaid registrations are kept in separate pools; on-site payment and walk-in registration copy or append rows into the main sheets.
 - **Concurrency**: writes run under `LockService`, so two staff members scanning at once cannot corrupt the sheet or double-record a check-in.
 
@@ -111,7 +118,8 @@ Rows created on site are marked in the *Payment* and *Registration status* colum
 
 ```
 .
-├── index.html      # The entire scanner app (HTML, CSS, JS)
+├── index.html      # The staff scanner app (HTML, CSS, JS)
+├── register.html   # Public walk-in self-registration form
 ├── assets/         # Static assets, screenshots and email previews
 └── README.md
 ```
@@ -161,10 +169,11 @@ Developed by **Luz** for the AASVET 2026 organizing committee.
 | 場次管理 | 涵蓋三個會議日與晚宴，依臺北時間自動切換場次，亦可手動調整 |
 | 晚宴報到 | 僅限已登記晚宴者入場，採獨立介面呈現 |
 | 報到櫃檯分流 | 依報名編號指派櫃檯（見下表） |
-| 手動簽到 | 提供「報名編號」「忘記帶 QR」「現場繳費」「現場報名」四種方式 |
+| 手動簽到 | 提供「報名編號」「忘記帶 QR」「現場繳費」「報名查詢」四種方式 |
 | 現場繳費 | 查詢未繳費名單、確認收款後簽到，並即時寄送 QR 報到證 |
-| 現場報名 | 名單以外之來賓（如受邀貴賓）僅須提供姓名與 Email，即可完成登記、簽到並收到報到證 |
-| 重複防護 | 重複掃描不會產生重複紀錄；現場報名遇相同 Email 時會提示確認 |
+| 現場報名 | 名單以外之來賓掃描 QR Code 填寫中英文表單（`register.html`），至櫃檯取得收據編號後填入並送出，即完成登記、簽到並收到報到證；僅須提供姓名與 Email |
+| 報名查詢 | 工作人員可確認現場報名是否成功、核對資料，並於 Email 填錯時修正後重寄 QR 報到證 |
+| 重複防護 | 重複掃描不會產生重複紀錄；現場報名遇相同 Email 時會拒絕重複登記 |
 | 稽核紀錄 | 每次掃描（含失敗）均記錄工作人員、場次與處理結果 |
 
 ### 報到櫃檯分流
@@ -187,7 +196,7 @@ Developed by **Luz** for the AASVET 2026 organizing committee.
 
 ### 系統架構
 
-前端為單一 `index.html`（免建置）；後端為 Apps Script Web App，以單一 `doPost` JSON 介面提供 `config`、`search`、`checkin`、`notify`、`register` 等動作。所有寫入作業皆經 `LockService` 鎖定，避免多人同時操作造成資料重複或錯誤。
+前端為工作人員用的 `index.html` 與公開的 `register.html`（免建置）；後端為 Apps Script Web App，以單一 `doPost` JSON 介面提供 `config`、`search`、`checkin`、`notify`、`walkin_list`、`walkin_resend` 等動作，另有免登入的 `pub_config`、`selfreg` 供現場報名表單使用。所有寫入作業皆經 `LockService` 鎖定，避免多人同時操作造成資料重複或錯誤。
 
 ### 資訊安全
 

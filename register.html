@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="light only">
+<title>現場報名 Walk-in Registration · AASVET 2026</title>
+<style>
+  :root{--beige:#E6E4DD;--ink:#111214;--mute:#6b6a64;--line:#cfccc2;--lime:#CCFF00;--card:#ffffff;--sky:#A9F2F7;--err:#b3261e;--ok:#0b7a43;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:'Helvetica Neue',Arial,'PingFang TC','Microsoft JhengHei',sans-serif;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;background:var(--beige);color:var(--ink);font-family:var(--sans);-webkit-text-size-adjust:100%;}
+  body{min-height:100vh;padding:max(16px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));}
+  .wrap{max-width:520px;margin:0 auto;}
+  .top{display:flex;justify-content:space-between;align-items:center;margin:2px 0 14px;}
+  .brand{font:700 11px var(--mono);letter-spacing:.14em;color:var(--mute);}
+  .lang{border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:7px 14px;font:800 12px var(--mono);letter-spacing:.06em;cursor:pointer;color:var(--ink);}
+  .head{background:linear-gradient(135deg,#F5FFCC 0%,#E6FEFE 100%);border-radius:22px;padding:22px 20px 20px;border:1px solid #d6e3b3;}
+  .pill{display:inline-block;background:var(--ink);color:#fff;border-radius:999px;padding:6px 12px;font:800 11px var(--mono);letter-spacing:.08em;}
+  h1{margin:12px 0 6px;font-size:24px;line-height:1.25;font-weight:900;letter-spacing:-.01em;}
+  .sub{font-size:13px;line-height:1.6;color:#555;font-weight:600;}
+  .steps{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:10px;}
+  .steps li{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.5;font-weight:700;}
+  .steps b{flex:none;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--lime);display:grid;place-items:center;font:900 13px var(--mono);margin-top:1px;}
+  .steps small{display:block;font-weight:600;color:#666;font-size:12.5px;}
+  .card{background:var(--card);border-radius:22px;padding:20px 18px;margin-top:14px;border:1px solid var(--line);}
+  .card h2{margin:0 0 4px;font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px;}
+  .card h2 i{font-style:normal;background:var(--ink);color:var(--lime);border-radius:50%;width:24px;height:24px;display:grid;place-items:center;font:900 12px var(--mono);flex:none;}
+  .hint{font-size:12.5px;color:var(--mute);line-height:1.55;margin:0 0 14px;}
+  label{display:block;font:800 12px var(--mono);letter-spacing:.04em;color:#44433e;margin:14px 0 6px;}
+  label .req{color:var(--err);}
+  label .opt{color:var(--mute);font-weight:600;}
+  input,select{width:100%;font:600 17px var(--sans);color:var(--ink);background:#f6f5f0;border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;outline:none;appearance:none;-webkit-appearance:none;}
+  select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23111' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;}
+  input:focus,select:focus{border-color:var(--ink);background:#fff;}
+  input.bad{border-color:var(--err);background:#fff6f5;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .seg button{border:1.5px solid var(--line);background:#f6f5f0;border-radius:14px;padding:13px 8px;font:800 15px var(--sans);color:var(--ink);cursor:pointer;}
+  .seg button.on{background:var(--ink);color:var(--lime);border-color:var(--ink);}
+  html[lang=en] .en2{display:none;}
+  .hidden{display:none!important;}
+  .hp{position:absolute;left:-9999px;top:-9999px;height:0;width:0;opacity:0;}
+  .recv{background:#FBFFE0;border:2px solid var(--ink);}
+  .recv input{background:#fff;font-size:20px;font-weight:800;letter-spacing:.04em;}
+  .btn{width:100%;margin-top:18px;border:0;border-radius:999px;background:var(--lime);color:#000;font:900 16px var(--sans);letter-spacing:.02em;padding:17px 16px;cursor:pointer;box-shadow:0 0 0 2px var(--ink) inset;}
+  .btn:disabled{opacity:.55;cursor:default;}
+  .btn.ghost{background:transparent;margin-top:10px;font-weight:800;}
+  .msg{margin-top:14px;border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.55;font-weight:700;}
+  .msg.err{background:#fdecea;color:var(--err);}
+  .msg.warn{background:#fff4d6;color:#7a5200;}
+  .foot{text-align:center;margin:22px 0 4px;font:600 11px var(--mono);letter-spacing:.14em;color:#8b8a84;}
+  /* confirm sheet */
+  .sheet{position:fixed;inset:0;background:rgba(17,18,20,.55);display:flex;align-items:flex-end;justify-content:center;z-index:20;padding:0;}
+  .sheet .box{background:#fff;width:100%;max-width:520px;border-radius:24px 24px 0 0;padding:22px 20px max(22px,env(safe-area-inset-bottom));max-height:88vh;overflow:auto;}
+  .sheet h3{margin:0 0 4px;font-size:18px;font-weight:900;}
+  dl{margin:12px 0 0;}
+  dt{font:800 11px var(--mono);color:var(--mute);margin-top:12px;letter-spacing:.04em;}
+  dd{margin:3px 0 0;font-size:16px;font-weight:800;word-break:break-all;}
+  /* success */
+  .done{background:var(--ink);color:#fff;border-radius:22px;padding:26px 20px;margin-top:14px;text-align:center;}
+  .done .ok{display:inline-block;background:var(--lime);color:#000;border-radius:999px;padding:6px 14px;font:900 12px var(--mono);letter-spacing:.08em;}
+  .done .idl{margin-top:18px;font:700 11px var(--mono);letter-spacing:.2em;color:#A9F2F7;}
+  .done .id{font:900 44px var(--mono);letter-spacing:.06em;margin-top:4px;}
+  .done p{margin:14px 0 0;font-size:14.5px;line-height:1.7;font-weight:600;color:#e9e9e4;}
+  .done .desk{margin-top:16px;background:#1f2024;border:1px solid #3a3b40;border-radius:14px;padding:12px;font-size:14px;font-weight:800;}
+  .done .desk b{color:var(--lime);}
+  .done .em{color:var(--lime);font-weight:800;word-break:break-all;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span class="brand">AASVET 2026 · WALK-IN</span><button class="lang" id="langBtn" type="button">EN</button></div>
+
+  <div id="viewLoading" class="card" style="text-align:center;color:var(--mute);font-weight:700;"><span data-i="loading">載入中…</span></div>
+
+  <div id="viewClosed" class="hidden">
+    <div class="head"><span class="pill" data-i="pill">WALK-IN 現場報名</span><h1 data-i="closedT">目前未開放線上填寫</h1><div class="sub" data-i="closedD">請洽報到櫃檯，由工作人員協助您完成現場報名。</div></div>
+  </div>
+
+  <div id="viewForm" class="hidden">
+    <div class="head">
+      <span class="pill" data-i="pill">WALK-IN 現場報名</span>
+      <h1 id="evTitle"></h1>
+      <div class="sub" data-i="sub">請依序完成以下三個步驟</div>
+      <ol class="steps">
+        <li><b>1</b><span><span data-i="s1"></span><small data-i="s1s"></small></span></li>
+        <li><b>2</b><span><span data-i="s2"></span><small data-i="s2s"></small></span></li>
+        <li><b>3</b><span><span data-i="s3"></span><small data-i="s3s"></small></span></li>
+      </ol>
+    </div>
+
+    <form id="f" autocomplete="on" novalidate>
+      <div class="card">
+        <h2><i>1</i><span data-i="c1">報名資料</span></h2>
+        <p class="hint" data-i="c1h">中文姓名與英文姓名至少填一個，Email 必填。</p>
+
+        <label><span data-i="lZh">中文姓名</span> <span class="opt en2">Name (Chinese)</span></label>
+        <input id="nameZh" name="nameZh" autocomplete="off" maxlength="40" inputmode="text">
+        <label><span data-i="lEn">英文姓名</span> <span class="opt en2">Name (English)</span></label>
+        <input id="nameEn" name="nameEn" autocomplete="off" maxlength="80" inputmode="text">
+        <label>EMAIL <span class="req">*</span></label>
+        <input id="email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="120">
+        <p class="hint" style="margin:6px 0 0;" data-i="emH">QR 報到證會寄到這個 Email，請務必確認拼字正確。</p>
+
+        <label><span data-i="lCountry">單位所在地</span> <span class="opt en2">Country / Region</span></label>
+        <select id="country"><option value="Taiwan">Taiwan 台灣</option><option value="Other">Other areas 其他地區</option></select>
+
+        <div class="row2">
+          <div><label>PAPER ID 1 <span class="opt" data-i="opt">（選填）</span></label><input id="p1" inputmode="numeric" maxlength="6" autocomplete="off"></div>
+          <div><label>PAPER ID 2 <span class="opt" data-i="opt">（選填）</span></label><input id="p2" inputmode="numeric" maxlength="6" autocomplete="off"></div>
+        </div>
+
+        <label><span data-i="lBq">是否參加晚宴</span> <span class="opt en2">Banquet</span></label>
+        <div class="seg" id="bqSeg"><button type="button" data-v="No" class="on" data-i="bqNo">不參加 No</button><button type="button" data-v="Yes" data-i="bqYes">參加 Yes</button></div>
+        <div id="dietBox" class="hidden">
+          <label><span data-i="lDiet">飲食偏好</span> <span class="opt en2">Diet</span></label>
+          <select id="diet"><option value="regular">一般 Regular</option><option value="vegetarian">素食 Vegetarian</option><option value="halal">清真 Halal</option></select>
+        </div>
+        <input class="hp" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      </div>
+
+      <div class="card recv">
+        <h2><i>2</i><span data-i="c2">櫃檯收據編號</span></h2>
+        <p class="hint" data-i="c2h">請先到櫃檯完成繳費，領取收據後，將<b>收據編號</b>填在下方並送出。</p>
+        <label><span data-i="lRc">收據編號</span> <span class="opt en2">Receipt No.</span> <span class="req">*</span></label>
+        <input id="receipt" name="receipt" autocomplete="off" autocapitalize="characters" maxlength="30" inputmode="text">
+        <div id="codeBox" class="hidden">
+          <label><span data-i="lCode">櫃檯驗證碼</span> <span class="opt en2">Counter code</span> <span class="req">*</span></label>
+          <input id="code" autocomplete="off" autocapitalize="characters" maxlength="20">
+        </div>
+        <div id="err" class="msg err hidden"></div>
+        <button class="btn" id="goBtn" type="button" data-i="go">確認資料並送出 SUBMIT</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="viewDone" class="hidden"></div>
+
+  <div class="foot">SYSTEM DEVELOPED BY LUZ</div>
+</div>
+
+<div id="sheet" class="sheet hidden" role="dialog" aria-modal="true">
+  <div class="box">
+    <h3 data-i="rvT">請確認您的資料</h3>
+    <div class="hint" data-i="rvH" style="margin:0;">送出後會立即報名並簽到，QR 報到證寄到下方 Email。</div>
+    <dl id="rv"></dl>
+    <button class="btn" id="okBtn" type="button" data-i="rvOk">資料正確，送出 CONFIRM</button>
+    <button class="btn ghost" id="backBtn" type="button" data-i="rvBack">返回修改 Back</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  const API = 'https://script.google.com/macros/s/AKfycbyi5Djr-oNwg6qz01RzhRiKZ-8JxtDqimpShOfRKQfEpy3-vCYp5Ch-gTBQ4GBP3JdVlQ/exec';
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  const T = {
+    zh: {
+      loading:'載入中…', pill:'WALK-IN 現場報名', sub:'請依序完成以下三個步驟',
+      s1:'填寫報名資料', s1s:'請先填寫下方「步驟 1」欄位，先不要送出', s2:'到櫃檯繳費並領取收據編號', s2s:'請保留此頁面，不要關閉', s3:'填入收據編號後送出', s3s:'送出後即完成報名並簽到，QR 報到證會寄到您的 Email',
+      c1:'報名資料', c1h:'中文姓名與英文姓名至少填一個，Email 必填。', lZh:'中文姓名', lEn:'英文姓名', emH:'QR 報到證會寄到這個 Email，請務必確認拼字正確。', lCountry:'單位所在地', opt:'（選填）',
+      lBq:'是否參加晚宴', bqNo:'不參加 No', bqYes:'參加 Yes', lDiet:'飲食偏好',
+      c2:'櫃檯收據編號', c2h:'請先到櫃檯完成繳費，領取收據後，將<b>收據編號</b>填在下方並送出。', lRc:'收據編號', lCode:'櫃檯驗證碼', go:'確認資料並送出 SUBMIT',
+      rvT:'請確認您的資料', rvH:'送出後會立即報名並簽到，QR 報到證寄到下方 Email。', rvOk:'資料正確，送出 CONFIRM', rvBack:'返回修改 Back',
+      closedT:'目前未開放線上填寫', closedD:'請洽報到櫃檯，由工作人員協助您完成現場報名。',
+      name:'姓名', email:'EMAIL', where:'所在地', taiwan:'台灣', other:'其他地區', bq:'晚宴', yes:'參加', no:'不參加', diet:'飲食偏好', rc:'收據編號', pid:'Paper ID',
+      eName:'請至少填寫一個姓名（中文或英文）。', eMail:'請填寫正確的 Email。', eRc:'請填寫櫃檯給您的收據編號。', eCode:'請填寫櫃檯驗證碼。', ePid:'Paper ID 請填 6 位數字或留空。',
+      eNet:'連線逾時或失敗。為避免重複報名，請先向櫃檯人員確認是否已登記成功。', eBusy:'送出中…',
+      okPill:'✦ 報名完成 REGISTERED', idl:'報名編號 REGISTRATION ID', desk:'報到櫃檯', deskTxt:'D區：現場繳費／現場報名',
+      mailOk:'QR 報到證已寄到：', mailNote:'請查看收件匣（含垃圾郵件匣）。若 Email 填錯，請告知櫃檯人員。', checked:'您已完成今日簽到，歡迎入場！', notChecked:'今日尚未開放簽到，活動當天請出示 QR 報到證完成報到。', mailFail:'QR 報到證暫時無法寄出，請洽櫃檯人員協助。'
+    },
+    en: {
+      loading:'Loading…', pill:'WALK-IN REGISTRATION', sub:'Please complete the three steps below',
+      s1:'Fill in your details', s1s:'Complete "Step 1" below, but do not submit yet', s2:'Pay and get a receipt number at the counter', s2s:'Keep this page open', s3:'Enter the receipt number and submit', s3s:'You will be registered and checked in, and your QR pass will be emailed',
+      c1:'Your details', c1h:'Provide at least one name (Chinese or English). Email is required.', lZh:'Chinese name', lEn:'English name', emH:'Your QR pass will be sent to this address. Please double-check the spelling.', lCountry:'Institute location', opt:'(optional)',
+      lBq:'Attending the banquet?', bqNo:'No', bqYes:'Yes', lDiet:'Dietary preference',
+      c2:'Counter receipt', c2h:'Please pay at the counter first. Then enter the <b>receipt number</b> below and submit.', lRc:'Receipt number', lCode:'Counter code', go:'Review & submit',
+      rvT:'Please confirm your details', rvH:'You will be registered and checked in right away. Your QR pass is emailed to the address below.', rvOk:'Looks right — submit', rvBack:'Go back and edit',
+      closedT:'Online form is not open right now', closedD:'Please see the registration counter. Our staff will help you register.',
+      name:'Name', email:'EMAIL', where:'Location', taiwan:'Taiwan', other:'Other areas', bq:'Banquet', yes:'Yes', no:'No', diet:'Diet', rc:'Receipt no.', pid:'Paper ID',
+      eName:'Please enter at least one name (Chinese or English).', eMail:'Please enter a valid email address.', eRc:'Please enter the receipt number from the counter.', eCode:'Please enter the counter code.', ePid:'Paper ID must be 6 digits or left blank.',
+      eNet:'The connection timed out or failed. To avoid a duplicate registration, please ask the counter staff whether it went through.', eBusy:'Submitting…',
+      okPill:'✦ REGISTERED', idl:'REGISTRATION ID', desk:'Check-in desk', deskTxt:'Zone D · On-site Payment / Walk-in',
+      mailOk:'Your QR pass was sent to:', mailNote:'Please check your inbox (and spam folder). If the address is wrong, tell the counter staff.', checked:'You are checked in for today. Welcome!', notChecked:'Check-in is not open yet. Please show your QR pass on the event day.', mailFail:'We could not send your QR pass right now. Please ask the counter staff for help.'
+    }
+  };
+  let lang = (navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
+  try { const s = localStorage.getItem('aasvet_reg_lang'); if (s === 'zh' || s === 'en') lang = s; } catch (e) {}
+  let cfg = null, bq = 'No', busy = false, doneState = null;
+
+  function applyLang() {
+    document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+    document.querySelectorAll('[data-i]').forEach(el => { const v = T[lang][el.getAttribute('data-i')]; if (v != null) el.innerHTML = v; });
+    $('langBtn').textContent = lang === 'zh' ? 'EN' : '中文';
+    if (cfg) $('evTitle').innerHTML = lang === 'zh' ? esc(cfg.eventZh).replace('國際研討會', '<br>國際研討會') : esc(cfg.eventEn);
+    document.title = lang === 'zh' ? '現場報名 · AASVET 2026' : 'Walk-in Registration · AASVET 2026';
+    if (doneState) renderDone(doneState);
+  }
+  $('langBtn').onclick = () => { lang = lang === 'zh' ? 'en' : 'zh'; try { localStorage.setItem('aasvet_reg_lang', lang); } catch (e) {} applyLang(); };
+
+  function show(id) { ['viewLoading', 'viewClosed', 'viewForm', 'viewDone'].forEach(v => $(v).classList.toggle('hidden', v !== id)); window.scrollTo(0, 0); }
+
+  async function call(payload, ms) {
+    const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), ms || 30000);
+    try {
+      const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload), signal: ctl.signal });
+      return await r.json();
+    } finally { clearTimeout(t); }
+  }
+
+  async function boot() {
+    show('viewLoading');
+    try {
+      const j = await call({ action: 'pub_config' }, 25000);
+      cfg = j && j.pub;
+    } catch (e) { cfg = null; }
+    if (!cfg) { cfg = { open: true, needCode: false, eventZh: '第22屆亞洲技職教育國際研討會', eventEn: 'The 22nd AASVET International Conference' }; }
+    $('codeBox').classList.toggle('hidden', !cfg.needCode);
+    applyLang();
+    show(cfg.open ? 'viewForm' : 'viewClosed');
+  }
+
+  document.querySelectorAll('#bqSeg button').forEach(b => b.onclick = () => {
+    bq = b.getAttribute('data-v');
+    document.querySelectorAll('#bqSeg button').forEach(x => x.classList.toggle('on', x === b));
+    $('dietBox').classList.toggle('hidden', bq !== 'Yes');
+  });
+
+  function val() { return { nameZh: $('nameZh').value.trim(), nameEn: $('nameEn').value.trim(), email: $('email').value.trim(), country: $('country').value, banquet: bq, diet: $('diet').value, paperId1: $('p1').value.trim(), paperId2: $('p2').value.trim(), receipt: $('receipt').value.trim(), code: $('code').value.trim() }; }
+  function setErr(msg, fieldId) {
+    const e = $('err'); e.textContent = msg || ''; e.classList.toggle('hidden', !msg);
+    document.querySelectorAll('input.bad').forEach(i => i.classList.remove('bad'));
+    if (fieldId) { const f = $(fieldId); if (f) { f.classList.add('bad'); f.focus({ preventScroll: false }); } }
+  }
+  function validate(v) {
+    const L = T[lang];
+    if (!v.nameZh && !v.nameEn) return [L.eName, 'nameZh'];
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) return [L.eMail, 'email'];
+    if ((v.paperId1 && !/^\d{6}$/.test(v.paperId1)) || (v.paperId2 && !/^\d{6}$/.test(v.paperId2))) return [L.ePid, 'p1'];
+    if (!v.receipt) return [L.eRc, 'receipt'];
+    if (cfg.needCode && !v.code) return [L.eCode, 'code'];
+    return null;
+  }
+  $('goBtn').onclick = () => {
+    const v = val(), bad = validate(v);
+    if (bad) { setErr(bad[0], bad[1]); return; }
+    setErr('');
+    const L = T[lang], row = (k, x) => '<dt>' + esc(k) + '</dt><dd>' + esc(x) + '</dd>';
+    const nm = [v.nameZh, v.nameEn].filter(Boolean).join(' / ');
+    $('rv').innerHTML = row(L.name, nm) + row(L.email, v.email) + row(L.where, v.country === 'Taiwan' ? L.taiwan : L.other) +
+      (v.paperId1 || v.paperId2 ? row(L.pid, [v.paperId1, v.paperId2].filter(Boolean).join(' , ')) : '') +
+      row(L.bq, v.banquet === 'Yes' ? L.yes + (' · ' + $('diet').options[$('diet').selectedIndex].text) : L.no) + row(L.rc, v.receipt);
+    $('sheet').classList.remove('hidden');
+  };
+  $('backBtn').onclick = () => $('sheet').classList.add('hidden');
+
+  $('okBtn').onclick = async () => {
+    if (busy) return; busy = true;
+    const L = T[lang], btn = $('okBtn'); btn.disabled = true; btn.textContent = L.eBusy;
+    const v = val(); v.action = 'selfreg'; v.hp = $('website').value;
+    try {
+      const j = await call(v, 45000);
+      $('sheet').classList.add('hidden');
+      const r = j && j.selfreg;
+      if (!j || !j.ok || !r) { setErr((j && j.message) || L.eNet); }
+      else if (!r.ok) { setErr(r.message || L.eNet, r.field === 'receipt' ? 'receipt' : r.field === 'code' ? 'code' : null); if (r.closed) show('viewClosed'); }
+      else { doneState = r; renderDone(r); show('viewDone'); }
+    } catch (e) {
+      $('sheet').classList.add('hidden'); setErr(T[lang].eNet);
+    }
+    busy = false; btn.disabled = false; btn.textContent = T[lang].rvOk;
+  };
+
+  function renderDone(r) {
+    const L = T[lang];
+    $('viewDone').innerHTML = '<div class="done"><span class="ok">' + L.okPill + '</span>' +
+      '<div class="idl">' + L.idl + '</div><div class="id">' + esc(r.id) + '</div>' +
+      '<div class="desk">' + L.desk + '：<b>' + L.deskTxt + '</b></div>' +
+      '<p>' + (r.checkedIn ? L.checked : L.notChecked) + '</p>' +
+      '<p>' + (r.qrSent ? L.mailOk + '<br><span class="em">' + esc(r.email) + '</span><br><span style="font-size:13px;color:#bdbdb6;">' + L.mailNote + '</span>' : L.mailFail) + '</p></div>';
+  }
+
+  applyLang();
+  boot();
+})();
+</script>
+</body>
+</html>
