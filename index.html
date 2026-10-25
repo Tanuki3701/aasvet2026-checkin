@@ -10158,7 +10158,10 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   
   .hero { padding: 24px 20px 20px; display: flex; flex-direction: column; gap: 12px; }
   .hero-top { display: flex; justify-content: space-between; align-items: flex-start; }
-  .langb { margin-left: auto; font: 800 11px var(--mono); letter-spacing: 0.1em; color: #0f1012; background: var(--lime); border: 0; border-radius: 99px; padding: 6px 12px; cursor: pointer; flex: none; }
+  .langseg { display: inline-flex; align-items: center; flex: none; padding: 2px; border: 1.5px solid rgba(255,255,255,.4); border-radius: 99px; background: rgba(255,255,255,.06); cursor: pointer; font: 800 11px var(--mono); letter-spacing: .06em; color: rgba(255,255,255,.7); }
+  .langseg span { padding: 5px 11px; border-radius: 99px; line-height: 1; }
+  .langseg span.on { background: var(--lime); color: #0f1012; }
+  .hero-right { display: inline-flex; align-items: center; gap: 8px; }
   .badge { display: inline-flex; font: 800 10px var(--mono); letter-spacing: 0.1em; padding: 6px 12px; border-radius: 99px; background: var(--line); color: var(--txt-main); text-transform: uppercase; }
   .badge.live { background: var(--lime); color: #000; box-shadow: 0 0 15px rgba(204,255,0,0.3); }
   .hero h1 { margin: 0; font: 900 26px/1.1 var(--sans); letter-spacing: -0.02em; color: var(--txt-main); }
@@ -10262,7 +10265,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   .scanner-box.off .fake-cam { opacity:.08; }
   .scanner-box .cap { position:absolute; left:0; right:0; bottom:12px; text-align:center; font:700 10px var(--mono); letter-spacing:.18em; color:var(--lime); text-shadow:0 1px 6px #000; }
   .scanner-box.off .cap { display:none; }
-  /* 主次分明：重要欄位用「半透明漸層底 + 漸層外框」（與信件的會場地圖卡片同一套語言），次要欄位維持素色深底、字級較小 */
+  /* 主次分明：重要欄位用「半透明漸層底 + 漸層外框」 (與信件的會場地圖卡片同一套語言)，次要欄位維持素色深底、字級較小 */
   .bento-item.glass { border: 1.5px solid transparent;
     background: linear-gradient(160deg, var(--g1), var(--g2)) padding-box, linear-gradient(#111214, #111214) padding-box, linear-gradient(135deg, var(--b1), var(--b2)) border-box; }
   .bento-item.idc { --g1: rgba(204,255,0,.18); --g2: rgba(79,209,165,.05); --b1: #CCFF00; --b2: #4fd1a5; }
@@ -10361,7 +10364,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   <div class="view" id="v-login">
     <div class="card">
       <div class="hero">
-        <div class="hero-top"><span class="badge" data-i="secure">SYSTEM SECURE</span><button class="langb" type="button" data-lang>EN</button></div>
+        <div class="hero-top"><span class="badge" data-i="secure">SYSTEM SECURE</span><button class="langseg" type="button" data-lang aria-label="Language 語言"><span data-l="zh">中</span><span data-l="en">EN</span></button></div>
         <h1 data-i="portal">Staff Portal</h1>
         <div class="en" data-i="loginSub"></div>
       </div>
@@ -10390,7 +10393,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   <div class="view" id="v-scan">
     <div class="card">
       <div class="hero">
-        <div class="hero-top"><span class="badge live" id="liveBadge" data-i="live">● STAFF LIVE</span><span class="badge name" id="staffName"></span><button class="langb" type="button" data-lang style="margin-left:8px;">EN</button></div>
+        <div class="hero-top"><span class="badge live" id="liveBadge" data-i="live">● STAFF LIVE</span><span class="hero-right"><span class="badge name" id="staffName"></span><button class="langseg" type="button" data-lang aria-label="Language 語言"><span data-l="zh">中</span><span data-l="en">EN</span></button></span></div>
         <div>
           <h1 data-i="h1">AASVET 2026<br>Check-in System</h1>
           <div class="en" id="evt">The 22nd AASVET International Conference</div>
@@ -10456,7 +10459,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
 
 <script>
   // ---------- 連線設定 ----------
-  // 後端網址已內建（本來就公開在與會者信件中）；頁面內沒有任何通行碼，工作人員用自己的「個人碼」登入一次，手機會記住。
+  // 後端網址已內建 (本來就公開在與會者信件中)；頁面內沒有任何通行碼，工作人員用自己的「個人碼」登入一次，手機會記住。
   const DEFAULT_API = 'https://script.google.com/macros/s/AKfycbyi5Djr-oNwg6qz01RzhRiKZ-8JxtDqimpShOfRKQfEpy3-vCYp5Ch-gTBQ4GBP3JdVlQ/exec';
   const LS = { api: 'ck_api', tok: 'ck_tok', user: 'ck_user' };
   const getUser = () => lsGet(LS.user);
@@ -10483,35 +10486,35 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   // ---------- 語言 / Language ----------
   const I18N = {
     zh: {
-      secure:'SYSTEM SECURE', portal:'Staff Portal', loginSub:'請輸入主辦單位提供的帳號與密碼', lblAcc:'帳號（工作人員姓名）', phAcc:'ex. Nova', lblPw:'密碼', eyeLbl:'顯示或隱藏密碼', signin:'AUTHENTICATE · 登入',
+      secure:'SYSTEM SECURE', portal:'Staff Portal', loginSub:'請輸入主辦單位提供的帳號與密碼', lblAcc:'帳號 (工作人員姓名)', phAcc:'ex. Nova', lblPw:'密碼', eyeLbl:'顯示或隱藏密碼', signin:'AUTHENTICATE · 登入',
       loginHint:'登入一次後，這支手機會自動記住 · 密碼不分大小寫',
       live:'● STAFF LIVE', h1:'AASVET 2026<br>Check-in System', cap:'LIVE SCAN · 對準 QR Code 即自動辨識', camOff:'CAMERA OFF',
-      inapp:'偵測到您是在 LINE／Facebook／Instagram 內建瀏覽器開啟，這類瀏覽器常常無法使用相機。請點右下角「⋮」→「用 Safari 開啟」（或 Chrome）。',
+      inapp:'偵測到您是在 LINE／Facebook／Instagram 內建瀏覽器開啟，這類瀏覽器常常無法使用相機。請點右下角「⋮」→「用 Safari 開啟」 (或 Chrome)。',
       camStart:'START CAMERA', camStop:'STOP CAMERA', selSession:'Select Session', bqMode:'晚宴模式', session:'場次', banquetWord:'晚宴',
       manual:'手動報到 · MANUAL CHECK-IN', tabId:'報名編號', tabName:'忘記帶 QR', tabPay:'現場繳費', tabReg:'報名查詢',
       btnLookup:'查詢', btnSearch:'搜尋', phId:'ex. 000123', phName:'ex. 林怡君 / mei@abc.com', phReceipt:'ex. 12345678', logout:'登出 / 換人 · LOGOUT', foot:'SYSTEM DEVELOPED BY LUZ',
-      hId:['報名編號報到', ['掃描失敗時使用', '請輸入完整 6 碼報名編號（例如 000123）']],
-      hName:['忘記帶 QR Code', ['可輸入報名姓名（中、英文皆可）或 Email 的一部分', '英文不必打「-」、不分大小寫', '點選搜尋結果即可報到']],
-      hPay:['現場繳費', ['限「未繳費名單」內的人使用', '輸入報名姓名（中、英文皆可）或 Email 的一部分', '確認本人後收款並報到', '報到櫃檯：D 區']],
-      hReg:['報名查詢（現場報名）', ['來賓自行掃 QR 填寫後，在此確認是否報名成功、核對資料', '可輸入姓名、Email、報名編號或收據編號', '不輸入直接按「查詢」，會列出最新的幾筆', '報到櫃檯：D 區']],
+      hId:['報名編號報到', ['掃描失敗時使用', '請輸入完整 6 碼報名編號 (例如 000123)']],
+      hName:['忘記帶 QR Code', ['可輸入報名姓名 (中、英文皆可) 或 Email 的一部分', '英文不必打「-」、不分大小寫', '點選搜尋結果即可報到']],
+      hPay:['現場繳費', ['限「未繳費名單」內的人使用', '輸入報名姓名 (中、英文皆可) 或 Email 的一部分', '確認本人後收款並報到', '報到櫃檯：D 區']],
+      hReg:['報名查詢 (現場報名)', ['來賓自行掃 QR 填寫後，在此確認是否報名成功、核對資料', '可輸入姓名、Email、報名編號或收據編號', '不輸入直接按「查詢」，會列出最新的幾筆', '報到櫃檯：D 區']],
       lName:'姓名', lDesk:'報到櫃檯', lId:'報名編號', lCountry:'國家', lRegion:'地區', lBq:'晚宴', lDiet:'飲食', lTime:'時間', yes:'是', no:'否', zoneFmt:(z,zh,en)=>z+'區：'+(zh||''),
       tOk:'簽到成功', tOkBq:'晚宴簽到成功', tAlready:'今日已簽到', tAlreadyBq:'晚宴已簽到', tPay:'尚未繳費', tDenied:'未登記晚宴', tScanErr:'掃描錯誤',
       eUnauth:'未授權', eServer:'伺服器錯誤', eConn:'連線錯誤', eCam:'無法使用相機', eIdInc:'編號不完整',
       mUnauth:'帳號或密碼不正確，或此帳號已停用，請重新整理頁面後重新登入。', mServer:'伺服器回應異常', mConn:'無法連線至伺服器，請檢查網路後重新掃描。', mUnknown:'未知錯誤',
-      mCamNo:'此瀏覽器不支援相機，或網址不是 https。', mCamFail:(n,m)=>'無法開啟相機：'+n+' '+m+'\n請確認已允許瀏覽器使用相機（網址列左側的鎖頭／設定），再按「掃下一位」重試。', mNoCam:'找不到相機',
-      mIdInc:'請輸入完整的 6 碼報名編號（例如 000123），以免誤查到他人。',
-      decoded:'已讀取 ›', syncing:'與伺服器同步中…', next:'掃下一位', rcLbl:'收據編號（必填）', rcErr:'請先填寫收據編號', paidBtn:'已收款，確認簽到', cancel:'取消',
+      mCamNo:'此瀏覽器不支援相機，或網址不是 https。', mCamFail:(n,m)=>'無法開啟相機：'+n+' '+m+'\n請確認已允許瀏覽器使用相機 (網址列左側的鎖頭／設定)，再按「掃下一位」重試。', mNoCam:'找不到相機',
+      mIdInc:'請輸入完整的 6 碼報名編號 (例如 000123)，以免誤查到他人。',
+      decoded:'已讀取 ›', syncing:'與伺服器同步中…', next:'掃下一位', rcLbl:'收據編號 (必填)', rcErr:'請先填寫收據編號', paidBtn:'已收款，確認簽到', cancel:'取消',
       pickPay:'請與本人確認姓名與 Email 相符後，按「下一步」進入收款確認。', pickId:'請與本人確認姓名與 Email 相符後，再按「確認簽到」。', btnNext:'下一步：收款', btnConfirm:'確認簽到',
       searching:'搜尋中…', querying:'查詢中…', min2:'請至少輸入 2 個字。', netSearch:'無法連線至伺服器，請檢查網路後重試。', badLogin:'帳號或密碼不正確，請重新整理頁面後重新登入。', badLogin2:'帳號或密碼不正確，請重新登入。',
       noPayFound:'找不到尚未繳費的符合者，請換個關鍵字；已繳費者請改用「忘記帶 QR」。', noFound:'找不到符合的與會者，請換個關鍵字，或改用報名編號。',
       otherUnpaid:n=>'找到 '+n+' 位尚未繳費的符合者，請改用「現場繳費」頁籤。', otherPaid:n=>'找到 '+n+' 位已繳費的符合者，請改用「忘記帶 QR」頁籤。',
       chipBq:'晚宴', chipUnpaid:'未繳費', moreSr:(t,n)=>'共 '+t+' 筆符合，只顯示前 '+n+' 筆，請輸入更多字縮小範圍。',
-      wkNone:'目前還沒有現場報名資料。', wkNoMatch:'查無符合的現場報名資料。若對方剛送出，請稍待幾秒再按一次「查詢」；仍沒有就請對方重新填寫。', wkCount:(q,n,more)=>(q?'符合 ':'最新 ')+n+' 筆'+(more?'（還有更多，請輸入關鍵字縮小範圍）':''), wkFail:'連線逾時或失敗，請再按一次「查詢」。',
+      wkNone:'目前還沒有現場報名資料。', wkNoMatch:'查無符合的現場報名資料。若對方剛送出，請稍待幾秒再按一次「查詢」；仍沒有就請對方重新填寫。', wkCount:(q,n,more)=>(q?'符合 ':'最新 ')+n+' 筆'+(more?'(還有更多，請輸入關鍵字縮小範圍)':''), wkFail:'連線逾時或失敗，請再按一次「查詢」。',
       noName:'(未填姓名)', chkIn:'已簽到', receipt:'收據', noReceipt:'無收據編號', regAt:'報名', notIn:'尚未簽到', qrSent:'QR 信已寄出', qrNot:'QR 信未寄出',
       resend:'重寄 QR 信', editMail:'修正 Email 並重寄', saveMail:'更新 Email 並重寄 QR 信', badMail:'請填寫正確的 Email。', working:'處理中…', failed:'處理失敗，請稍後再試。', failed2:'處理失敗。',
       sentTo:e=>'✓ QR 報到證已寄到 '+e, updNoSend:'已更新，但 QR 信暫時寄不出去，請稍後再按一次。', timeoutSend:'連線逾時或失敗。為避免重複寄送，請先確認對方是否已收到信。',
       sAcc:'帳號或密碼不正確，或此帳號已停用。', sNoServer:'連不上伺服器。請確認網路正常，且 Apps Script 部署的「誰可以存取」為「所有人」。',
-      sUrl:'Web App 網址格式不正確（需以 https://script.google.com/ 開頭、/exec 結尾）。', sUser:'請輸入帳號（工作人員姓名）。', sPw:'請輸入密碼。'
+      sUrl:'Web App 網址格式不正確 (需以 https://script.google.com/ 開頭、/exec 結尾)。', sUser:'請輸入帳號 (工作人員姓名)。', sPw:'請輸入密碼。'
     },
     en: {
       secure:'SYSTEM SECURE', portal:'Staff Portal', loginSub:'Sign in with your staff account', lblAcc:'Account (staff name)', phAcc:'ex. Nova', lblPw:'Password', eyeLbl:'Show or hide password', signin:'Sign in',
@@ -10545,7 +10548,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
       sUrl:'The Web App URL is invalid (it must start with https://script.google.com/ and end with /exec).', sUser:'Please enter your account (staff name).', sPw:'Please enter your password.'
     }
   };
-  // 後端回傳的中文訊息 → 英文（找不到對應就原文顯示）
+  // 後端回傳的中文訊息 → 英文 (找不到對應就原文顯示)
   const MSG_EN = [
     [/^帳號或密碼不正確，或此帳號已停用。?$/, 'Incorrect account or password, or this account is disabled.'],
     [/^此人尚未繳費，請先於現場收款，確認收款後再簽到。$/, 'This person has not paid. Please collect payment on site first, then check in.'],
@@ -10593,7 +10596,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
     document.querySelectorAll('[data-ph]').forEach(el => { el.placeholder = t(el.getAttribute('data-ph')); });
     document.querySelectorAll('[data-aria]').forEach(el => { el.setAttribute('aria-label', t(el.getAttribute('data-aria'))); });
     document.querySelectorAll('[data-hint]').forEach(el => { el.innerHTML = hintHtml(el.getAttribute('data-hint'), el.getAttribute('data-c')); });
-    document.querySelectorAll('[data-lang]').forEach(el => { el.textContent = LANG === 'zh' ? 'EN' : '中文'; });
+    document.querySelectorAll('[data-lang] span').forEach(sp => sp.classList.toggle('on', sp.getAttribute('data-l') === LANG));
     if (typeof CFG !== 'undefined' && CFG) { $('evt').textContent = (LANG === 'zh' ? (CFG.eventZh || CFG.eventEn) : (CFG.eventEn || CFG.eventZh)) || ''; fillSessions(true); }
     if (typeof setCamUi === 'function') setCamUi(!scBox.classList.contains('off'));
     if (typeof SM !== 'undefined') { ['name', 'pay'].forEach(m => { if (SM[m].sr) renderSearch(SM[m].sr, m); }); }
@@ -10625,12 +10628,12 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   const nextBtn = () => '<button class="btn primary" id="nextBtn" type="button" style="margin-top:8px;">' + esc(t('next')) + '</button>';
   function attendeeHtml(a, bq) {
     const bqCls = a.banquet === 'Yes' ? 'glass accent-purple' : (bq ? 'accent-red' : '');
-    // 姓名：有中文姓名時，中文大字 + 英文姓名放第二行（與信件、網頁報到證一致）；舊版後端沒有分開的欄位時退回 a.name
+    // 姓名：有中文姓名時，中文大字 + 英文姓名放第二行 (與信件、網頁報到證一致)；舊版後端沒有分開的欄位時退回 a.name
     const zh = a.nameZh || '', en = a.nameEn || '';
     const nameCell = (zh || en)
       ? { label: t('lName'), value: (LANG === 'en' ? (en || zh) : (zh || en)), value2: zh && en ? (LANG === 'en' ? zh : en) : '', cls: 'nm', vcls: (LANG === 'en' ? en : zh) ? 'big' + (LANG === 'zh' ? ' zh' : '') : 'big zh', full: true }
       : { label: t('lName'), value: a.name, cls: 'nm', vcls: 'big', full: true };
-    // 報到櫃檯：只有白天場次才有（晚宴不需要）
+    // 報到櫃檯：只有白天場次才有 (晚宴不需要)
     const deskCell = (!bq && a.zone) ? { label: t('lDesk'), value: LANG === 'zh' ? a.zone + '區：' + (a.zoneZh || '') : 'Zone ' + a.zone + (a.zoneEn ? ' · ' + a.zoneEn : ''), cls: 'glass desk', full: true } : null;
     return '<div class="bento-grid">' + bentoPack([
       nameCell,
@@ -10752,7 +10755,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   }
 
   // ---------- 第二組辨識引擎 jsQR ----------
-  // html5-qrcode 內建的解碼器對 iPad／iPhone 的畫面不一定穩（尤其 QR 留白少、畫面有摩爾紋時）。
+  // html5-qrcode 內建的解碼器對 iPad／iPhone 的畫面不一定穩 (尤其 QR 留白少、畫面有摩爾紋時)。
   // 這裡額外每 ~120ms 從同一個 <video> 抓一張影格，用 jsQR 再辨識一次；任一個先讀到就送出。
   // jsQR 放在 Web Worker 裡解碼，不佔用主畫面執行緒，掃描線動畫與畫面才不會停頓
   const cvs = document.createElement('canvas'), cctx = cvs.getContext('2d', { willReadFrequently: true });
@@ -10801,7 +10804,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   async function startLive_(auto) {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { showError('eCam', { k: 'mCamNo' }); return; }
     scBox.classList.remove('off');
-    // 不設 qrbox：整個畫面都參與辨識。（自訂 qrbox 會用影片「原始尺寸」去裁切，直立的 iPhone 畫面被 object-fit 裁過之後裁切區會歪掉，導致掃不到）
+    // 不設 qrbox：整個畫面都參與辨識。 (自訂 qrbox 會用影片「原始尺寸」去裁切，直立的 iPhone 畫面被 object-fit 裁過之後裁切區會歪掉，導致掃不到)
     const cfg = { fps: 12, disableFlip: true, videoConstraints: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } } };
     let lastErr = null;
     const attempts = [
@@ -10839,7 +10842,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   $('tabName').addEventListener('click', () => setTab('name'));
   $('tabPay').addEventListener('click', () => setTab('pay'));
   $('tabReg').addEventListener('click', () => setTab('reg'));
-  // ---------- 報名查詢：現場報名（來賓自行掃 QR 填寫）----------
+  // ---------- 報名查詢：現場報名 (來賓自行掃 QR 填寫)----------
   let wkSeq = 0, wkList = [];
   let wkState = null;
   function wkRender() {
@@ -10887,7 +10890,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   });
   $('wkBtn').addEventListener('click', walkinSearch);
   $('wkIn').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); walkinSearch(); } });
-  // 兩個搜尋頁籤共用：mode = 'name'（忘記帶 QR，只列已繳費者）／'pay'（現場繳費，只列未繳費者）
+  // 兩個搜尋頁籤共用：mode = 'name'(忘記帶 QR，只列已繳費者)／'pay'(現場繳費，只列未繳費者)
   const SM = { name: { inp: 'searchIn', res: 'searchRes', list: [], sr: null }, pay: { inp: 'payIn', res: 'payRes', list: [], sr: null } };
   function renderSearch(sr, mode) {
     const m = SM[mode]; m.sr = sr; m.list = (sr && sr.list) || [];
@@ -10922,7 +10925,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   $('searchIn').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch('name'); });
   $('payBtn').addEventListener('click', () => doSearch('pay'));
   $('payIn').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch('pay'); });
-  // 點選結果 → 先顯示完整姓名與 Email，請本人確認後才簽到（現場繳費：確認後進入收款畫面）
+  // 點選結果 → 先顯示完整姓名與 Email，請本人確認後才簽到 (現場繳費：確認後進入收款畫面)
   function onPick(mode) {
     return e => {
       const b = e.target.closest('.sr-item'); if (!b) return;
@@ -10972,7 +10975,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
       $('staffName').textContent = j.staff || '';
       view('scan'); fillSessions();
       resultPane.classList.add('hidden'); scanPane.classList.remove('hidden'); resultIsIdle = true;
-      startLive(true);   // 開頁即自動開相機（若瀏覽器要求，先彈出相機授權）
+      startLive(true);   // 開頁即自動開相機 (若瀏覽器要求，先彈出相機授權)
     } catch (e) {
       showSetup(t('sNoServer'));
     }
@@ -10989,7 +10992,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   $('userIn').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('tokIn').focus(); } });
   function setEye(show) { $('tokIn').type = show ? 'text' : 'password'; $('eyeOn').style.display = show ? '' : 'none'; $('eyeOff').style.display = show ? 'none' : ''; $('eyeBtn').classList.toggle('on', show); $('eyeBtn').setAttribute('aria-pressed', show ? 'true' : 'false'); }
   $('eyeBtn').addEventListener('click', () => setEye($('tokIn').type === 'password'));
-  // 定時喚醒後端（Apps Script 閒置一段時間後第一次呼叫會很慢），保持掃描時反應迅速
+  // 定時喚醒後端 (Apps Script 閒置一段時間後第一次呼叫會很慢)，保持掃描時反應迅速
   setInterval(() => { if ($('v-scan').classList.contains('on') && !document.hidden) api({ action: 'config' }, 15000).catch(() => {}); }, 240000);
   $('resetBtn').addEventListener('click', async () => { await stopLive(); lsDel(LS.tok); if (!DEFAULT_API) lsDel(LS.api); showSetup(''); });
   window.addEventListener('hashchange', () => { readHash(); boot(); });

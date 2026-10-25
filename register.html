@@ -14,7 +14,9 @@
   .wrap{max-width:520px;margin:0 auto;}
   .top{display:flex;justify-content:space-between;align-items:center;margin:2px 0 14px;}
   .brand{font:700 11px var(--mono);letter-spacing:.14em;color:var(--mute);}
-  .lang{border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:7px 14px;font:800 12px var(--mono);letter-spacing:.06em;cursor:pointer;color:var(--ink);}
+  .lang{display:inline-flex;align-items:center;padding:2px;border:2px solid var(--ink);background:rgba(255,255,255,.55);border-radius:999px;font:800 12px var(--mono);letter-spacing:.06em;cursor:pointer;color:var(--ink);}
+  .lang span{padding:6px 13px;border-radius:999px;line-height:1;}
+  .lang span.on{background:var(--ink);color:#CCFF00;}
   .head{background:linear-gradient(135deg,#F5FFCC 0%,#E6FEFE 100%);border-radius:22px;padding:22px 20px 20px;border:1px solid #d6e3b3;}
   .pill{display:inline-block;background:var(--ink);color:#fff;border-radius:999px;padding:6px 12px;font:800 11px var(--mono);letter-spacing:.08em;}
   h1{margin:12px 0 6px;font-size:24px;line-height:1.25;font-weight:900;letter-spacing:-.01em;}
@@ -120,7 +122,7 @@
 <body>
 <div class="bg" aria-hidden="true" id="bg"></div>
 <div class="wrap">
-  <div class="top"><span class="brand" data-i="brand">AASVET 2026 · WALK-IN</span><button class="lang" id="langBtn" type="button">EN</button></div>
+  <div class="top"><span class="brand" data-i="brand">AASVET 2026 · WALK-IN</span><button class="lang" id="langBtn" type="button" aria-label="Language 語言"><span data-l="zh">中</span><span data-l="en">EN</span></button></div>
 
   <div id="viewLoading" class="card" style="text-align:center;color:var(--mute);font-weight:700;"><span data-i="loading">載入中…</span></div>
 
@@ -160,8 +162,8 @@
         <select id="country"><option value="Taiwan" data-i="taiwan">台灣</option><option value="Other" data-i="other">其他地區</option></select>
 
         <div class="row2">
-          <div><label><span>Paper ID 1</span> <span class="opt" data-i="opt">（選填）</span></label><input id="p1" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
-          <div><label><span>Paper ID 2</span> <span class="opt" data-i="opt">（選填）</span></label><input id="p2" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
+          <div><label><span>Paper ID 1</span> <span class="opt" data-i="opt">(選填)</span></label><input id="p1" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
+          <div><label><span>Paper ID 2</span> <span class="opt" data-i="opt">(選填)</span></label><input id="p2" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
         </div>
 
         <input class="hp" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -208,16 +210,16 @@
     zh: {
       brand:'AASVET 2026 · WALK-IN', lMail:'Email', stubL:'✦ CHECK-IN PASS', stubR:'10.28–10.30 · NTUST', foot:'SYSTEM DEVELOPED BY LUZ', loading:'載入中…', pill:'WALK-IN 現場報名', sub:'請依序完成以下三個步驟',
       s1:'填寫報名資料', s1s:'請先填寫下方「步驟 1」欄位，先不要送出', s2:'到櫃檯繳費並領取收據編號', s2s:'請保留此頁面，不要關閉', s3:'填入收據編號後送出', s3s:'送出後即完成報名並簽到，QR 報到證會寄到您的 Email',
-      c1:'報名資料', c1h:'中文姓名與英文姓名至少填一個，Email 必填。', lZh:'中文姓名', lEn:'英文姓名', emH:'QR 報到證會寄到這個 Email，請務必確認拼字正確。', lCountry:'單位所在地', opt:'（選填）',
+      c1:'報名資料', c1h:'中文姓名與英文姓名至少填一個，Email 必填。', lZh:'中文姓名', lEn:'英文姓名', emH:'QR 報到證會寄到這個 Email，請務必確認拼字正確。', lCountry:'單位所在地', opt:'(選填)',
       lBq:'是否參加晚宴', bqNo:'不參加 No', bqYes:'參加 Yes', lDiet:'飲食偏好',
       c2:'櫃檯收據編號', c2h:'請先到櫃檯完成繳費，領取收據後，將<b>收據編號</b>填在下方並送出。', lRc:'收據編號', lCode:'櫃檯驗證碼', go:'確認資料並送出 SUBMIT',
       rvT:'請確認您的資料', rvH:'送出後會立即報名並簽到，QR 報到證寄到下方 Email。', rvOk:'資料正確，送出 CONFIRM', rvBack:'返回修改 Back',
       closedT:'目前未開放線上填寫', closedD:'請洽報到櫃檯，由工作人員協助您完成現場報名。',
       name:'姓名', email:'Email', where:'所在地', taiwan:'台灣', other:'其他地區', bq:'晚宴', yes:'參加', no:'不參加', diet:'飲食偏好', rc:'收據編號', pid:'Paper ID',
-      eName:'請至少填寫一個姓名（中文或英文）。', eMail:'請填寫正確的 Email。', eRc:'請填寫櫃檯給您的收據編號。', eCode:'請填寫櫃檯驗證碼。', ePid:'Paper ID 請填 6 位數字或留空。',
+      eName:'請至少填寫一個姓名 (中文或英文)。', eMail:'請填寫正確的 Email。', eRc:'請填寫櫃檯給您的收據編號。', eCode:'請填寫櫃檯驗證碼。', ePid:'Paper ID 請填 6 位數字或留空。',
       eNet:'連線逾時或失敗。為避免重複報名，請先向櫃檯人員確認是否已登記成功。', eBusy:'送出中…',
       okPill:'✦ 報名完成 REGISTERED', idl:'報名編號 REGISTRATION ID', rtl:'報名時間', desk:'報到櫃檯', deskTxt:'D區：現場繳費／現場報名',
-      mailOk:'QR 報到證已寄到：', mailNote:'請查看收件匣（含垃圾郵件匣）<br>若 Email 填錯，請告知櫃檯人員', checked:'您已完成今日簽到，歡迎入場 (^o^)/', notChecked:'今日尚未開放簽到<br>活動當天請出示 QR 報到證即可報到 (^o^)/', mailFail:'QR 報到證暫時無法寄出，請洽櫃檯人員協助'
+      mailOk:'QR 報到證已寄到：', mailNote:'請查看收件匣 (含垃圾郵件匣)<br>若 Email 填錯，請告知櫃檯人員', checked:'您已完成今日簽到，歡迎入場 (^o^)/', notChecked:'今日尚未開放簽到<br>活動當天請出示 QR 報到證即可報到 (^o^)/', mailFail:'QR 報到證暫時無法寄出，請洽櫃檯人員協助'
     },
     en: {
       brand:'AASVET 2026 · WALK-IN', lMail:'Email', stubL:'✦ CHECK-IN PASS', stubR:'10.28–10.30 · NTUST', foot:'SYSTEM DEVELOPED BY LUZ', loading:'Loading…', pill:'WALK-IN REGISTRATION', sub:'Please complete the three steps below',
@@ -241,7 +243,7 @@
   function applyLang() {
     document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
     document.querySelectorAll('[data-i]').forEach(el => { const v = T[lang][el.getAttribute('data-i')]; if (v != null) el.innerHTML = v; });
-    $('langBtn').textContent = lang === 'zh' ? 'EN' : '中文';
+    document.querySelectorAll('#langBtn span').forEach(sp => sp.classList.toggle('on', sp.getAttribute('data-l') === lang));
     if (cfg) $('evTitle').innerHTML = lang === 'zh' ? esc(cfg.eventZh).replace('國際研討會', '<br>國際研討會') : esc(cfg.eventEn);
     document.title = lang === 'zh' ? '現場報名 · AASVET 2026' : 'Walk-in Registration · AASVET 2026';
     if (doneState) renderDone(doneState);
