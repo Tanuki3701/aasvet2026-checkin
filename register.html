@@ -336,7 +336,23 @@
       '<p>' + (r.qrSent ? L.mailOk + '<br><span class="em">' + esc(r.email) + '</span><br><span style="font-size:13px;color:#55544e;">' + L.mailNote + '</span>' : L.mailFail) + '</p></div></div></div>';
   }
 
-  (function(){ const t='The 22nd AASVET International Conference \u2726 Walk-in Registration \u2726 NTUST Taipei \u2726 ', g=$('bg'); let h=''; for(let i=0;i<8;i++){ h+='<div class="r'+(i%4===1?' lime':(i%4===3?' lav':''))+'"><span>'+(t+t)+'</span><span>'+(t+t)+'</span></div>'; } g.innerHTML=h; })();
+  (function(){
+    const S='\u2726';
+    const rows=[
+      ['THE 22ND AASVET CONFERENCE '+S+' SUSTAINABLE & AI-EMPOWERED '+S+' ','',0.62],
+      ['CONFERENCE ','',1],
+      ['TAIPEI, TAIWAN '+S+' ','lav',0.85],
+      ['AASVET ','lime',1.15],
+      ['NTUST '+S+' 2026 '+S+' ','lav',0.9],
+      ['SUSTAINABLE ','',1],
+      ['WALK-IN '+S+' REGISTRATION '+S+' ','lime',0.85],
+      ['22ND ','lav',1.15],
+      ['AI-EMPOWERED WORKFORCE '+S+' ','',0.7],
+      ['TVET '+S+' 10.28\u201310.30 '+S+' ','lav',0.9]
+    ];
+    let h=''; rows.forEach(r=>{ const t=r[0].repeat(6); h+='<div class="r '+r[1]+'" style="font-size:calc(clamp(64px,13vh,120px)*'+r[2]+')"><span>'+t+'</span><span>'+t+'</span></div>'; });
+    $('bg').innerHTML=h;
+  })();
   applyLang();
   boot();
 })();
