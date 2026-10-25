@@ -10463,7 +10463,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
   const DEFAULT_API = 'https://script.google.com/macros/s/AKfycbyi5Djr-oNwg6qz01RzhRiKZ-8JxtDqimpShOfRKQfEpy3-vCYp5Ch-gTBQ4GBP3JdVlQ/exec';
   const LS = { api: 'ck_api', tok: 'ck_tok', user: 'ck_user' };
   const getUser = () => lsGet(LS.user);
-  const getApi = () => lsGet(LS.api) || DEFAULT_API;
+  const getApi = () => DEFAULT_API || lsGet(LS.api);
   const getTok = () => lsGet(LS.tok);
   function lsGet(k) { try { return localStorage.getItem(k) || ''; } catch (_) { return ''; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
