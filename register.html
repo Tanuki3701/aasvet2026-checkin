@@ -66,9 +66,57 @@
   .done .desk{margin-top:16px;background:#1f2024;border:1px solid #3a3b40;border-radius:14px;padding:12px;font-size:14px;font-weight:800;}
   .done .desk b{color:var(--lime);}
   .done .em{color:var(--lime);font-weight:800;word-break:break-all;}
+
+  /* ===== marquee background ===== */
+  html,body{background:#E4E2DB;}
+  body{position:relative;overflow-x:hidden;}
+  .bg{position:fixed;inset:0;z-index:0;display:flex;flex-direction:column;justify-content:space-around;overflow:hidden;pointer-events:none;background:#E4E2DB;}
+  .bg .r{white-space:nowrap;display:flex;width:max-content;font:900 clamp(64px,13vh,120px)/1 'Arial Black','Helvetica Neue',Arial,sans-serif;letter-spacing:-.02em;color:#ECE9E3;-webkit-text-stroke:2px #CFCCC3;text-transform:uppercase;animation:mq 46s linear infinite;}
+  .bg .r span{padding-right:.6em;}
+  .bg .r:nth-child(even){animation-direction:reverse;animation-duration:58s;}
+  .bg .r:nth-child(3n){animation-duration:70s;}
+  .bg .r.lime{color:#DCE6A6;-webkit-text-stroke:2px #C9D58A;}
+  @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.bg .r{animation:none;}}
+  .wrap{position:relative;z-index:1;}
+  /* ===== ticket ===== */
+  .tk{position:relative;margin-top:14px;filter:drop-shadow(0 6px 14px rgba(40,40,30,.14));}
+  .tk>.in{background:linear-gradient(135deg,#F5FFCC 0%,#EAFBF0 55%,#E6FEFE 100%);padding:20px 18px;
+    -webkit-mask:radial-gradient(circle 12px at 0 var(--n,100%),#0000 97%,#000) left/51% 100% no-repeat,radial-gradient(circle 12px at 100% var(--n,100%),#0000 97%,#000) right/51% 100% no-repeat;
+            mask:radial-gradient(circle 12px at 0 var(--n,100%),#0000 97%,#000) left/51% 100% no-repeat,radial-gradient(circle 12px at 100% var(--n,100%),#0000 97%,#000) right/51% 100% no-repeat;}
+  .tk.top>.in{border-radius:24px 24px 0 0;}
+  .tk.mid>.in{border-radius:0;}
+  .tk.bot>.in{border-radius:0 0 24px 24px;}
+  .tk.one>.in{border-radius:24px;}
+  .tk.white>.in{background:#fff;}
+  .tk.recv>.in{background:linear-gradient(135deg,#F3FFB8 0%,#E6FEFE 100%);}
+  .perf{position:absolute;left:18px;right:18px;border-top:2px dashed #BFD77A;pointer-events:none;}
+  .sym{display:grid;grid-template-columns:repeat(2,44px);gap:8px;flex:none;}
+  .sym i{display:grid;place-items:center;height:44px;}
+  .sym .a{background:#111214;border-radius:14px;}
+  .sym .b{background:#D9FF4F;border-radius:50%;}
+  .sym .c{background:#B6EFF5;border-radius:50% 50% 8px 50%;}
+  .sym .d{border:5px solid #111214;border-radius:50%;}
+  .dots{display:flex;gap:6px;margin-top:14px;}
+  .dots u{display:block;height:14px;border-radius:7px 7px 7px 2px;background:#9DEBFF;}
+  .headrow{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .stub{display:flex;justify-content:space-between;align-items:center;font:800 11px var(--mono);letter-spacing:.12em;color:#4d4c46;padding-top:6px;}
+  .stub b{background:#111214;color:#CCFF00;border-radius:999px;padding:5px 10px;font-weight:900;}
+  .tk .card{background:none;border:0;border-radius:0;padding:0;margin:0;}
+  .head{background:none;border:0;padding:0;border-radius:0;}
+  .recv{background:none;border:0;}
+  .done.tkd{background:none;color:var(--ink);padding:0;margin:0;text-align:center;}
+  .tkd .ok{background:#111214;color:#CCFF00;border-radius:999px;padding:6px 14px;font:900 12px var(--mono);letter-spacing:.08em;display:inline-block;}
+  .tkd .idl{color:#4d4c46;margin-top:16px;font:800 11px var(--mono);letter-spacing:.2em;}
+  .tkd .id{font:900 46px var(--mono);letter-spacing:.06em;margin:2px 0 0;}
+  .tkd p{color:#2a2a28;font-size:14.5px;line-height:1.75;margin:12px 0 0;font-weight:700;}
+  .tkd .desk{background:#fff;border:2px solid #111214;color:#111;}
+  .tkd .desk b{color:#111;background:#CCFF00;padding:2px 8px;border-radius:999px;}
+  .tkd .em{color:#0b5d9b;}
 </style>
 </head>
 <body>
+<div class="bg" aria-hidden="true" id="bg"></div>
 <div class="wrap">
   <div class="top"><span class="brand">AASVET 2026 · WALK-IN</span><button class="lang" id="langBtn" type="button">EN</button></div>
 
@@ -79,19 +127,22 @@
   </div>
 
   <div id="viewForm" class="hidden">
-    <div class="head">
-      <span class="pill" data-i="pill">WALK-IN 現場報名</span>
-      <h1 id="evTitle"></h1>
-      <div class="sub" data-i="sub">請依序完成以下三個步驟</div>
-      <ol class="steps">
-        <li><b>1</b><span><span data-i="s1"></span><small data-i="s1s"></small></span></li>
-        <li><b>2</b><span><span data-i="s2"></span><small data-i="s2s"></small></span></li>
-        <li><b>3</b><span><span data-i="s3"></span><small data-i="s3s"></small></span></li>
-      </ol>
-    </div>
+    <div class="tk top" style="--n:calc(100% - 52px)"><div class="in">
+      <div class="head">
+        <div class="headrow"><div><span class="pill" data-i="pill">WALK-IN 現場報名</span><h1 id="evTitle"></h1><div class="sub" data-i="sub">請依序完成以下三個步驟</div></div><div class="sym"><i class="a"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z" fill="#A9F2F7"/></svg></i><i class="b"></i><i class="c"></i><i class="d"></i></div></div>
+        <div class="dots"><u style="width:26px;background:#9DEBFF"></u><u style="width:54px;background:#B6EFF5"></u><u style="width:28px;border-radius:50%;background:#111214"></u><u style="width:26px"></u><u style="width:80px;background:#DAD8D1"></u></div>
+        <ol class="steps">
+          <li><b>1</b><span><span data-i="s1"></span><small data-i="s1s"></small></span></li>
+          <li><b>2</b><span><span data-i="s2"></span><small data-i="s2s"></small></span></li>
+          <li><b>3</b><span><span data-i="s3"></span><small data-i="s3s"></small></span></li>
+        </ol>
+      </div>
+      <div class="perf" style="bottom:52px"></div>
+      <div class="stub" style="margin-top:36px"><span>✦ CHECK-IN PASS</span><b>10.28–10.30 · NTUST</b></div>
+    </div></div>
 
     <form id="f" autocomplete="on" novalidate>
-      <div class="card">
+      <div class="tk mid white" style="--n:-40px"><div class="in"><div class="card">
         <h2><i>1</i><span data-i="c1">報名資料</span></h2>
         <p class="hint" data-i="c1h">中文姓名與英文姓名至少填一個，Email 必填。</p>
 
@@ -118,9 +169,9 @@
           <select id="diet"><option value="regular">一般 Regular</option><option value="vegetarian">素食 Vegetarian</option><option value="halal">清真 Halal</option></select>
         </div>
         <input class="hp" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      </div>
+      </div></div></div>
 
-      <div class="card recv">
+      <div class="tk bot recv" style="--n:0px"><div class="in"><div class="perf" style="top:0"></div><div class="card recv" style="padding-top:14px">
         <h2><i>2</i><span data-i="c2">櫃檯收據編號</span></h2>
         <p class="hint" data-i="c2h">請先到櫃檯完成繳費，領取收據後，將<b>收據編號</b>填在下方並送出。</p>
         <label><span data-i="lRc">收據編號</span> <span class="opt en2">Receipt No.</span> <span class="req">*</span></label>
@@ -131,7 +182,7 @@
         </div>
         <div id="err" class="msg err hidden"></div>
         <button class="btn" id="goBtn" type="button" data-i="go">確認資料並送出 SUBMIT</button>
-      </div>
+      </div></div></div>
     </form>
   </div>
 
@@ -276,13 +327,14 @@
 
   function renderDone(r) {
     const L = T[lang];
-    $('viewDone').innerHTML = '<div class="done"><span class="ok">' + L.okPill + '</span>' +
+    $('viewDone').innerHTML = '<div class="tk one" style="--n:-40px"><div class="in"><div class="done tkd"><div class="sym" style="margin:0 auto 12px;width:max-content"><i class="a"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z" fill="#A9F2F7"/></svg></i><i class="b"></i><i class="c"></i><i class="d"></i></div><span class="ok">' + L.okPill + '</span>' +
       '<div class="idl">' + L.idl + '</div><div class="id">' + esc(r.id) + '</div>' +
       '<div class="desk">' + L.desk + '：<b>' + L.deskTxt + '</b></div>' +
       '<p>' + (r.checkedIn ? L.checked : L.notChecked) + '</p>' +
-      '<p>' + (r.qrSent ? L.mailOk + '<br><span class="em">' + esc(r.email) + '</span><br><span style="font-size:13px;color:#bdbdb6;">' + L.mailNote + '</span>' : L.mailFail) + '</p></div>';
+      '<p>' + (r.qrSent ? L.mailOk + '<br><span class="em">' + esc(r.email) + '</span><br><span style="font-size:13px;color:#55544e;">' + L.mailNote + '</span>' : L.mailFail) + '</p></div></div></div>';
   }
 
+  (function(){ const t='The 22nd AASVET International Conference \u2726 Walk-in Registration \u2726 NTUST Taipei \u2726 ', g=$('bg'); let h=''; for(let i=0;i<8;i++){ h+='<div class="r'+(i%4===1?' lime':'')+'"><span>'+(t+t)+'</span><span>'+(t+t)+'</span></div>'; } g.innerHTML=h; })();
   applyLang();
   boot();
 })();
