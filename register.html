@@ -222,7 +222,7 @@
       name:'姓名', email:'EMAIL', where:'所在地', taiwan:'台灣', other:'其他地區', bq:'晚宴', yes:'參加', no:'不參加', diet:'飲食偏好', rc:'收據編號', pid:'Paper ID',
       eName:'請至少填寫一個姓名（中文或英文）。', eMail:'請填寫正確的 Email。', eRc:'請填寫櫃檯給您的收據編號。', eCode:'請填寫櫃檯驗證碼。', ePid:'Paper ID 請填 6 位數字或留空。',
       eNet:'連線逾時或失敗。為避免重複報名，請先向櫃檯人員確認是否已登記成功。', eBusy:'送出中…',
-      okPill:'✦ 報名完成 REGISTERED', idl:'報名編號 REGISTRATION ID', desk:'報到櫃檯', deskTxt:'D區：現場繳費／現場報名',
+      okPill:'✦ 報名完成 REGISTERED', idl:'報名編號 REGISTRATION ID', rtl:'報名時間', desk:'報到櫃檯', deskTxt:'D區：現場繳費／現場報名',
       mailOk:'QR 報到證已寄到：', mailNote:'請查看收件匣（含垃圾郵件匣）<br>若 Email 填錯，請告知櫃檯人員', checked:'您已完成今日簽到，歡迎入場 (^o^)/', notChecked:'今日尚未開放簽到<br>活動當天請出示 QR 報到證即可報到 (^o^)/', mailFail:'QR 報到證暫時無法寄出，請洽櫃檯人員協助'
     },
     en: {
@@ -236,7 +236,7 @@
       name:'Name', email:'EMAIL', where:'Location', taiwan:'Taiwan', other:'Other areas', bq:'Banquet', yes:'Yes', no:'No', diet:'Diet', rc:'Receipt no.', pid:'Paper ID',
       eName:'Please enter at least one name (Chinese or English).', eMail:'Please enter a valid email address.', eRc:'Please enter the receipt number from the counter.', eCode:'Please enter the counter code.', ePid:'Paper ID must be 6 digits or left blank.',
       eNet:'The connection timed out or failed. To avoid a duplicate registration, please ask the counter staff whether it went through.', eBusy:'Submitting…',
-      okPill:'✦ REGISTERED', idl:'REGISTRATION ID', desk:'Check-in desk', deskTxt:'Zone D · On-site Payment / Walk-in',
+      okPill:'✦ REGISTERED', idl:'REGISTRATION ID', rtl:'Registered at', desk:'Check-in desk', deskTxt:'Zone D · On-site Payment / Walk-in',
       mailOk:'Your QR pass was sent to:', mailNote:'Please check your inbox (and spam folder)<br>If the address is wrong, please tell the counter staff', checked:'You are checked in for today, welcome (^o^)/', notChecked:'Check-in is not open yet<br>Please show your QR pass on the event day (^o^)/', mailFail:'We could not send your QR pass right now, please ask the counter staff for help'
     }
   };
@@ -331,6 +331,7 @@
     const L = T[lang];
     $('viewDone').innerHTML = '<div class="tk one" style="--n:-40px"><div class="in"><div class="done tkd"><div class="sym" style="margin:0 auto 12px;width:max-content"><i class="a"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z" fill="#A9F2F7"/></svg></i><i class="b"></i><i class="c"></i><i class="d"></i></div><span class="ok">' + L.okPill + '</span>' +
       '<div class="idl">' + L.idl + '</div><div class="id">' + esc(r.id) + '</div>' +
+      (r.regTime ? '<div style="font-size:13px;color:#55544e;margin:-4px 0 12px;">' + L.rtl + '：' + esc(r.regTime) + '</div>' : '') +
       '<div class="desk">' + L.desk + '：<b>' + L.deskTxt + '</b></div>' +
       '<p>' + (r.checkedIn ? L.checked : L.notChecked) + '</p>' +
       '<p>' + (r.qrSent ? L.mailOk + '<br><span class="em">' + esc(r.email) + '</span><br><span style="font-size:13px;color:#55544e;">' + L.mailNote + '</span>' : L.mailFail) + '</p></div></div></div>';
