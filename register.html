@@ -120,7 +120,7 @@
 <body>
 <div class="bg" aria-hidden="true" id="bg"></div>
 <div class="wrap">
-  <div class="top"><span class="brand">AASVET 2026 · WALK-IN</span><button class="lang" id="langBtn" type="button">EN</button></div>
+  <div class="top"><span class="brand" data-i="brand">AASVET 2026 · WALK-IN</span><button class="lang" id="langBtn" type="button">EN</button></div>
 
   <div id="viewLoading" class="card" style="text-align:center;color:var(--mute);font-weight:700;"><span data-i="loading">載入中…</span></div>
 
@@ -140,7 +140,7 @@
         </ol>
       </div>
       <div class="perf" style="bottom:52px"></div>
-      <div class="stub" style="margin-top:36px"><span>✦ CHECK-IN PASS</span><b>10.28–10.30 · NTUST</b></div>
+      <div class="stub" style="margin-top:36px"><span data-i="stubL">✦ 報到證</span><b data-i="stubR">10.28–10.30 · 台科大</b></div>
     </div></div>
 
     <form id="f" autocomplete="on" novalidate>
@@ -148,20 +148,20 @@
         <h2><i>1</i><span data-i="c1">報名資料</span></h2>
         <p class="hint" data-i="c1h">中文姓名與英文姓名至少填一個，Email 必填。</p>
 
-        <label><span data-i="lZh">中文姓名</span> <span class="opt en2">Name (Chinese)</span></label>
+        <label><span data-i="lZh">中文姓名</span></label>
         <input id="nameZh" placeholder="ex. 林怡君" name="nameZh" autocomplete="off" maxlength="40" inputmode="text">
-        <label><span data-i="lEn">英文姓名</span> <span class="opt en2">Name (English)</span></label>
+        <label><span data-i="lEn">英文姓名</span></label>
         <input id="nameEn" placeholder="ex. Mei-Ling Lin" name="nameEn" autocomplete="off" maxlength="80" inputmode="text">
-        <label>EMAIL <span class="req">*</span></label>
+        <label><span data-i="lMail">Email</span> <span class="req">*</span></label>
         <input id="email" placeholder="ex. mei@abc.com" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="120">
         <p class="hint" style="margin:6px 0 0;" data-i="emH">QR 報到證會寄到這個 Email，請務必確認拼字正確。</p>
 
-        <label><span data-i="lCountry">單位所在地</span> <span class="opt en2">Country / Region</span></label>
-        <select id="country"><option value="Taiwan">Taiwan 台灣</option><option value="Other">Other areas 其他地區</option></select>
+        <label><span data-i="lCountry">單位所在地</span></label>
+        <select id="country"><option value="Taiwan" data-i="taiwan">台灣</option><option value="Other" data-i="other">其他地區</option></select>
 
         <div class="row2">
-          <div><label>PAPER ID 1 <span class="opt" data-i="opt">（選填）</span></label><input id="p1" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
-          <div><label>PAPER ID 2 <span class="opt" data-i="opt">（選填）</span></label><input id="p2" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
+          <div><label><span>Paper ID 1</span> <span class="opt" data-i="opt">（選填）</span></label><input id="p1" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
+          <div><label><span>Paper ID 2</span> <span class="opt" data-i="opt">（選填）</span></label><input id="p2" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
         </div>
 
         <input class="hp" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -170,10 +170,10 @@
       <div class="tk bot recv" style="--n:0px"><div class="in"><div class="perf" style="top:0"></div><div class="card recv" style="padding-top:14px">
         <h2><i>2</i><span data-i="c2">櫃檯收據編號</span></h2>
         <p class="hint" data-i="c2h">請先到櫃檯完成繳費，領取收據後，將<b>收據編號</b>填在下方並送出。</p>
-        <label><span data-i="lRc">收據編號</span> <span class="opt en2">Receipt No.</span> <span class="req">*</span></label>
+        <label><span data-i="lRc">收據編號</span> <span class="req">*</span></label>
         <input id="receipt" placeholder="ex. 12345678" name="receipt" autocomplete="off" autocapitalize="characters" maxlength="30" inputmode="text">
         <div id="codeBox" class="hidden">
-          <label><span data-i="lCode">櫃檯驗證碼</span> <span class="opt en2">Counter code</span> <span class="req">*</span></label>
+          <label><span data-i="lCode">櫃檯驗證碼</span> <span class="req">*</span></label>
           <input id="code" autocomplete="off" autocapitalize="characters" maxlength="20">
         </div>
         <div id="err" class="msg err hidden"></div>
@@ -184,7 +184,7 @@
 
   <div id="viewDone" class="hidden"></div>
 
-  <div class="foot">SYSTEM DEVELOPED BY LUZ</div>
+  <div class="foot" data-i="foot">系統開發：Luz</div>
 </div>
 
 <div id="sheet" class="sheet hidden" role="dialog" aria-modal="true">
@@ -206,28 +206,28 @@
 
   const T = {
     zh: {
-      loading:'載入中…', pill:'WALK-IN 現場報名', sub:'請依序完成以下三個步驟',
+      brand:'AASVET 2026 · 現場報名', lMail:'Email', stubL:'✦ 報到證', stubR:'10.28–10.30 · 台科大', foot:'系統開發：Luz', loading:'載入中…', pill:'現場報名', sub:'請依序完成以下三個步驟',
       s1:'填寫報名資料', s1s:'請先填寫下方「步驟 1」欄位，先不要送出', s2:'到櫃檯繳費並領取收據編號', s2s:'請保留此頁面，不要關閉', s3:'填入收據編號後送出', s3s:'送出後即完成報名並簽到，QR 報到證會寄到您的 Email',
       c1:'報名資料', c1h:'中文姓名與英文姓名至少填一個，Email 必填。', lZh:'中文姓名', lEn:'英文姓名', emH:'QR 報到證會寄到這個 Email，請務必確認拼字正確。', lCountry:'單位所在地', opt:'（選填）',
       lBq:'是否參加晚宴', bqNo:'不參加 No', bqYes:'參加 Yes', lDiet:'飲食偏好',
-      c2:'櫃檯收據編號', c2h:'請先到櫃檯完成繳費，領取收據後，將<b>收據編號</b>填在下方並送出。', lRc:'收據編號', lCode:'櫃檯驗證碼', go:'確認資料並送出 SUBMIT',
-      rvT:'請確認您的資料', rvH:'送出後會立即報名並簽到，QR 報到證寄到下方 Email。', rvOk:'資料正確，送出 CONFIRM', rvBack:'返回修改 Back',
+      c2:'櫃檯收據編號', c2h:'請先到櫃檯完成繳費，領取收據後，將<b>收據編號</b>填在下方並送出。', lRc:'收據編號', lCode:'櫃檯驗證碼', go:'確認資料並送出',
+      rvT:'請確認您的資料', rvH:'送出後會立即報名並簽到，QR 報到證寄到下方 Email。', rvOk:'資料正確，送出', rvBack:'返回修改',
       closedT:'目前未開放線上填寫', closedD:'請洽報到櫃檯，由工作人員協助您完成現場報名。',
-      name:'姓名', email:'EMAIL', where:'所在地', taiwan:'台灣', other:'其他地區', bq:'晚宴', yes:'參加', no:'不參加', diet:'飲食偏好', rc:'收據編號', pid:'Paper ID',
+      name:'姓名', email:'Email', where:'所在地', taiwan:'台灣', other:'其他地區', bq:'晚宴', yes:'參加', no:'不參加', diet:'飲食偏好', rc:'收據編號', pid:'Paper ID',
       eName:'請至少填寫一個姓名（中文或英文）。', eMail:'請填寫正確的 Email。', eRc:'請填寫櫃檯給您的收據編號。', eCode:'請填寫櫃檯驗證碼。', ePid:'Paper ID 請填 6 位數字或留空。',
       eNet:'連線逾時或失敗。為避免重複報名，請先向櫃檯人員確認是否已登記成功。', eBusy:'送出中…',
-      okPill:'✦ 報名完成 REGISTERED', idl:'報名編號 REGISTRATION ID', rtl:'報名時間', desk:'報到櫃檯', deskTxt:'D區：現場繳費／現場報名',
+      okPill:'✦ 報名完成', idl:'報名編號', rtl:'報名時間', desk:'報到櫃檯', deskTxt:'D區：現場繳費／現場報名',
       mailOk:'QR 報到證已寄到：', mailNote:'請查看收件匣（含垃圾郵件匣）<br>若 Email 填錯，請告知櫃檯人員', checked:'您已完成今日簽到，歡迎入場 (^o^)/', notChecked:'今日尚未開放簽到<br>活動當天請出示 QR 報到證即可報到 (^o^)/', mailFail:'QR 報到證暫時無法寄出，請洽櫃檯人員協助'
     },
     en: {
-      loading:'Loading…', pill:'WALK-IN REGISTRATION', sub:'Please complete the three steps below',
+      brand:'AASVET 2026 · WALK-IN', lMail:'Email', stubL:'✦ CHECK-IN PASS', stubR:'10.28–10.30 · NTUST', foot:'SYSTEM DEVELOPED BY LUZ', loading:'Loading…', pill:'WALK-IN REGISTRATION', sub:'Please complete the three steps below',
       s1:'Fill in your details', s1s:'Complete "Step 1" below, but do not submit yet', s2:'Pay and get a receipt number at the counter', s2s:'Keep this page open', s3:'Enter the receipt number and submit', s3s:'You will be registered and checked in, and your QR pass will be emailed',
       c1:'Your details', c1h:'Provide at least one name (Chinese or English). Email is required.', lZh:'Chinese name', lEn:'English name', emH:'Your QR pass will be sent to this address. Please double-check the spelling.', lCountry:'Institute location', opt:'(optional)',
       lBq:'Attending the banquet?', bqNo:'No', bqYes:'Yes', lDiet:'Dietary preference',
       c2:'Counter receipt', c2h:'Please pay at the counter first. Then enter the <b>receipt number</b> below and submit.', lRc:'Receipt number', lCode:'Counter code', go:'Review & submit',
       rvT:'Please confirm your details', rvH:'You will be registered and checked in right away. Your QR pass is emailed to the address below.', rvOk:'Looks right — submit', rvBack:'Go back and edit',
       closedT:'Online form is not open right now', closedD:'Please see the registration counter. Our staff will help you register.',
-      name:'Name', email:'EMAIL', where:'Location', taiwan:'Taiwan', other:'Other areas', bq:'Banquet', yes:'Yes', no:'No', diet:'Diet', rc:'Receipt no.', pid:'Paper ID',
+      name:'Name', email:'Email', where:'Location', taiwan:'Taiwan', other:'Other areas', bq:'Banquet', yes:'Yes', no:'No', diet:'Diet', rc:'Receipt no.', pid:'Paper ID',
       eName:'Please enter at least one name (Chinese or English).', eMail:'Please enter a valid email address.', eRc:'Please enter the receipt number from the counter.', eCode:'Please enter the counter code.', ePid:'Paper ID must be 6 digits or left blank.',
       eNet:'The connection timed out or failed. To avoid a duplicate registration, please ask the counter staff whether it went through.', eBusy:'Submitting…',
       okPill:'✦ REGISTERED', idl:'REGISTRATION ID', rtl:'Registered at', desk:'Check-in desk', deskTxt:'Zone D · On-site Payment / Walk-in',
@@ -245,6 +245,7 @@
     if (cfg) $('evTitle').innerHTML = lang === 'zh' ? esc(cfg.eventZh).replace('國際研討會', '<br>國際研討會') : esc(cfg.eventEn);
     document.title = lang === 'zh' ? '現場報名 · AASVET 2026' : 'Walk-in Registration · AASVET 2026';
     if (doneState) renderDone(doneState);
+    buildBg();
   }
   $('langBtn').onclick = () => { lang = lang === 'zh' ? 'en' : 'zh'; try { localStorage.setItem('aasvet_reg_lang', lang); } catch (e) {} applyLang(); };
 
@@ -325,23 +326,34 @@
       '<p>' + (r.qrSent ? L.mailOk + '<br><span class="em">' + esc(r.email) + '</span><br><span style="font-size:13px;color:#55544e;">' + L.mailNote + '</span>' : L.mailFail) + '</p></div></div></div>';
   }
 
-  (function(){
-    const S='\u2726';
-    const rows=[
-      ['THE 22ND AASVET CONFERENCE '+S+' SUSTAINABLE & AI-EMPOWERED '+S+' ','',0.62],
-      ['CONFERENCE ','',1],
-      ['TAIPEI, TAIWAN '+S+' ','lav',0.85],
-      ['AASVET ','lime',1.15],
-      ['NTUST '+S+' 2026 '+S+' ','lav',0.9],
-      ['SUSTAINABLE ','',1],
-      ['WALK-IN '+S+' REGISTRATION '+S+' ','lime',0.85],
-      ['22ND ','lav',1.15],
-      ['AI-EMPOWERED WORKFORCE '+S+' ','',0.7],
-      ['TVET '+S+' 10.28\u201310.30 '+S+' ','lav',0.9]
+  function buildBg() {
+    const S = '\u2726';
+    const rows = lang === 'zh' ? [
+      ['第22屆亞洲技職教育國際研討會 ' + S + ' 永續與AI賦能 ' + S + ' ', '', 0.62],
+      ['國際研討會 ', '', 1],
+      ['台北．台灣 ' + S + ' ', 'lav', 0.85],
+      ['AASVET ', 'lime', 1.15],
+      ['台科大 ' + S + ' 2026 ' + S + ' ', 'lav', 0.9],
+      ['永續發展 ', '', 1],
+      ['現場報名 ' + S + ' 歡迎蒞臨 ' + S + ' ', 'lime', 0.85],
+      ['第22屆 ', 'lav', 1.15],
+      ['AI賦能的未來職場 ' + S + ' ', '', 0.7],
+      ['技職教育 ' + S + ' 10.28\u201310.30 ' + S + ' ', 'lav', 0.9]
+    ] : [
+      ['THE 22ND AASVET CONFERENCE ' + S + ' SUSTAINABLE & AI-EMPOWERED ' + S + ' ', '', 0.62],
+      ['CONFERENCE ', '', 1],
+      ['TAIPEI, TAIWAN ' + S + ' ', 'lav', 0.85],
+      ['AASVET ', 'lime', 1.15],
+      ['NTUST ' + S + ' 2026 ' + S + ' ', 'lav', 0.9],
+      ['SUSTAINABLE ', '', 1],
+      ['WALK-IN ' + S + ' REGISTRATION ' + S + ' ', 'lime', 0.85],
+      ['22ND ', 'lav', 1.15],
+      ['AI-EMPOWERED WORKFORCE ' + S + ' ', '', 0.7],
+      ['TVET ' + S + ' 10.28\u201310.30 ' + S + ' ', 'lav', 0.9]
     ];
-    let h=''; rows.forEach(r=>{ const t=r[0].repeat(6); h+='<div class="r '+r[1]+'" style="font-size:calc(clamp(64px,13vh,120px)*'+r[2]+')"><span>'+t+'</span><span>'+t+'</span></div>'; });
-    $('bg').innerHTML=h;
-  })();
+    let h = ''; rows.forEach(r => { const t = r[0].repeat(6); h += '<div class="r ' + r[1] + '" style="font-size:calc(clamp(64px,13vh,120px)*' + r[2] + ')"><span>' + t + '</span><span>' + t + '</span></div>'; });
+    $('bg').innerHTML = h;
+  }
   applyLang();
   boot();
 })();
