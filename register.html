@@ -206,17 +206,17 @@
 
   const T = {
     zh: {
-      brand:'AASVET 2026 · 現場報名', lMail:'Email', stubL:'✦ 報到證', stubR:'10.28–10.30 · 台科大', foot:'系統開發：Luz', loading:'載入中…', pill:'現場報名', sub:'請依序完成以下三個步驟',
+      brand:'AASVET 2026 · WALK-IN', lMail:'Email', stubL:'✦ CHECK-IN PASS', stubR:'10.28–10.30 · NTUST', foot:'SYSTEM DEVELOPED BY LUZ', loading:'載入中…', pill:'WALK-IN 現場報名', sub:'請依序完成以下三個步驟',
       s1:'填寫報名資料', s1s:'請先填寫下方「步驟 1」欄位，先不要送出', s2:'到櫃檯繳費並領取收據編號', s2s:'請保留此頁面，不要關閉', s3:'填入收據編號後送出', s3s:'送出後即完成報名並簽到，QR 報到證會寄到您的 Email',
       c1:'報名資料', c1h:'中文姓名與英文姓名至少填一個，Email 必填。', lZh:'中文姓名', lEn:'英文姓名', emH:'QR 報到證會寄到這個 Email，請務必確認拼字正確。', lCountry:'單位所在地', opt:'（選填）',
       lBq:'是否參加晚宴', bqNo:'不參加 No', bqYes:'參加 Yes', lDiet:'飲食偏好',
-      c2:'櫃檯收據編號', c2h:'請先到櫃檯完成繳費，領取收據後，將<b>收據編號</b>填在下方並送出。', lRc:'收據編號', lCode:'櫃檯驗證碼', go:'確認資料並送出',
-      rvT:'請確認您的資料', rvH:'送出後會立即報名並簽到，QR 報到證寄到下方 Email。', rvOk:'資料正確，送出', rvBack:'返回修改',
+      c2:'櫃檯收據編號', c2h:'請先到櫃檯完成繳費，領取收據後，將<b>收據編號</b>填在下方並送出。', lRc:'收據編號', lCode:'櫃檯驗證碼', go:'確認資料並送出 SUBMIT',
+      rvT:'請確認您的資料', rvH:'送出後會立即報名並簽到，QR 報到證寄到下方 Email。', rvOk:'資料正確，送出 CONFIRM', rvBack:'返回修改 Back',
       closedT:'目前未開放線上填寫', closedD:'請洽報到櫃檯，由工作人員協助您完成現場報名。',
       name:'姓名', email:'Email', where:'所在地', taiwan:'台灣', other:'其他地區', bq:'晚宴', yes:'參加', no:'不參加', diet:'飲食偏好', rc:'收據編號', pid:'Paper ID',
       eName:'請至少填寫一個姓名（中文或英文）。', eMail:'請填寫正確的 Email。', eRc:'請填寫櫃檯給您的收據編號。', eCode:'請填寫櫃檯驗證碼。', ePid:'Paper ID 請填 6 位數字或留空。',
       eNet:'連線逾時或失敗。為避免重複報名，請先向櫃檯人員確認是否已登記成功。', eBusy:'送出中…',
-      okPill:'✦ 報名完成', idl:'報名編號', rtl:'報名時間', desk:'報到櫃檯', deskTxt:'D區：現場繳費／現場報名',
+      okPill:'✦ 報名完成 REGISTERED', idl:'報名編號 REGISTRATION ID', rtl:'報名時間', desk:'報到櫃檯', deskTxt:'D區：現場繳費／現場報名',
       mailOk:'QR 報到證已寄到：', mailNote:'請查看收件匣（含垃圾郵件匣）<br>若 Email 填錯，請告知櫃檯人員', checked:'您已完成今日簽到，歡迎入場 (^o^)/', notChecked:'今日尚未開放簽到<br>活動當天請出示 QR 報到證即可報到 (^o^)/', mailFail:'QR 報到證暫時無法寄出，請洽櫃檯人員協助'
     },
     en: {
@@ -328,18 +328,7 @@
 
   function buildBg() {
     const S = '\u2726';
-    const rows = lang === 'zh' ? [
-      ['第22屆亞洲技職教育國際研討會 ' + S + ' 永續與AI賦能 ' + S + ' ', '', 0.62],
-      ['國際研討會 ', '', 1],
-      ['台北．台灣 ' + S + ' ', 'lav', 0.85],
-      ['AASVET ', 'lime', 1.15],
-      ['台科大 ' + S + ' 2026 ' + S + ' ', 'lav', 0.9],
-      ['永續發展 ', '', 1],
-      ['現場報名 ' + S + ' 歡迎蒞臨 ' + S + ' ', 'lime', 0.85],
-      ['第22屆 ', 'lav', 1.15],
-      ['AI賦能的未來職場 ' + S + ' ', '', 0.7],
-      ['技職教育 ' + S + ' 10.28\u201310.30 ' + S + ' ', 'lav', 0.9]
-    ] : [
+    const rows = [
       ['THE 22ND AASVET CONFERENCE ' + S + ' SUSTAINABLE & AI-EMPOWERED ' + S + ' ', '', 0.62],
       ['CONFERENCE ', '', 1],
       ['TAIPEI, TAIWAN ' + S + ' ', 'lav', 0.85],
