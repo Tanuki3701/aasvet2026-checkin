@@ -18,7 +18,7 @@ Staff only ever use this page. All attendee data, email delivery and reporting l
 
 ## Screenshots
 
-All screenshots use fictitious attendee data.
+All screenshots show the English interface and use fictitious attendee data. Both the staff app and the walk-in form have a **中 | EN** language switch.
 
 <table>
   <tr>
@@ -43,13 +43,14 @@ All screenshots use fictitious attendee data.
 
 ### Email previews
 
-Attendees receive a registration pass by email with their QR code, desk assignment and venue information. Content is localized (Traditional Chinese or English) and the banquet section appears only for banquet registrants.
+Attendees receive a registration pass by email with their QR code, desk assignment and venue information, and a confirmation email after each successful check-in. Content is localized (Traditional Chinese or English by the attendee's location); the banquet section and the banquet confirmation appear only for banquet registrants. Previews below are the English versions with a fictitious attendee.
 
 <table>
   <tr>
-    <td align="center" width="33%"><img src="assets/emails/email-zh-banquet.png" alt="Registration pass, Chinese, banquet"><br><sub><b>Registration pass</b> · Chinese, banquet registrant</sub></td>
-    <td align="center" width="33%"><img src="assets/emails/email-en-day.png" alt="Registration pass, English"><br><sub><b>Registration pass</b> · English, conference days</sub></td>
-    <td align="center" width="33%"><img src="assets/emails/email-zh-checkin.png" alt="Check-in confirmation"><br><sub><b>Check-in confirmation</b> · sent after a successful scan</sub></td>
+    <td align="center" width="25%"><img src="assets/emails/email-pass-day.png" alt="Registration pass, conference days"><br><sub><b>Registration pass</b> · conference days</sub></td>
+    <td align="center" width="25%"><img src="assets/emails/email-pass-banquet.png" alt="Registration pass, banquet registrant"><br><sub><b>Registration pass</b> · banquet registrant</sub></td>
+    <td align="center" width="25%"><img src="assets/emails/email-checkin-day.png" alt="Check-in confirmation, conference day"><br><sub><b>Check-in confirmation</b> · conference day</sub></td>
+    <td align="center" width="25%"><img src="assets/emails/email-checkin-banquet.png" alt="Check-in confirmation, banquet"><br><sub><b>Check-in confirmation</b> · banquet</sub></td>
   </tr>
 </table>
 
@@ -62,9 +63,11 @@ Attendees receive a registration pass by email with their QR code, desk assignme
 | **Banquet mode** | Separate banquet check-in that only admits registered banquet guests; distinct lilac UI |
 | **Desk assignment** | Shows the check-in desk after each scan, assigned by registration ID range (A / B / C) |
 | **Manual check-in** | Four tabs: *Registration ID*, *Forgot QR* (name or email search), *On-site payment*, *Registration lookup* (walk-ins) |
-| **On-site payment** | Unpaid registrants are found by search, staff enter the counter receipt number and confirm payment, and a QR pass is emailed immediately; the receipt number is recorded in the sheets |
-| **Walk-in self-registration** | Guests not on any list scan a QR code and fill in a bilingual form (`register.html`), collect a receipt number at the counter, then submit; they are registered, checked in and emailed in one step. Only a name and an email are required |
+| **On-site payment** | Unpaid registrants are found by search, staff enter the counter receipt number and confirm payment, and a QR pass is emailed immediately; the receipt number and payment time are recorded in the sheets |
+| **Walk-in self-registration** | Guests not on any list scan a QR code and fill in a bilingual form (`register.html`), collect a receipt number at the counter, then submit; they are registered, checked in and emailed in one step. Only a name and an email are required; the registration time is recorded |
 | **Walk-in lookup** | Staff can confirm a walk-in went through, review the data, and fix an email or resend the QR pass |
+| **Language switch** | Staff app and walk-in form switch between Traditional Chinese and English (**中 | EN**); the choice is remembered per device |
+| **Banquet eligibility** | On-site payers and walk-in registrants cannot attend the banquet: the banquet option is not offered to them, their emails omit the banquet section, and a banquet scan is refused |
 | **Duplicate protection** | Re-scans never create duplicate records; self-registration rejects an existing email |
 | **Audit trail** | Every scan, including failures, is logged with staff name, session and outcome |
 
@@ -173,6 +176,8 @@ Developed by **Luz** for the AASVET 2026 organizing committee.
 | 現場繳費 | 查詢未繳費名單，填寫收據編號並確認收款後簽到，並即時寄送 QR 報到證；收據編號與繳費時間會記錄在試算表 |
 | 現場報名 | 名單以外之來賓掃描 QR Code 填寫中英文表單（`register.html`），至櫃檯取得收據編號後填入並送出，即完成登記、簽到並收到報到證（報名時間會記錄在試算表）；僅須提供姓名與 Email |
 | 報名查詢 | 工作人員可確認現場報名是否成功、核對資料，並於 Email 填錯時修正後重寄 QR 報到證 |
+| 語言切換 | 工作人員頁面與現場報名表單可切換繁體中文／英文（**中 | EN**），裝置會記住選擇 |
+| 晚宴資格 | 現場繳費與現場報名者不能參加晚宴：不提供晚宴選項、信件不含晚宴內容，掃描晚宴場次會被拒絕 |
 | 重複防護 | 重複掃描不會產生重複紀錄；現場報名遇相同 Email 時會拒絕重複登記 |
 | 稽核紀錄 | 每次掃描（含失敗）均記錄工作人員、場次與處理結果 |
 
