@@ -10418,14 +10418,14 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
         <div id="mPaneId">
           <div style="margin:0 0 12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);border-left:3px solid #CCFF00;"><div style="font:800 13px/1.5 sans-serif;color:#CCFF00;margin-bottom:4px;">報名編號報到</div><ul style="margin:0;padding-left:18px;font:600 12.5px/1.6 sans-serif;color:rgba(255,255,255,.78);"><li style="margin:3px 0;">掃描失敗時使用</li><li style="margin:3px 0;">請輸入完整 6 碼報名編號（例如 000123）</li></ul></div>
           <div style="display:flex;gap:8px;align-items:stretch;">
-            <input id="manualIn" type="text" inputmode="numeric" maxlength="20" placeholder="ex. 000123" autocomplete="off" style="flex:1;min-width:0;font:600 16px 'Space Mono',monospace;letter-spacing:.06em;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
+            <input id="manualIn" type="text" inputmode="numeric" maxlength="20" placeholder="ex. 000123" autocomplete="off" style="flex:1;min-width:0;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
             <button id="manualBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#CCFF00;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">查詢</button>
           </div>
         </div>
         <div id="mPaneName" class="hidden">
           <div style="margin:0 0 12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);border-left:3px solid #CCFF00;"><div style="font:800 13px/1.5 sans-serif;color:#CCFF00;margin-bottom:4px;">忘記帶 QR Code</div><ul style="margin:0;padding-left:18px;font:600 12.5px/1.6 sans-serif;color:rgba(255,255,255,.78);"><li style="margin:3px 0;">可輸入報名姓名（中、英文皆可）或 Email 的一部分</li><li style="margin:3px 0;">英文不必打「-」、不分大小寫</li><li style="margin:3px 0;">點選搜尋結果即可報到</li></ul></div>
           <div style="display:flex;gap:8px;align-items:stretch;">
-            <input id="searchIn" type="text" maxlength="60" placeholder="ex. 林怡君 / Mei-Ling Lin" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" style="flex:1;min-width:0;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
+            <input id="searchIn" type="text" maxlength="60" placeholder="ex. 林怡君 / Mei / mei@abc.com" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" style="flex:1;min-width:0;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
             <button id="searchBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#CCFF00;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">搜尋</button>
           </div>
           <div id="searchRes"></div>
@@ -10433,7 +10433,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
         <div id="mPanePay" class="hidden">
           <div style="margin:0 0 12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);border-left:3px solid #ffb86b;"><div style="font:800 13px/1.5 sans-serif;color:#ffb86b;margin-bottom:4px;">現場繳費</div><ul style="margin:0;padding-left:18px;font:600 12.5px/1.6 sans-serif;color:rgba(255,255,255,.78);"><li style="margin:3px 0;">限「未繳費名單」內的人使用</li><li style="margin:3px 0;">輸入報名姓名（中、英文皆可）或 Email 的一部分</li><li style="margin:3px 0;">確認本人後收款並報到</li><li style="margin:3px 0;">報到櫃檯：D 區</li></ul></div>
           <div style="display:flex;gap:8px;align-items:stretch;">
-            <input id="payIn" type="text" maxlength="60" placeholder="ex. 林怡君 / Mei-Ling Lin" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" style="flex:1;min-width:0;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
+            <input id="payIn" type="text" maxlength="60" placeholder="ex. 林怡君 / Mei / mei@abc.com" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" style="flex:1;min-width:0;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
             <button id="payBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#ffb86b;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">搜尋</button>
           </div>
           <div id="payRes"></div>
@@ -10441,7 +10441,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
         <div id="mPaneReg" class="hidden">
           <div style="margin:0 0 12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);border-left:3px solid #7FF0FF;"><div style="font:800 13px/1.5 sans-serif;color:#7FF0FF;margin-bottom:4px;">報名查詢（現場報名）</div><ul style="margin:0;padding-left:18px;font:600 12.5px/1.6 sans-serif;color:rgba(255,255,255,.78);"><li style="margin:3px 0;">來賓自行掃 QR 填寫後，在此確認是否報名成功、核對資料</li><li style="margin:3px 0;">可輸入姓名、Email、報名編號或收據編號</li><li style="margin:3px 0;">不輸入直接按「查詢」，會列出最新的幾筆</li><li style="margin:3px 0;">報到櫃檯：D 區</li></ul></div>
           <div style="display:flex;gap:8px;align-items:stretch;">
-            <input id="wkIn" type="text" maxlength="60" placeholder="姓名 / Email / 編號 / 收據編號" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" style="flex:1;min-width:0;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
+            <input id="wkIn" type="text" maxlength="60" placeholder="ex. 林怡君 / mei@abc.com / 260001" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" style="flex:1;min-width:0;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
             <button id="wkBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#7FF0FF;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">查詢</button>
           </div>
           <div id="wkRes"></div>
