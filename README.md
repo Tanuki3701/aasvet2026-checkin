@@ -28,16 +28,16 @@ All screenshots use fictitious attendee data.
     <td align="center" width="25%"><img src="assets/screenshots/banquet-success.png" alt="Banquet check-in"><br><sub><b>Banquet check-in</b></sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="assets/screenshots/payment-required.png" alt="Payment required"><br><sub><b>Payment required</b></sub></td>
+    <td align="center"><img src="assets/screenshots/payment-required.png" alt="Payment required"><br><sub><b>Payment required + receipt number</b></sub></td>
     <td align="center"><img src="assets/screenshots/already-checked-in.png" alt="Already checked in"><br><sub><b>Already checked in</b></sub></td>
     <td align="center"><img src="assets/screenshots/manual-search.png" alt="Manual search"><br><sub><b>Forgot-QR search</b></sub></td>
-    <td align="center"></td>
+    <td align="center"><img src="assets/screenshots/manual-payment.png" alt="On-site payment search"><br><sub><b>On-site payment search</b></sub></td>
   </tr>
   <tr>
     <td align="center"><img src="assets/screenshots/self-registration.png" alt="Self-service registration form"><br><sub><b>Walk-in self-registration (guest)</b></sub></td>
+    <td align="center"><img src="assets/screenshots/self-registration-done.png" alt="Self-registration complete"><br><sub><b>Walk-in registered (guest)</b></sub></td>
     <td align="center"><img src="assets/screenshots/walk-in.png" alt="Walk-in lookup"><br><sub><b>Walk-in lookup (staff)</b></sub></td>
-    <td align="center"></td>
-    <td align="center"></td>
+    <td align="center"><img src="assets/screenshots/banquet-denied.png" alt="Banquet check-in denied"><br><sub><b>Banquet: not registered</b></sub></td>
   </tr>
 </table>
 
