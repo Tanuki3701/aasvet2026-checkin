@@ -10414,7 +10414,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
       <div id="resultPane" class="hidden"></div>
       <div id="manualWrap" style="margin:8px 0;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);">
         <div style="font:700 14px/1.4 'Space Mono',monospace;letter-spacing:.05em;color:rgba(255,255,255,.78);margin-bottom:10px;">手動簽到 · MANUAL CHECK-IN</div>
-        <div class="mtabs"><button type="button" class="mtab on" id="tabId" data-t="id">報名編號</button><button type="button" class="mtab" id="tabName" data-t="name">忘記帶 QR</button><button type="button" class="mtab" id="tabPay" data-t="pay">現場繳費</button><button type="button" class="mtab" id="tabReg" data-t="reg">現場報名</button></div>
+        <div class="mtabs"><button type="button" class="mtab on" id="tabId" data-t="id">報名編號</button><button type="button" class="mtab" id="tabName" data-t="name">忘記帶 QR</button><button type="button" class="mtab" id="tabPay" data-t="pay">現場繳費</button><button type="button" class="mtab" id="tabReg" data-t="reg">報名查詢</button></div>
         <div id="mPaneId">
           <div style="font:700 12px/1.5 sans-serif;color:#CCFF00;margin:0 0 10px;">掃描失敗時可使用，請輸入完整 6 碼報名編號</div>
           <div style="display:flex;gap:8px;align-items:stretch;">
@@ -10439,16 +10439,12 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
           <div id="payRes"></div>
         </div>
         <div id="mPaneReg" class="hidden">
-          <div style="font:700 12px/1.5 sans-serif;color:#7FF0FF;margin:0 0 10px;">不在任何名單內的來賓（例如貴賓、長官）使用：姓名擇一必填、Email 必填，其餘選填。登記後立即簽到並寄出 QR 報到證</div>
-          <div class="wf">
-            <div class="row2"><div><label>中文姓名</label><input id="rgZh" type="text" maxlength="40" placeholder="ex. 林怡君" autocomplete="off"></div><div><label>英文姓名</label><input id="rgEn" type="text" maxlength="80" placeholder="ex. Mei-Ling Lin" autocomplete="off" autocapitalize="words"></div></div>
-            <label>Email <i>*</i></label><input id="rgEmail" type="email" inputmode="email" maxlength="80" placeholder="ex. name@example.com" autocomplete="off" autocapitalize="off" spellcheck="false">
-            <div class="row2"><div><label>國家 Country</label><select id="rgCountry"><option value="Taiwan">Taiwan</option><option value="Other">Other 其他</option></select></div><div><label>晚宴 Banquet</label><select id="rgBq"><option value="No">No</option><option value="Yes">Yes</option></select></div></div>
-            <div id="rgDietBox" class="hidden"><label>飲食偏好 Diet</label><select id="rgDiet"><option value="regular">一般 Regular</option><option value="vegetarian">素食 Vegetarian</option><option value="halal">清真 Halal</option></select></div>
-            <div class="row2"><div><label>Paper ID 1</label><input id="rgP1" type="text" inputmode="numeric" maxlength="6" placeholder="選填" autocomplete="off"></div><div><label>Paper ID 2</label><input id="rgP2" type="text" inputmode="numeric" maxlength="6" placeholder="選填" autocomplete="off"></div></div>
-            <button id="rgBtn" type="button" style="font:700 14px/1 sans-serif;color:#0f1012;background:#7FF0FF;border:0;border-radius:12px;padding:13px 16px;cursor:pointer;margin-top:4px;">登記並簽到 · REGISTER &amp; CHECK IN</button>
-            <div id="rgMsg"></div>
+          <div style="font:700 12px/1.5 sans-serif;color:#7FF0FF;margin:0 0 10px;">現場報名（來賓自行掃 QR 填寫）查詢：確認對方是否報名成功、核對資料。可輸入姓名、Email、報名編號或收據編號；不輸入直接按「查詢」會列出最新的幾筆</div>
+          <div style="display:flex;gap:8px;align-items:stretch;">
+            <input id="wkIn" type="text" maxlength="60" placeholder="姓名 / Email / 編號 / 收據編號" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" style="flex:1;min-width:0;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;">
+            <button id="wkBtn" type="button" style="flex:none;white-space:nowrap;font:600 13px/1 sans-serif;color:#0f1012;background:#7FF0FF;border:0;border-radius:12px;padding:0 16px;cursor:pointer;">查詢</button>
           </div>
+          <div id="wkRes"></div>
         </div>
       </div>
       <button class="logout" id="resetBtn" type="button">登出 / 換人 · LOGOUT</button>
@@ -10710,45 +10706,54 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
     $('mPaneId').classList.toggle('hidden', t !== 'id'); $('mPaneName').classList.toggle('hidden', t !== 'name'); $('mPanePay').classList.toggle('hidden', t !== 'pay');
     if (t === 'name') { try { $('searchIn').focus(); } catch (_) {} }
     if (t === 'pay') { try { $('payIn').focus(); } catch (_) {} }
+    if (t === 'reg') { try { $('wkIn').focus(); } catch (_) {} if (!wkList.length && $('wkRes').innerHTML === '') walkinSearch(); }
   }
   $('tabId').addEventListener('click', () => setTab('id'));
   $('tabName').addEventListener('click', () => setTab('name'));
   $('tabPay').addEventListener('click', () => setTab('pay'));
   $('tabReg').addEventListener('click', () => setTab('reg'));
-  $('rgBq').addEventListener('change', () => $('rgDietBox').classList.toggle('hidden', $('rgBq').value !== 'Yes'));
-  // ---------- 現場報名 ----------
-  let regBusy = false;
-  function regPayload(force) {
-    return { action: 'register', key: daySelect.value, nameZh: $('rgZh').value.trim(), nameEn: $('rgEn').value.trim(), email: $('rgEmail').value.trim(),
-      country: $('rgCountry').value, banquet: $('rgBq').value, diet: $('rgDiet').value, paperId1: $('rgP1').value.trim(), paperId2: $('rgP2').value.trim(), force: force === true };
-  }
-  async function submitReg(force) {
-    if (regBusy) return;
-    const p = regPayload(force), msg = $('rgMsg');
-    if (!p.nameZh && !p.nameEn) { msg.innerHTML = '<div class="sr-msg">請至少填寫一個姓名（中文或英文）。</div>'; return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)) { msg.innerHTML = '<div class="sr-msg">請填寫正確的 Email。</div>'; return; }
-    regBusy = true; msg.innerHTML = '<div class="sr-msg">登記中…</div>';
+  // ---------- 報名查詢：現場報名（來賓自行掃 QR 填寫）----------
+  let wkSeq = 0, wkList = [];
+  async function walkinSearch() {
+    const q = $('wkIn').value.trim(), box = $('wkRes'), seq = ++wkSeq;
+    box.innerHTML = '<div class="sr-msg">查詢中…</div>';
     try {
-      const j = await api(p, 40000);
-      if (!j.ok) { msg.innerHTML = '<div class="sr-msg">' + esc(j.error === 'unauthorized' ? '帳號或密碼不正確，請重新整理後重新登入。' : (j.message || j.error || '伺服器回應異常')) + '</div>'; }
-      else if (!j.register || !j.register.ok) {
-        const r = j.register || {};
-        if (r.duplicate && r.duplicate.length) {
-          msg.innerHTML = '<div class="sr-msg" style="color:#ffb86b;">此 Email 已有報名資料，請先確認是否同一人（已報名者請改用「忘記帶 QR」或「現場繳費」）：</div>' +
-            r.duplicate.map(x => '<div class="sr-item" style="cursor:default;"><div class="n">' + esc(x.nameZh || x.nameEn) + (x.nameZh && x.nameEn ? '<small>' + esc(x.nameEn) + '</small>' : '') + '</div><div class="chips"><span class="chip id">ID ' + esc(x.id) + '</span>' + (x.unpaid ? '<span class="chip unpaid">未繳費</span>' : '') + '</div></div>').join('') +
-            '<button type="button" class="btn ghost" id="rgForce" style="margin-top:8px;">仍要新增為新來賓 · ADD ANYWAY</button>';
-          $('rgForce').onclick = () => { regBusy = false; submitReg(true); };
-        } else msg.innerHTML = '<div class="sr-msg">' + esc(r.message || '登記失敗') + '</div>';
-      } else {
-        msg.innerHTML = '';
-        ['rgZh', 'rgEn', 'rgEmail', 'rgP1', 'rgP2'].forEach(k => $(k).value = ''); $('rgBq').value = 'No'; $('rgDietBox').classList.add('hidden'); setTab('id');
-        renderResult(j.result);
-        api({ action: 'notify', id: j.register.id, key: daySelect.value }, 60000).catch(() => {});
-      }
-    } catch (e) { msg.innerHTML = '<div class="sr-msg">連線逾時或失敗，請先到「忘記帶 QR」搜尋此人，確認是否已登記成功，再決定是否重送。</div>'; }
-    regBusy = false;
+      const j = await api({ action: 'walkin_list', q: q }, 30000);
+      if (seq !== wkSeq) return;
+      if (!j.ok) { box.innerHTML = '<div class="sr-msg">' + esc(j.error === 'unauthorized' ? '帳號或密碼不正確，請重新登入。' : (j.message || j.error || '伺服器回應異常')) + '</div>'; return; }
+      wkList = (j.walkin && j.walkin.list) || [];
+      if (!wkList.length) { box.innerHTML = '<div class="sr-msg">' + (q ? '查無符合的現場報名資料。若對方剛送出，請稍待幾秒再按一次「查詢」；仍沒有就請對方重新填寫。' : '目前還沒有現場報名資料。') + '</div>'; return; }
+      box.innerHTML = '<div class="sr-msg">' + (q ? '符合 ' : '最新 ') + wkList.length + ' 筆' + (j.walkin.more ? '（還有更多，請輸入關鍵字縮小範圍）' : '') + '</div>' + wkList.map((x, i) => wkCard(x, i)).join('');
+    } catch (e) { if (seq === wkSeq) box.innerHTML = '<div class="sr-msg">連線逾時或失敗，請再按一次「查詢」。</div>'; }
   }
-  $('rgBtn').addEventListener('click', () => submitReg(false));
+  function wkCard(x, i) {
+    const nm = esc(x.nameZh || x.nameEn || '(未填姓名)'), sub = x.nameZh && x.nameEn ? '<small>' + esc(x.nameEn) + '</small>' : '';
+    const ci = (x.checkins || []).map(c => '<span class="chip" style="color:#7FF0FF;border-color:rgba(127,240,255,.5);background:rgba(127,240,255,.1);">已簽到 ' + esc(c.label) + ' ' + esc((c.time.split(' ')[1] || c.time).slice(0, 5)) + '</span>').join('');
+    return '<div class="sr-item" style="cursor:default;" data-i="' + i + '"><div class="n">' + nm + sub + '</div>' +
+      '<div class="chips"><span class="chip id">ID ' + esc(x.id) + '</span>' + (x.receipt ? '<span class="chip">收據 ' + esc(x.receipt) + '</span>' : '<span class="chip unpaid">無收據編號</span>') + (x.banquet === 'Yes' ? '<span class="chip bq">晚宴</span>' : '') + (ci || '<span class="chip unpaid">尚未簽到</span>') + (x.mailSent ? '<span class="chip">QR 信已寄出</span>' : '<span class="chip unpaid">QR 信未寄出</span>') + '</div>' +
+      '<div class="e">' + esc(x.email) + '</div>' +
+      '<div class="wkact" style="display:flex;gap:8px;margin-top:10px;"><button type="button" data-a="resend" style="flex:1;font:700 12.5px/1 sans-serif;color:#0f1012;background:#CCFF00;border:0;border-radius:10px;padding:11px 8px;cursor:pointer;">重寄 QR 信</button><button type="button" data-a="edit" style="flex:1;font:700 12.5px/1 sans-serif;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:11px 8px;cursor:pointer;">修正 Email 並重寄</button></div>' +
+      '<div class="wkedit hidden" style="margin-top:8px;"><input type="email" inputmode="email" maxlength="80" value="' + esc(x.email) + '" autocomplete="off" autocapitalize="off" spellcheck="false" style="width:100%;box-sizing:border-box;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:10px 12px;outline:none;"><button type="button" data-a="save" style="width:100%;margin-top:8px;font:700 12.5px/1 sans-serif;color:#0f1012;background:#7FF0FF;border:0;border-radius:10px;padding:11px 8px;cursor:pointer;">更新 Email 並重寄 QR 信</button></div>' +
+      '<div class="wkmsg sr-msg" style="margin-top:6px;"></div></div>';
+  }
+  $('wkRes').addEventListener('click', async ev => {
+    const btn = ev.target.closest('button[data-a]'); if (!btn) return;
+    const card = btn.closest('.sr-item'), x = wkList[+card.getAttribute('data-i')], act = btn.getAttribute('data-a'), msg = card.querySelector('.wkmsg');
+    if (!x) return;
+    if (act === 'edit') { card.querySelector('.wkedit').classList.toggle('hidden'); return; }
+    const email = act === 'save' ? card.querySelector('.wkedit input').value.trim() : '';
+    if (act === 'save' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = '請填寫正確的 Email。'; return; }
+    btn.disabled = true; msg.textContent = '處理中…';
+    try {
+      const j = await api({ action: 'walkin_resend', id: x.id, email: email }, 40000), r = j && j.resend;
+      if (!j || !j.ok || !r) msg.textContent = (j && j.message) || '處理失敗，請稍後再試。';
+      else if (!r.ok) msg.textContent = r.message || '處理失敗。';
+      else { msg.textContent = r.sent ? '✓ QR 報到證已寄到 ' + r.email : '已更新，但 QR 信暫時寄不出去，請稍後再按一次。'; if (r.sent) { x.email = r.email; x.mailSent = true; } }
+    } catch (e) { msg.textContent = '連線逾時或失敗。為避免重複寄送，請先確認對方是否已收到信。'; }
+    btn.disabled = false;
+  });
+  $('wkBtn').addEventListener('click', walkinSearch);
+  $('wkIn').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); walkinSearch(); } });
   // 兩個搜尋頁籤共用：mode = 'name'（忘記帶 QR，只列已繳費者）／'pay'（現場繳費，只列未繳費者）
   const SM = { name: { inp: 'searchIn', res: 'searchRes', list: [] }, pay: { inp: 'payIn', res: 'payRes', list: [] } };
   function renderSearch(sr, mode) {
