@@ -62,7 +62,7 @@ Attendees receive a registration pass by email with their QR code, desk assignme
 | **Banquet mode** | Separate banquet check-in that only admits registered banquet guests; distinct lilac UI |
 | **Desk assignment** | Shows the check-in desk after each scan, assigned by registration ID range (A / B / C) |
 | **Manual check-in** | Four tabs: *Registration ID*, *Forgot QR* (name or email search), *On-site payment*, *Registration lookup* (walk-ins) |
-| **On-site payment** | Unpaid registrants are found by search, payment is confirmed by staff, and a QR pass is emailed immediately |
+| **On-site payment** | Unpaid registrants are found by search, staff enter the counter receipt number and confirm payment, and a QR pass is emailed immediately; the receipt number is recorded in the sheets |
 | **Walk-in self-registration** | Guests not on any list scan a QR code and fill in a bilingual form (`register.html`), collect a receipt number at the counter, then submit; they are registered, checked in and emailed in one step. Only a name and an email are required |
 | **Walk-in lookup** | Staff can confirm a walk-in went through, review the data, and fix an email or resend the QR pass |
 | **Duplicate protection** | Re-scans never create duplicate records; self-registration rejects an existing email |
@@ -170,7 +170,7 @@ Developed by **Luz** for the AASVET 2026 organizing committee.
 | 晚宴報到 | 僅限已登記晚宴者入場，採獨立介面呈現 |
 | 報到櫃檯分流 | 依報名編號指派櫃檯（見下表） |
 | 手動報到 | 提供「報名編號」「忘記帶 QR」「現場繳費」「報名查詢」四種方式 |
-| 現場繳費 | 查詢未繳費名單、確認收款後簽到，並即時寄送 QR 報到證 |
+| 現場繳費 | 查詢未繳費名單，填寫收據編號並確認收款後簽到，並即時寄送 QR 報到證；收據編號會記錄在試算表 |
 | 現場報名 | 名單以外之來賓掃描 QR Code 填寫中英文表單（`register.html`），至櫃檯取得收據編號後填入並送出，即完成登記、簽到並收到報到證；僅須提供姓名與 Email |
 | 報名查詢 | 工作人員可確認現場報名是否成功、核對資料，並於 Email 填錯時修正後重寄 QR 報到證 |
 | 重複防護 | 重複掃描不會產生重複紀錄；現場報名遇相同 Email 時會拒絕重複登記 |
