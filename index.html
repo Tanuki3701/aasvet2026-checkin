@@ -10541,8 +10541,9 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
     if (res.already) { kind = 'warn'; title = bq ? 'BANQUET ALREADY CHECKED IN' : 'ALREADY CHECKED IN'; }
     if (res.needPayment) {
       showPane(board('warn', 'PAYMENT REQUIRED · 尚未繳費', res.message, false) + attendeeHtml(a, bq) +
+        '<div style="margin:10px 0 0;"><div style="font:700 12px/1.5 sans-serif;color:#ffb86b;margin-bottom:6px;">收據編號（必填）</div><input id="payReceipt" type="text" maxlength="30" placeholder="ex. 12345678" autocomplete="off" autocapitalize="characters" spellcheck="false" style="width:100%;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;"><div id="payReceiptErr" style="display:none;margin-top:6px;font:700 12.5px/1.5 sans-serif;color:#ff8a80;">請先填寫收據編號</div></div>' +
         '<button class="btn primary" id="paidBtn" type="button" style="margin-top:8px;">已收款，確認簽到 · PAID &amp; CHECK IN</button><button class="btn ghost" id="unpaidBack" type="button" style="margin-top:8px;">取消 · BACK</button>');
-      $('paidBtn').onclick = () => { lastText = ''; handleDecoded(a.id, true, true); };
+      $('paidBtn').onclick = () => { const rc = ($('payReceipt').value || '').replace(/[<>\u0000-\u001f]/g, '').trim(); if (!rc) { $('payReceiptErr').style.display = 'block'; $('payReceipt').focus(); return; } lastText = ''; handleDecoded(a.id, true, true, rc); };
       $('unpaidBack').onclick = backToScan;
       return;
     }
@@ -10600,7 +10601,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
     paused = false; stopLive().then(() => startLive(false));
   }
 
-  async function handleDecoded(text, force, paid) {
+  async function handleDecoded(text, force, paid, receipt) {
     const now = Date.now();
     if (busy || (paused && !force)) return;   // force：手動輸入／拍照掃描，即使目前停在上一位的結果畫面也要處理
     if (text === lastText && now - lastAt < 4000) return;
@@ -10608,7 +10609,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
     try { if (navigator.vibrate) navigator.vibrate(80); } catch (_) {}
     showLoading(text);
     try {
-      const j = await api({ action: 'checkin', id: text, key: daySelect.value, paid: paid === true });
+      const j = await api({ action: 'checkin', id: text, key: daySelect.value, paid: paid === true, receipt: receipt || '' });
       if (!j.ok) {
         if (j.error === 'unauthorized') { lsDel(LS.tok); showError('UNAUTHORIZED', '帳號或密碼不正確，或此帳號已停用，請重新整理頁面後重新登入。'); }
         else showError('SERVER ERROR', j.message || j.error || '伺服器回應異常');
