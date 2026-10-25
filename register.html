@@ -116,6 +116,13 @@
   .tkd .desk{background:#fff;border:2px solid #111214;color:#111;}
   .tkd .desk b{color:#111;background:#CCFF00;padding:2px 8px;border-radius:999px;}
   .tkd .em{color:#0b5d9b;}
+  .tk.one{}
+  .tkd .rt{display:inline-block;margin-top:16px;background:rgba(255,255,255,.75);border:1.5px solid #CFE3A0;border-radius:999px;padding:6px 14px;font:700 12.5px var(--mono);color:#3d3c37;letter-spacing:.02em;}
+  .tkd .rt span{color:#7a796f;margin-right:6px;}
+  .dk{display:inline-flex;flex-direction:column;align-items:center;gap:7px;max-width:100%;border:2px solid #111214;border-radius:18px;padding:11px 16px;background:#fff;}
+  .dk .dkl{font:800 11px var(--mono);letter-spacing:.14em;color:#4d4c46;}
+  .dk .dkv{font:800 14px/1.45 var(--sans);background:#CCFF00;color:#111;border-radius:14px;padding:3px 12px;text-wrap:balance;max-width:100%;}
+  .tkd.b p:first-of-type{margin-top:16px;}
   input::placeholder{color:#a8a69d;font-weight:600;opacity:1;}
 </style>
 </head>
@@ -162,8 +169,8 @@
         <select id="country"><option value="Taiwan" data-i="taiwan">台灣</option><option value="Other" data-i="other">其他地區</option></select>
 
         <div class="row2">
-          <div><label><span>Paper ID 1</span> <span class="opt" data-i="opt">(選填)</span></label><input id="p1" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
-          <div><label><span>Paper ID 2</span> <span class="opt" data-i="opt">(選填)</span></label><input id="p2" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
+          <div><label><span>Paper ID 1</span> <span class="opt" data-i="opt">(選填)</span></label><input id="p1" placeholder="ex. 12345" inputmode="numeric" maxlength="6" autocomplete="off"></div>
+          <div><label><span>Paper ID 2</span> <span class="opt" data-i="opt">(選填)</span></label><input id="p2" placeholder="ex. 12345" inputmode="numeric" maxlength="6" autocomplete="off"></div>
         </div>
 
         <input class="hp" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -216,9 +223,9 @@
       rvT:'請確認您的資料', rvH:'送出後會立即報名並簽到，QR 報到證寄到下方 Email。', rvOk:'資料正確，送出 CONFIRM', rvBack:'返回修改 Back',
       closedT:'目前未開放線上填寫', closedD:'請洽報到櫃檯，由工作人員協助您完成現場報名。',
       name:'姓名', email:'Email', where:'所在地', taiwan:'台灣', other:'其他地區', bq:'晚宴', yes:'參加', no:'不參加', diet:'飲食偏好', rc:'收據編號', pid:'Paper ID',
-      eName:'請至少填寫一個姓名 (中文或英文)。', eMail:'請填寫正確的 Email。', eRc:'請填寫櫃檯給您的收據編號。', eCode:'請填寫櫃檯驗證碼。', ePid:'Paper ID 請填 6 位數字或留空。',
+      eName:'請至少填寫一個姓名 (中文或英文)。', eMail:'請填寫正確的 Email。', eRc:'請填寫櫃檯給您的收據編號。', eCode:'請填寫櫃檯驗證碼。', ePid:'Paper ID 請填 5 位數字，或留空。',
       eNet:'連線逾時或失敗。為避免重複報名，請先向櫃檯人員確認是否已登記成功。', eBusy:'送出中…',
-      okPill:'✦ 報名完成 REGISTERED', idl:'報名編號 REGISTRATION ID', rtl:'報名時間', desk:'報到櫃檯', deskTxt:'D區：現場繳費／現場報名',
+      okPill:'✦ 報名完成 REGISTERED', idl:'報名編號 REGISTRATION ID', rtl:'報名時間', desk:'報到櫃檯', deskTxt:'D 區：現場繳費 / 現場報名',
       mailOk:'QR 報到證已寄到：', mailNote:'請查看收件匣 (含垃圾郵件匣)<br>若 Email 填錯，請告知櫃檯人員', checked:'您已完成今日簽到，歡迎入場 (^o^)/', notChecked:'今日尚未開放簽到<br>活動當天請出示 QR 報到證即可報到 (^o^)/', mailFail:'QR 報到證暫時無法寄出，請洽櫃檯人員協助'
     },
     en: {
@@ -230,7 +237,7 @@
       rvT:'Please confirm your details', rvH:'You will be registered and checked in right away. Your QR pass is emailed to the address below.', rvOk:'Looks right — submit', rvBack:'Go back and edit',
       closedT:'Online form is not open right now', closedD:'Please see the registration counter. Our staff will help you register.',
       name:'Name', email:'Email', where:'Location', taiwan:'Taiwan', other:'Other areas', bq:'Banquet', yes:'Yes', no:'No', diet:'Diet', rc:'Receipt no.', pid:'Paper ID',
-      eName:'Please enter at least one name (Chinese or English).', eMail:'Please enter a valid email address.', eRc:'Please enter the receipt number from the counter.', eCode:'Please enter the counter code.', ePid:'Paper ID must be 6 digits or left blank.',
+      eName:'Please enter at least one name (Chinese or English).', eMail:'Please enter a valid email address.', eRc:'Please enter the receipt number from the counter.', eCode:'Please enter the counter code.', ePid:'Paper ID must be 5 digits, or left blank.',
       eNet:'The connection timed out or failed. To avoid a duplicate registration, please ask the counter staff whether it went through.', eBusy:'Submitting…',
       okPill:'✦ REGISTERED', idl:'REGISTRATION ID', rtl:'Registered at', desk:'Check-in desk', deskTxt:'Zone D · On-site Payment / Walk-in',
       mailOk:'Your QR pass was sent to:', mailNote:'Please check your inbox (and spam folder)<br>If the address is wrong, please tell the counter staff', checked:'You are checked in for today, welcome (^o^)/', notChecked:'Check-in is not open yet<br>Please show your QR pass on the event day (^o^)/', mailFail:'We could not send your QR pass right now, please ask the counter staff for help'
@@ -283,7 +290,7 @@
     const L = T[lang];
     if (!v.nameZh && !v.nameEn) return [L.eName, 'nameZh'];
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) return [L.eMail, 'email'];
-    if ((v.paperId1 && !/^\d{6}$/.test(v.paperId1)) || (v.paperId2 && !/^\d{6}$/.test(v.paperId2))) return [L.ePid, 'p1'];
+    if ((v.paperId1 && !/^\d{5,6}$/.test(v.paperId1)) || (v.paperId2 && !/^\d{5,6}$/.test(v.paperId2))) return [L.ePid, 'p1'];
     if (!v.receipt) return [L.eRc, 'receipt'];
     if (cfg.needCode && !v.code) return [L.eCode, 'code'];
     return null;
@@ -319,13 +326,18 @@
   };
 
   function renderDone(r) {
-    const L = T[lang];
-    $('viewDone').innerHTML = '<div class="tk one" style="--n:-40px"><div class="in"><div class="done tkd"><div class="sym" style="margin:0 auto 12px;width:max-content"><i class="a"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z" fill="#A9F2F7"/></svg></i><i class="b"></i><i class="c"></i><i class="d"></i></div><span class="ok">' + L.okPill + '</span>' +
-      '<div class="idl">' + L.idl + '</div><div class="id">' + esc(r.id) + '</div>' +
-      (r.regTime ? '<div style="font-size:13px;color:#55544e;margin:-4px 0 12px;">' + L.rtl + '：' + esc(r.regTime) + '</div>' : '') +
-      '<div class="desk">' + L.desk + '：<b>' + L.deskTxt + '</b></div>' +
-      '<p>' + (r.checkedIn ? L.checked : L.notChecked) + '</p>' +
-      '<p>' + (r.qrSent ? L.mailOk + '<br><span class="em">' + esc(r.email) + '</span><br><span style="font-size:13px;color:#55544e;">' + L.mailNote + '</span>' : L.mailFail) + '</p></div></div></div>';
+    const L = T[lang], SYM = '<div class="sym" style="margin:0 auto 14px;width:max-content"><i class="a"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z" fill="#A9F2F7"/></svg></i><i class="b"></i><i class="c"></i><i class="d"></i></div>';
+    $('viewDone').innerHTML =
+      '<div class="tk tkt" style="--n:100%"><div class="in"><div class="done tkd">' + SYM + '<span class="ok">' + L.okPill + '</span>' +
+        '<div class="idl">' + L.idl + '</div><div class="id">' + esc(r.id) + '</div>' +
+        (r.regTime ? '<div class="rt"><span>' + L.rtl + '</span>' + esc(r.regTime) + '</div>' : '') +
+      '</div></div></div>' +
+      '<div class="tk bot white" style="--n:0px;margin-top:0"><div class="in"><div class="perf" style="top:0"></div><div class="done tkd b" style="padding-top:8px">' +
+        '<div class="dk"><span class="dkl">' + L.desk + '</span><b class="dkv">' + L.deskTxt + '</b></div>' +
+        '<p>' + (r.checkedIn ? L.checked : L.notChecked) + '</p>' +
+        '<p>' + (r.qrSent ? L.mailOk + '<br><span class="em">' + esc(r.email) + '</span><br><span style="font-size:13px;color:#55544e;">' + L.mailNote + '</span>' : L.mailFail) + '</p>' +
+        '<div class="stub" style="margin-top:20px"><span>✦ CHECK-IN PASS</span><b>10.28–10.30 · NTUST</b></div>' +
+      '</div></div></div>';
   }
 
   function buildBg() {
