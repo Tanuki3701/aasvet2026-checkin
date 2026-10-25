@@ -71,11 +71,12 @@
   html,body{background:#E4E2DB;}
   body{position:relative;overflow-x:hidden;}
   .bg{position:fixed;inset:0;z-index:0;display:flex;flex-direction:column;justify-content:space-around;overflow:hidden;pointer-events:none;background:#E4E2DB;}
-  .bg .r{white-space:nowrap;display:flex;width:max-content;font:900 clamp(64px,13vh,120px)/1 'Arial Black','Helvetica Neue',Arial,sans-serif;letter-spacing:-.02em;color:#ECE9E3;-webkit-text-stroke:2px #CFCCC3;text-transform:uppercase;animation:mq 46s linear infinite;}
+  .bg .r{white-space:nowrap;display:flex;width:max-content;font:900 clamp(64px,13vh,120px)/1 'Arial Black','Helvetica Neue',Arial,sans-serif;letter-spacing:-.02em;color:#ECE9E3;-webkit-text-stroke:2px #CFCCC3;text-transform:uppercase;animation:mq 210s linear infinite;}
   .bg .r span{padding-right:.6em;}
-  .bg .r:nth-child(even){animation-direction:reverse;animation-duration:58s;}
-  .bg .r:nth-child(3n){animation-duration:70s;}
+  .bg .r:nth-child(even){animation-direction:reverse;animation-duration:260s;}
+  .bg .r:nth-child(3n){animation-duration:320s;}
   .bg .r.lime{color:#DCE6A6;-webkit-text-stroke:2px #C9D58A;}
+  .bg .r.lav{color:#E7E1F5;-webkit-text-stroke:2px #CBBFEA;}
   @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @media (prefers-reduced-motion:reduce){.bg .r{animation:none;}}
   .wrap{position:relative;z-index:1;}
@@ -335,7 +336,7 @@
       '<p>' + (r.qrSent ? L.mailOk + '<br><span class="em">' + esc(r.email) + '</span><br><span style="font-size:13px;color:#55544e;">' + L.mailNote + '</span>' : L.mailFail) + '</p></div></div></div>';
   }
 
-  (function(){ const t='The 22nd AASVET International Conference \u2726 Walk-in Registration \u2726 NTUST Taipei \u2726 ', g=$('bg'); let h=''; for(let i=0;i<8;i++){ h+='<div class="r'+(i%4===1?' lime':'')+'"><span>'+(t+t)+'</span><span>'+(t+t)+'</span></div>'; } g.innerHTML=h; })();
+  (function(){ const t='The 22nd AASVET International Conference \u2726 Walk-in Registration \u2726 NTUST Taipei \u2726 ', g=$('bg'); let h=''; for(let i=0;i<8;i++){ h+='<div class="r'+(i%4===1?' lime':(i%4===3?' lav':''))+'"><span>'+(t+t)+'</span><span>'+(t+t)+'</span></div>'; } g.innerHTML=h; })();
   applyLang();
   boot();
 })();
