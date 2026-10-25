@@ -10514,12 +10514,12 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
       { label: '報名編號 ID', value: a.id, vcls: 'mono', vstyle: 'color:var(--lime)', cls: 'glass idc' },
       { label: '國家 Country', value: a.country },
       { label: '地區 Region', value: a.region },
-      { label: '晚宴 Banquet', value: a.banquet, cls: bqCls },
-      { label: '飲食 Diet', value: a.diet, cls: 'glass accent-diet' },
+      (a.noBanquet && !bq) ? null : { label: '晚宴 Banquet', value: a.banquet, cls: bqCls },
+      (a.noBanquet && !bq) ? null : { label: '飲食 Diet', value: a.diet, cls: 'glass accent-diet' },
       { label: 'Paper ID 1', value: a.paperId1, vcls: 'mono', cls: 't3' },
       { label: 'Paper ID 2', value: a.paperId2, vcls: 'mono', cls: 't3' },
       { label: '時間 Time', value: a.time, vcls: 'mono', full: true, cls: 't3' }
-    ]) + '</div>';
+    ].filter(Boolean)) + '</div>';
   }
   // 顯示結果：暫停相機、隱藏取景框，按「掃下一位」才回到掃描
   function showPane(html) {
@@ -10801,8 +10801,8 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
         { label: 'Email', value: x.email, full: true },
         { label: '報名編號 ID', value: x.id, vcls: 'mono', vstyle: 'color:var(--lime)', cls: 'glass idc' },
         { label: '國家 Country', value: x.country },
-        { label: '晚宴 Banquet', value: x.banquet }
-      ]) + '</div><div style="margin:4px 4px 12px;font:600 12.5px/1.6 var(--sans);color:var(--txt-mut);">' + (mode === 'pay' ? '請與本人確認姓名與 Email 相符後，按「下一步」進入收款確認。' : '請與本人確認姓名與 Email 相符後，再按「確認簽到」。') + '</div>' +
+        x.noBanquet ? null : { label: '晚宴 Banquet', value: x.banquet }
+      ].filter(Boolean)) + '</div><div style="margin:4px 4px 12px;font:600 12.5px/1.6 var(--sans);color:var(--txt-mut);">' + (mode === 'pay' ? '請與本人確認姓名與 Email 相符後，按「下一步」進入收款確認。' : '請與本人確認姓名與 Email 相符後，再按「確認簽到」。') + '</div>' +
         '<button class="btn primary" id="cfBtn" type="button">' + (mode === 'pay' ? '下一步：收款 · NEXT' : '確認簽到 · CONFIRM') + '</button><button class="btn ghost" id="cxBtn" type="button" style="margin-top:8px;">取消 · BACK</button>');
       $('cfBtn').onclick = () => { lastText = ''; handleDecoded(x.id, true); };
       $('cxBtn').onclick = backToScan;

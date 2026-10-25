@@ -164,12 +164,6 @@
           <div><label>PAPER ID 2 <span class="opt" data-i="opt">（選填）</span></label><input id="p2" placeholder="ex. 1234" inputmode="numeric" maxlength="6" autocomplete="off"></div>
         </div>
 
-        <label><span data-i="lBq">是否參加晚宴</span> <span class="opt en2">Banquet</span></label>
-        <div class="seg" id="bqSeg"><button type="button" data-v="No" class="on" data-i="bqNo">不參加 No</button><button type="button" data-v="Yes" data-i="bqYes">參加 Yes</button></div>
-        <div id="dietBox" class="hidden">
-          <label><span data-i="lDiet">飲食偏好</span> <span class="opt en2">Diet</span></label>
-          <select id="diet"><option value="regular">一般 Regular</option><option value="vegetarian">素食 Vegetarian</option><option value="halal">清真 Halal</option></select>
-        </div>
         <input class="hp" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       </div></div></div>
 
@@ -276,13 +270,7 @@
     show(cfg.open ? 'viewForm' : 'viewClosed');
   }
 
-  document.querySelectorAll('#bqSeg button').forEach(b => b.onclick = () => {
-    bq = b.getAttribute('data-v');
-    document.querySelectorAll('#bqSeg button').forEach(x => x.classList.toggle('on', x === b));
-    $('dietBox').classList.toggle('hidden', bq !== 'Yes');
-  });
-
-  function val() { return { nameZh: $('nameZh').value.trim(), nameEn: $('nameEn').value.trim(), email: $('email').value.trim(), country: $('country').value, banquet: bq, diet: $('diet').value, paperId1: $('p1').value.trim(), paperId2: $('p2').value.trim(), receipt: $('receipt').value.trim(), code: $('code').value.trim() }; }
+  function val() { return { nameZh: $('nameZh').value.trim(), nameEn: $('nameEn').value.trim(), email: $('email').value.trim(), country: $('country').value, paperId1: $('p1').value.trim(), paperId2: $('p2').value.trim(), receipt: $('receipt').value.trim(), code: $('code').value.trim() }; }
   function setErr(msg, fieldId) {
     const e = $('err'); e.textContent = msg || ''; e.classList.toggle('hidden', !msg);
     document.querySelectorAll('input.bad').forEach(i => i.classList.remove('bad'));
@@ -305,7 +293,7 @@
     const nm = [v.nameZh, v.nameEn].filter(Boolean).join(' / ');
     $('rv').innerHTML = row(L.name, nm) + row(L.email, v.email) + row(L.where, v.country === 'Taiwan' ? L.taiwan : L.other) +
       (v.paperId1 || v.paperId2 ? row(L.pid, [v.paperId1, v.paperId2].filter(Boolean).join(' , ')) : '') +
-      row(L.bq, v.banquet === 'Yes' ? L.yes + (' · ' + $('diet').options[$('diet').selectedIndex].text) : L.no) + row(L.rc, v.receipt);
+      row(L.rc, v.receipt);
     $('sheet').classList.remove('hidden');
   };
   $('backBtn').onclick = () => $('sheet').classList.add('hidden');
