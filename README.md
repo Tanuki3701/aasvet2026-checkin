@@ -68,6 +68,7 @@ Attendees receive a registration pass by email with their QR code, desk assignme
 | **Walk-in lookup** | Staff can confirm a walk-in went through, review the data, and fix an email or resend the QR pass |
 | **Language switch** | Staff app and walk-in form switch between Traditional Chinese and English (**中 | EN**); the choice is remembered per device |
 | **Banquet eligibility** | On-site payers and walk-in registrants cannot attend the banquet: the banquet option is not offered to them, their emails omit the banquet section, and a banquet scan is refused |
+| **Receipt number check** | Receipt numbers (22nd0001–22nd0060) are validated for format (half-width characters) and range, and each receipt can be used only once; the number is stored exactly as typed |
 | **Duplicate protection** | Re-scans never create duplicate records; self-registration rejects an existing email |
 | **Audit trail** | Every scan, including failures, is logged with staff name, session and outcome |
 
@@ -178,6 +179,7 @@ Developed by **Luz** for the AASVET 2026 organizing committee.
 | 報名查詢 | 工作人員可確認現場報名是否成功、核對資料，並於 Email 填錯時修正後重寄 QR 報到證 |
 | 語言切換 | 工作人員頁面與現場報名表單可切換繁體中文／英文（**中 | EN**），裝置會記住選擇 |
 | 晚宴資格 | 現場繳費與現場報名者不能參加晚宴：不提供晚宴選項、信件不含晚宴內容，掃描晚宴場次會被拒絕 |
+| 收據編號檢查 | 收據編號(22nd0001–22nd0060)會檢查格式(半形英數字)與號段,一張收據只能使用一次,並依輸入內容原樣記錄 |
 | 重複防護 | 重複掃描不會產生重複紀錄；現場報名遇相同 Email 時會拒絕重複登記 |
 | 稽核紀錄 | 每次掃描（含失敗）均記錄工作人員、場次與處理結果 |
 

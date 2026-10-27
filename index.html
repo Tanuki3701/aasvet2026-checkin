@@ -10492,7 +10492,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
       inapp:'偵測到您是在 LINE／Facebook／Instagram 內建瀏覽器開啟，這類瀏覽器常常無法使用相機。請點右下角「⋮」→「用 Safari 開啟」 (或 Chrome)。',
       camStart:'START CAMERA', camStop:'STOP CAMERA', selSession:'Select Session', bqMode:'晚宴模式', session:'場次', banquetWord:'晚宴',
       manual:'手動報到 · MANUAL CHECK-IN', tabId:'報名編號', tabName:'忘記帶 QR', tabPay:'現場繳費', tabReg:'報名查詢',
-      btnLookup:'查詢', btnSearch:'搜尋', phId:'ex. 000123', phName:'ex. 林怡君 / mei@abc.com', phReceipt:'ex. 12345678', logout:'登出 / 換人 · LOGOUT', foot:'SYSTEM DEVELOPED BY LUZ',
+      btnLookup:'查詢', btnSearch:'搜尋', phId:'ex. 000123', phName:'ex. 林怡君 / mei@abc.com', phReceipt:'ex. 22ndXXXX', logout:'登出 / 換人 · LOGOUT', foot:'SYSTEM DEVELOPED BY LUZ',
       hId:['報名編號報到', ['掃描失敗時使用', '請輸入完整 6 碼報名編號 (例如 000123)']],
       hName:['忘記帶 QR Code', ['可輸入報名姓名 (中、英文皆可) 或 Email 的一部分', '英文不必打「-」、不分大小寫', '點選搜尋結果即可報到']],
       hPay:['現場繳費', ['限「未繳費名單」內的人使用', '輸入報名姓名 (中、英文皆可) 或 Email 的一部分', '確認本人後收款並報到', '報到櫃檯：D 區']],
@@ -10503,7 +10503,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
       mUnauth:'帳號或密碼不正確，或此帳號已停用，請重新整理頁面後重新登入。', mServer:'伺服器回應異常', mConn:'無法連線至伺服器，請檢查網路後重新掃描。', mUnknown:'未知錯誤',
       mCamNo:'此瀏覽器不支援相機，或網址不是 https。', mCamFail:(n,m)=>'無法開啟相機：'+n+' '+m+'\n請確認已允許瀏覽器使用相機 (網址列左側的鎖頭／設定)，再按「掃下一位」重試。', mNoCam:'找不到相機',
       mIdInc:'請輸入完整的 6 碼報名編號 (例如 000123)，以免誤查到他人。',
-      decoded:'已讀取 ›', syncing:'與伺服器同步中…', next:'掃下一位', rcLbl:'收據編號 (必填)', rcErr:'請先填寫收據編號', paidBtn:'已收款，確認簽到', cancel:'取消',
+      decoded:'已讀取 ›', syncing:'與伺服器同步中…', next:'掃下一位', rcLbl:'收據編號 (必填)', rcErr:'請先填寫收據編號', rcHint:'請輸入半形英數字，與收據上的編號相同 (22nd 加 4 位數字)', rcFmt:'收據編號格式不正確，請改用半形英數字輸入 (例如 22nd 加 4 位數字)', paidBtn:'已收款，確認簽到', cancel:'取消',
       pickPay:'請與本人確認姓名與 Email 相符後，按「下一步」進入收款確認。', pickId:'請與本人確認姓名與 Email 相符後，再按「確認簽到」。', btnNext:'下一步：收款', btnConfirm:'確認簽到',
       searching:'搜尋中…', querying:'查詢中…', min2:'請至少輸入 2 個字。', netSearch:'無法連線至伺服器，請檢查網路後重試。', badLogin:'帳號或密碼不正確，請重新整理頁面後重新登入。', badLogin2:'帳號或密碼不正確，請重新登入。',
       noPayFound:'找不到尚未繳費的符合者，請換個關鍵字；已繳費者請改用「忘記帶 QR」。', noFound:'找不到符合的與會者，請換個關鍵字，或改用報名編號。',
@@ -10523,7 +10523,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
       inapp:'This looks like the in-app browser of LINE / Facebook / Instagram, which often cannot use the camera. Tap “⋮” at the bottom right → “Open in Safari” (or Chrome).',
       camStart:'Start camera', camStop:'Stop camera', selSession:'Select session', bqMode:'Banquet mode', session:'Session', banquetWord:'Banquet',
       manual:'Manual check-in', tabId:'By ID', tabName:'Forgot QR', tabPay:'On-site payment', tabReg:'Registrations',
-      btnLookup:'Look up', btnSearch:'Search', phId:'ex. 000123', phName:'ex. Mei Lin / mei@abc.com', phReceipt:'ex. 12345678', logout:'Log out / switch user', foot:'SYSTEM DEVELOPED BY LUZ',
+      btnLookup:'Look up', btnSearch:'Search', phId:'ex. 000123', phName:'ex. Mei Lin / mei@abc.com', phReceipt:'ex. 22ndXXXX', logout:'Log out / switch user', foot:'SYSTEM DEVELOPED BY LUZ',
       hId:['Check in by registration ID', ['Use this when scanning fails', 'Enter the full 6-digit ID (e.g. 000123)']],
       hName:['Forgot the QR code', ['Enter part of the name (Chinese or English) or email', 'No hyphen needed for English names; not case-sensitive', 'Tap a search result to check in']],
       hPay:['On-site payment', ['Only for people on the unpaid list', 'Enter part of the name (Chinese or English) or email', 'Confirm the person, collect payment, then check in', 'Check-in desk: Zone D']],
@@ -10534,7 +10534,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
       mUnauth:'Incorrect account or password, or this account is disabled. Please refresh and sign in again.', mServer:'Unexpected server response', mConn:'Could not reach the server. Please check the network and scan again.', mUnknown:'Unknown error',
       mCamNo:'This browser does not support the camera, or the page is not on https.', mCamFail:(n,m)=>'Could not open the camera: '+n+' '+m+'\nPlease allow camera access in the browser (lock icon / settings next to the address bar), then tap “Scan next” to retry.', mNoCam:'No camera found',
       mIdInc:'Please enter the full 6-digit registration ID (e.g. 000123) to avoid looking up the wrong person.',
-      decoded:'Decoded ›', syncing:'Syncing with server…', next:'Scan next', rcLbl:'Receipt number (required)', rcErr:'Please enter the receipt number first', paidBtn:'Paid · check in', cancel:'Cancel',
+      decoded:'Decoded ›', syncing:'Syncing with server…', next:'Scan next', rcLbl:'Receipt number (required)', rcErr:'Please enter the receipt number first', rcHint:'Half-width letters and digits, exactly as on the receipt (22nd + 4 digits)', rcFmt:'Invalid receipt number. Use half-width characters, e.g. 22nd followed by 4 digits', paidBtn:'Paid · check in', cancel:'Cancel',
       pickPay:'Confirm the name and email with the person, then press “Next” to collect payment.', pickId:'Confirm the name and email with the person, then press “Confirm check-in”.', btnNext:'Next: collect payment', btnConfirm:'Confirm check-in',
       searching:'Searching…', querying:'Looking up…', min2:'Please enter at least 2 characters.', netSearch:'Could not reach the server. Please check the network and try again.', badLogin:'Incorrect account or password. Please refresh and sign in again.', badLogin2:'Incorrect account or password. Please sign in again.',
       noPayFound:'No unpaid match found. Try another keyword; for paid attendees use “Forgot QR”.', noFound:'No matching attendee. Try another keyword, or use the registration ID.',
@@ -10561,6 +10561,10 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
     [/^系統連線逾時，請重試: ?(.*)$/, 'System connection timed out, please retry: $1'],
     [/^系統忙碌，請稍後再試，或洽報到櫃檯。$/, 'System busy. Please try again shortly or see the check-in desk.'],
     [/^讀不到報名編號。$/, 'Could not read a registration ID.'],
+    [/^收據編號格式不正確，請輸入收據上的編號，需為半形英數字 \(.*\)。$/, 'Invalid receipt number. Enter the number on the receipt using half-width letters and digits (22nd + 4 digits).'],
+    [/^此收據編號不在發放範圍內，請重新確認收據上的編號，或洽報到櫃檯。$/, 'This receipt number is outside the issued range. Please check the receipt or ask the check-in desk.'],
+    [/^此收據編號已被使用，一張收據只能使用一次，請確認編號是否正確，或洽報到櫃檯。$/, 'This receipt number has already been used (one receipt, one registration). Please check the number or ask the check-in desk.'],
+    [/^請填寫櫃檯給您的收據編號。$/, 'Please enter the receipt number.'],
     [/^請至少輸入 2 個字。$/, 'Please enter at least 2 characters.'],
     [/^請填寫正確的 Email。$/, 'Please enter a valid email address.'],
     [/^此功能只限現場報名的來賓。$/, 'This function is only for walk-in registrants.'],
@@ -10669,9 +10673,9 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
     if (res.already) { kind = 'warn'; title = bq ? t('tAlreadyBq') : t('tAlready'); }
     if (res.needPayment) {
       showPane(board('warn', t('tPay'), tm(res.message), false) + attendeeHtml(a, bq) +
-        '<div style="margin:10px 0 0;"><div style="font:700 12px/1.5 sans-serif;color:#ffb86b;margin-bottom:6px;">' + esc(t('rcLbl')) + '</div><input id="payReceipt" type="text" maxlength="30" placeholder="' + esc(t('phReceipt')) + '" autocomplete="off" autocapitalize="characters" spellcheck="false" style="width:100%;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;"><div id="payReceiptErr" style="display:none;margin-top:6px;font:700 12.5px/1.5 sans-serif;color:#ff8a80;">' + esc(t('rcErr')) + '</div></div>' +
+        '<div style="margin:10px 0 0;"><div style="font:700 12px/1.5 sans-serif;color:#ffb86b;margin-bottom:6px;">' + esc(t('rcLbl')) + '</div><input id="payReceipt" type="text" maxlength="30" placeholder="' + esc(t('phReceipt')) + '" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" style="width:100%;font:600 15px var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;outline:none;"><div style="margin-top:5px;font:600 11.5px/1.5 sans-serif;color:#9a9a9a;">' + esc(t('rcHint')) + '</div><div id="payReceiptErr" style="display:none;margin-top:6px;font:700 12.5px/1.5 sans-serif;color:#ff8a80;">' + esc(t('rcErr')) + '</div></div>' +
         '<button class="btn primary" id="paidBtn" type="button" style="margin-top:8px;">' + esc(t('paidBtn')) + '</button><button class="btn ghost" id="unpaidBack" type="button" style="margin-top:8px;">' + esc(t('cancel')) + '</button>');
-      $('paidBtn').onclick = () => { const rc = ($('payReceipt').value || '').replace(/[<>\u0000-\u001f]/g, '').trim(); if (!rc) { $('payReceiptErr').style.display = 'block'; $('payReceipt').focus(); return; } lastText = ''; handleDecoded(a.id, true, true, rc); };
+      $('paidBtn').onclick = () => { const rc = ($('payReceipt').value || '').replace(/[<>\u0000-\u001f]/g, '').trim(); const rcBad = !rc ? t('rcErr') : (!/^22nd\d{4}$/i.test(rc) ? t('rcFmt') : ''); if (rcBad) { const re = $('payReceiptErr'); re.textContent = rcBad; re.style.display = 'block'; $('payReceipt').focus(); return; } lastText = ''; handleDecoded(a.id, true, true, rc); };
       $('unpaidBack').onclick = backToScan;
       return;
     }
