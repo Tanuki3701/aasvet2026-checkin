@@ -49,11 +49,11 @@
   .btn:disabled{opacity:.55;cursor:default;}
   .btn.ghost{background:transparent;margin-top:10px;font-weight:800;}
   .msg{margin-top:14px;border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.55;font-weight:700;}
-  .msg.err{display:flex;gap:12px;align-items:flex-start;background:#fff6f3;border:1px solid #f1c6bd;color:var(--ink);font-weight:600;}
+  .msg.err{display:block;background:#fff;border:1.5px dashed var(--ink);border-radius:18px;padding:14px 16px 14px;color:var(--ink);font-weight:600;}
   .msg.err.hidden{display:none;}
-  .msg.err .ei{flex:none;width:24px;height:24px;border-radius:50%;background:var(--err);color:#fff;font:900 14px/24px var(--mono);font-style:normal;text-align:center;margin-top:1px;}
-  .msg.err b{display:block;font-weight:800;font-size:14.5px;line-height:1.4;}
-  .msg.err span{display:block;font-size:12.5px;line-height:1.55;color:#6b4a44;margin-top:2px;}
+  .msg.err .et{display:inline-block;background:var(--ink);color:var(--lime);border-radius:999px;padding:4px 10px;font:800 10.5px var(--mono);letter-spacing:.08em;margin-bottom:8px;}
+  .msg.err b{display:block;font-weight:900;font-size:15.5px;line-height:1.4;}
+  .msg.err span.ed{display:block;font-size:12.5px;line-height:1.6;color:var(--mute);margin-top:3px;font-weight:600;}
   .msg.warn{background:#fff4d6;color:#7a5200;}
   .foot{text-align:center;margin:22px 0 4px;font:600 11px var(--mono);letter-spacing:.14em;color:#8b8a84;}
   /* confirm sheet */
@@ -187,7 +187,7 @@
         <p class="hint" data-i="c2h">請先到櫃檯完成繳費，領取收據後，將<b>收據編號</b>填在下方並送出。</p>
         <label><span data-i="lRc">收據編號</span> <span class="req">*</span></label>
         <input id="receipt" placeholder="ex. 22ndXXXX" name="receipt" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="30" inputmode="text">
-        <p class="hint" data-i="rcH" style="margin:6px 0 14px">請輸入半形英數字，與收據上的編號相同 (22nd 加 4 位數字)</p>
+        <p class="hint" data-i="rcH" style="margin:6px 0 14px">請輸入半形英數字，與收據相同 (22nd + 4位數字)</p>
         <div id="codeBox" class="hidden">
           <label><span data-i="lCode">櫃檯驗證碼</span> <span class="req">*</span></label>
           <input id="code" autocomplete="off" autocapitalize="characters" maxlength="20">
@@ -230,8 +230,8 @@
       rvT:'請確認您的資料', rvH:'送出後會立即報名並簽到，QR 報到證寄到下方 Email。', rvOk:'資料正確，送出 CONFIRM', rvBack:'返回修改 Back',
       closedT:'目前未開放線上填寫', closedD:'請洽報到櫃檯，由工作人員協助您完成現場報名。',
       name:'姓名', email:'Email', where:'所在地', taiwan:'台灣', other:'其他地區', bq:'晚宴', yes:'參加', no:'不參加', diet:'飲食偏好', rc:'收據編號', pid:'Paper ID',
-      eName:'請填寫姓名|中文姓名與英文姓名至少填一個', eMail:'請填寫正確的 Email|QR 報到證會寄到這個信箱', eRc:'請填寫收據編號|收據編號由櫃檯人員提供', rcH:'請輸入半形英數字，與收據上的編號相同 (22nd 加 4 位數字)', eRcFmt:'收據編號格式不正確|請輸入半形英數字，與收據上的編號相同', eRcRange:'收據編號不在發放範圍內|請再確認收據上的編號，或洽櫃檯人員', eRcDup:'此收據編號已使用過|一張收據只能使用一次，請確認編號或洽櫃檯', eCode:'請填寫櫃檯驗證碼|驗證碼由櫃檯人員提供', ePid:'Paper ID 只能填數字|請輸入數字，或留空不填',
-      eNet:'連線逾時或失敗|為避免重複報名，請先向櫃檯人員確認是否已登記成功', eBusy:'送出中…', eDup:'此 Email 已有報名資料|不需要重複填寫，請向櫃檯人員說明',
+      eName:'請填寫姓名|中文姓名與英文姓名至少填一個', eMail:'請填寫正確的 Email|QR 報到證會寄到這個信箱', eRc:'請填寫收據編號|收據編號由櫃檯人員提供', rcH:'請輸入半形英數字，與收據相同 (22nd + 4位數字)', eRcFmt:'收據編號格式不正確|請輸入半形英數字，與收據上的編號相同', eRcRange:'收據編號不在發放範圍內|請再確認收據上的編號，或洽櫃檯人員', eRcDup:'此收據編號已使用過|一張收據只能使用一次，請確認編號或洽櫃檯', eCode:'請填寫櫃檯驗證碼|驗證碼由櫃檯人員提供', ePid:'Paper ID 只能填數字|請輸入數字，或留空不填',
+      eNet:'連線逾時或失敗|為避免重複報名，請先向櫃檯人員確認是否已登記成功', eBusy:'送出中…', etag:'! 請確認 CHECK', eDup:'此 Email 已有報名資料|不需要重複填寫，請向櫃檯人員說明',
       okPill:'✦ 報名完成 REGISTERED', idl:'報名編號 REGISTRATION ID', rtl:'報名時間', desk:'報到櫃檯 · D 區', deskTxt:'現場繳費 / 現場報名',
       mailOk:'QR 報到證已寄到：', mailNote:'請查看收件匣 (含垃圾郵件匣)<br>若 Email 填錯，請告知櫃檯人員', checked:'您已完成今日簽到，歡迎入場 (^o^)/', notChecked:'今日尚未開放簽到<br>活動當天請出示 QR 報到證即可報到 (^o^)/', mailFail:'QR 報到證暫時無法寄出，請洽櫃檯人員協助'
     },
@@ -245,7 +245,7 @@
       closedT:'Online form is not open right now', closedD:'Please see the registration counter. Our staff will help you register.',
       name:'Name', email:'Email', where:'Location', taiwan:'Taiwan', other:'Other areas', bq:'Banquet', yes:'Yes', no:'No', diet:'Diet', rc:'Receipt no.', pid:'Paper ID',
       eName:'Please enter a name|Provide at least one name, Chinese or English', eMail:'Please enter a valid email|Your QR pass will be sent to this address', eRc:'Please enter the receipt number|The counter staff will give it to you', rcH:'Half-width letters and digits, exactly as printed on your receipt (22nd + 4 digits)', eRcFmt:'Invalid receipt number|Use half-width letters and digits as printed on the receipt', eRcRange:'Receipt number out of range|Please check the number on your receipt or ask the counter staff', eRcDup:'Receipt number already used|Each receipt can only be used once, please check the number or ask staff', eCode:'Please enter the counter code|The counter staff will give it to you', ePid:'Paper ID must be digits only|Enter digits or leave it blank',
-      eNet:'Connection timed out or failed|To avoid a duplicate registration, please ask the counter staff whether it went through', eBusy:'Submitting…', eDup:'This email is already registered|No need to register again, please ask the counter staff',
+      eNet:'Connection timed out or failed|To avoid a duplicate registration, please ask the counter staff whether it went through', eBusy:'Submitting…', etag:'! PLEASE CHECK', eDup:'This email is already registered|No need to register again, please ask the counter staff',
       okPill:'✦ REGISTERED', idl:'REGISTRATION ID', rtl:'Registered at', desk:'Check-in desk · Zone D', deskTxt:'On-site Payment / Walk-in',
       mailOk:'Your QR pass was sent to:', mailNote:'Please check your inbox (and spam folder)<br>If the address is wrong, please tell the counter staff', checked:'You are checked in for today, welcome (^o^)/', notChecked:'Check-in is not open yet<br>Please show your QR pass on the event day (^o^)/', mailFail:'We could not send your QR pass right now, please ask the counter staff for help'
     }
@@ -290,7 +290,7 @@
   function val() { return { nameZh: $('nameZh').value.trim(), nameEn: $('nameEn').value.trim(), email: $('email').value.trim(), country: $('country').value, paperId1: $('p1').value.trim(), paperId2: $('p2').value.trim(), receipt: $('receipt').value.trim(), code: $('code').value.trim() }; }
   function setErr(msg, fieldId) {
     const e = $('err');
-    if (msg) { const p = String(msg).split('|'); e.innerHTML = '<i class="ei">!</i><div><b>' + esc(p[0]) + '</b>' + (p[1] ? '<span>' + esc(p[1]) + '</span>' : '') + '</div>'; } else e.innerHTML = '';
+    if (msg) { const p = String(msg).split('|'); e.innerHTML = '<span class="et">' + esc(T[lang].etag) + '</span><b>' + esc(p[0]) + '</b>' + (p[1] ? '<span class="ed">' + esc(p[1]) + '</span>' : ''); } else e.innerHTML = '';
     e.classList.toggle('hidden', !msg);
     document.querySelectorAll('input.bad').forEach(i => i.classList.remove('bad'));
     if (fieldId) { const f = $(fieldId); if (f) { f.classList.add('bad'); f.focus({ preventScroll: false }); } }
